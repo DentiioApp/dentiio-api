@@ -59,6 +59,11 @@ class User implements UserInterface
      */
     private $clinicalCase;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isEnabled;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -256,6 +261,18 @@ class User implements UserInterface
                 $clinicalCase->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): self
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }

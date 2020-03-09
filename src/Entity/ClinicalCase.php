@@ -85,6 +85,12 @@ class ClinicalCase
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isEnabled;
+    
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -288,6 +294,18 @@ class ClinicalCase
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): self
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }
