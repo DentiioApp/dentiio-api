@@ -2,17 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * 
  * @ApiResource
- * 
+ * @UniqueEntity("email",message="L'email existe déjà")
  */
 class User implements UserInterface
 {
@@ -25,8 +28,25 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Le nom est obligatoire !")
+     * @Assert\Email(message="Entrer une adresse mail valide")
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom est obligatoire !")
+     * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le prénom est obligatoire !")
+     * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
+     */
+    private $prenom;
+
 
     /**
      * @ORM\Column(type="json")
@@ -36,11 +56,13 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire !")
+     * @Assert\Length(min=3, minMessage="Le mot de passe doit faire au minimum 3 caracteres")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $licenceDoc;
 
@@ -56,6 +78,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="user")
+     * @ApiSubresource()
      */
     private $clinicalCase;
 
@@ -85,6 +108,30 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }
@@ -276,5 +323,6 @@ class User implements UserInterface
 
         return $this;
     }
+
    
 }

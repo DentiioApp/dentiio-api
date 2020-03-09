@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(denormalizationContext={"disable_type_enforcement"=true})
  * @ORM\Entity(repositoryClass="App\Repository\NotationRepository")
  */
 class Notation
@@ -20,6 +21,8 @@ class Notation
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Vous devez inserez une note")
+     * @Assert\Type(type="integer", message="Vous devez inserez un entier")
      */
     private $note;
 
@@ -48,7 +51,7 @@ class Notation
         return $this->note;
     }
 
-    public function setNote(int $note): self
+    public function setNote($note): self
     {
         $this->note = $note;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
@@ -20,6 +21,7 @@ class Commentaire
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Inserez un commentaire")
      */
     private $comment;
 
