@@ -1,16 +1,38 @@
-Please prefix your pull request with one of the following: **[FEATURE]** **[FIX]** **[IMPROVEMENT]**.
-**In raising this pull request, I confirm the following (please check boxes):**
-- [ ] I have read and understood the [contributors guide]().
-- [ ] I have checked that another pull request for this purpose does not exist.
-- [ ] I have considered, and confirmed that this submission will be valuable to others.
-- [ ] I accept that this submission may not be used, and the pull request closed at the will of the maintainer.
-- [ ] I give this submission freely, and claim no ownership to its content.
-**My familiarity with the project is as follows (check one):**
-- [ ] I have never used the project.
-- [ ] I have used the project briefly.
-- [ ] I have used the project extensively, but have not contributed previously.
-- [ ] I am an active contributor to the project.
-**If the project maintainer has any additional requirements, they will be listed here.**
-- No additional requirements.
----
-{pull request content here}
+# Description
+
+Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+
+Resolve # (issue)
+> please link related issues
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+# How Has This Been Tested?
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+
+- [ ] Test A
+- [ ] Test B
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain:
+* SDK:
+
+# Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
