@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +15,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * 
- * @ApiResource
+ * @ApiResource(
+ *     normalizationContext={"groups"={"users_read"}}
+ * )
  * @UniqueEntity("email",message="L'email existe déjà")
  */
 class User implements UserInterface
@@ -23,6 +26,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"users_read"})
      */
     private $id;
 
@@ -30,6 +34,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Le nom est obligatoire !")
      * @Assert\Email(message="Entrer une adresse mail valide")
+     * @Groups({"users_read"})
      */
     private $email;
 
@@ -37,6 +42,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le nom est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
+     * @Groups({"users_read"})
      */
     private $nom;
 
@@ -44,12 +50,14 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le prénom est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
+     * @Groups({"users_read"})
      */
     private $prenom;
 
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"users_read"})
      */
     private $roles = [];
 
@@ -63,6 +71,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255,nullable=true)
+     * @Groups({"users_read"})
      */
     private $licenceDoc;
 
