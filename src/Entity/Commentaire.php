@@ -4,10 +4,15 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={
+ *          "groups"={"commentaires_read"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CommentaireRepository")
  */
 class Commentaire
@@ -16,22 +21,26 @@ class Commentaire
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"clinicalcase_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Inserez un commentaire")
+     * @Groups({"clinicalcase_read"})
      */
     private $comment;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"clinicalcase_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentaires")
+     * @Groups({"clinicalcase_read"})
      */
     private $user;
 
