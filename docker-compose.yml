@@ -16,3 +16,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
 
+networks: 
+  default:
+    name: dentiio
