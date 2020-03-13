@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -29,41 +30,45 @@ class ClinicalCase
     /**
      * @ORM\Column(type="integer")
      * @Groups({"clinicalcase_read"})
+     * @Assert\NotBlank(message="L'age doit être renseigner")
      */
     private $age;
 
     /**
      * @ORM\Column(type="boolean")
      * @Groups({"clinicalcase_read"})
+     * @Assert\NotBlank(message="Inserez si le patient est un fumeur")
+     *
      */
     private $smoking;
 
     /**
      * @ORM\Column(type="text")
      * @Groups({"clinicalcase_read"})
+     * @Assert\NotBlank(message="Inserez une presentation")
      */
     private $presentation;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"clinicalcase_read"})
      */
     private $treatmentPlan;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"clinicalcase_read"})
      */
     private $observation;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text",nullable=true)
      * @Groups({"clinicalcase_read"})
      */
     private $evolution;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"clinicalcase_read"})
      */
     private $conclusion;
@@ -75,16 +80,10 @@ class ClinicalCase
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @Groups({"clinicalcase_read"})
      */
     private $updatedAt;
-
-    /**
-     * @ORM\Column(type="float")
-     * @Groups({"clinicalcase_read"})
-     */
-    private $average;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Notation", mappedBy="clinicalCase")
