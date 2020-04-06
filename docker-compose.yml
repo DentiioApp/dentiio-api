@@ -1,20 +1,36 @@
 version: '3.6'
+
 services:
-  php:
-    image: 'chialab/php-dev:7.3-apache'
-    ports:
-      - '8080:80'
-    volumes:
-      - '.:/var/www/html:cached'
-      - './docker/000-default.conf:/etc/apache2/sites-available/000-default.conf:cached'
-    depends_on:
-      - database
-  database:
-    image: 'mariadb'
-    ports:
-      - '3306:3306'
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
+    php:
+        build:
+            context: ./docker
+            dockerfile: php.Dockerfile
+        container_name: dentiio-php
+        depends_on:
+          - database
+        volumes:
+            - './api:/var/www/html:cached'
+
+    nginx:
+        image: 'nginx:1.13.6'
+        container_name: dentiio-nginx
+        ports:
+            - '80:80'
+            - '443:443'
+        links:
+            - 'php'
+        volumes:
+            - './api:/var/www/html:cached'
+            - './config/nginx:/etc/nginx/conf.d:cached'
+
+    database:
+        image: 'mariadb'
+        container_name: dentiio-database
+        restart: 'on-failure'
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
 
 networks: 
   default:

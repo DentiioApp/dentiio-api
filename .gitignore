@@ -11,6 +11,15 @@
 /vendor/
 /.idea/
 
+api/vendor/
+api/var/
+api/.env
+api/.env.local
+api/.env.local.php
+api/.env.*.local
+api/config/secrets/prod/prod.decrypt.private.php
+api/public/bundles/
+
 .DS_Store
 ###< symfony/framework-bundle ###
 
@@ -18,8 +27,12 @@
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
+api/.phpunit
+api/.phpunit.result.cache
+api/phpunit.xml
 ###< symfony/phpunit-bridge ###
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
+api/config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
