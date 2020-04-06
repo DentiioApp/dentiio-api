@@ -34,8 +34,8 @@ help:
 ## Project setup & day to day shortcuts
 ##---------------------------------------------------------------------------
 
-.PHONY: start ## Start the project (Install in first place)
-start:
+.PHONY: install ## Install the project (Install in first place)
+install:
 	$(DC) pull || true
 	$(DC) build
 	$(DC) up -d
@@ -57,4 +57,8 @@ exec:
 .PHONY: fixtures ## Install the fixtures
 fixtures:
 	$(EXEC) $(CONSOLE) doctrine:fixtures:load
+
+
+.PHONY: all ## Install all & start the project
+all: install composer fixtures
 
