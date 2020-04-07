@@ -25,7 +25,7 @@ endif
 help:
 		@grep '##' Makefile \
 		| grep -v 'grep\|sed' \
-		| sed 's/^\.PHONY: \(.*\) ##[\s|\S]*\(.*\)/\1:\t\2/' \
+		| sed 's/^\.PHONY: \(.*\) ##[\s|\S]*\(.*\)/\1:\2/' \
 		| sed 's/\(^##\)//' \
 		| sed 's/\(##\)/\t/' \
 		| expand -t14
