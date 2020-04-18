@@ -28,19 +28,11 @@ class ClinicalCase
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
      * @Groups({"clinicalcase_read"})
-     * @Assert\NotBlank(message="L'age doit être renseigner")
+     * @ORM\OneToOne(targetEntity="App\Entity\Patient", cascade={"persist", "remove"})
      */
-    private $age;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"clinicalcase_read"})
-     * @Assert\NotBlank(message="Inserez si le patient est un fumeur")
-     *
-     */
-    private $smoking;
+    private $Patient;
+    
 
     /**
      * @ORM\Column(type="text")
@@ -108,7 +100,7 @@ class ClinicalCase
      * @Groups({"clinicalcase_read"})
      */
     private $isEnabled;
-    
+
 
     public function __construct()
     {
@@ -325,6 +317,18 @@ class ClinicalCase
     public function setIsEnabled(bool $isEnabled): self
     {
         $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->Patient;
+    }
+
+    public function setPatient(?Patient $Patient): self
+    {
+        $this->Patient = $Patient;
 
         return $this;
     }
