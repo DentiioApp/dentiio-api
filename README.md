@@ -1,4 +1,6 @@
-![](https://www.dentiio.com/img/logoblue.png)
+![Dentiio Api](https://www.dentiio.com/img/logoblue.png)
+
+[Dentiio](https://www.dentiio.com/) api is an [API Platefom](https://github.com/api-platform/api-platform)
 
 ### Principal contributors :  
 [Lory][L] 
