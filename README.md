@@ -20,15 +20,16 @@ Contributors :
 
 
 ## 📋 Requirements
-🛠Make, 
-:elephant: PHP-fpm >= 7.3, 
-MariaDB, 
-NGINX >= 1.13.6 &  
-🐳Docker
+- 🛠Make
+- :elephant: PHP-fpm >= 7.3 
+- MariaDB 
+- NGINX >= 1.13.6  
+- 🐳Docker
 
 
 ## 🎉 Building your app 
-    1. Create a .env file 
-    2. Launch the command  ` make all `
+1. Create a .env file 
+2. Copy .env_example in .env
+3. Launch the command  ` make all `
 
 
