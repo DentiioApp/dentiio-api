@@ -1,6 +1,6 @@
 # Dentiio-api
 
-Contributors :  
+### Principal contributors :  
 [Lory][L] 
 ,[Branis][B] 
 ,[Arthur][A] 
@@ -18,7 +18,7 @@ Contributors :
 -   [Requirements](#-requirements)
 -   [Configuration](#-configuration)
 -   [Building your app](#-building-your-app)
-
+-   [Contributing on the Dentiio api](#-contributing-on-the-dentiio-api)
 
 ## 📋 Requirements
 - 🛠Make
@@ -41,3 +41,7 @@ $ make install
 $ make composer
 $ make fixtures
 ```
+
+## Contributing on the Dentiio api
+
+Dentiio api is an Open Source, community-drivvern project community-driven project with of contributors. Join them contributing code or contributing documentation.
