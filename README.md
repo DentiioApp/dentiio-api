@@ -2,6 +2,9 @@
 
 [Dentiio](https://www.dentiio.com/) api is an [API Platefom](https://github.com/api-platform/api-platform)
 
+
+----------------
+
 ### Principal contributors :  
 [Lory][L] 
 ,[Branis][B] 
@@ -15,6 +18,7 @@
 [A]:https://github.com/adjikpo
 [M]:https://github.com/lyafmounia
 
+----------------
 
 ## Contents
 -   [Requirements](#-requirements)
