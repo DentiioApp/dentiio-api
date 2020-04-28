@@ -33,7 +33,7 @@
 - NGINX >= 1.13.6  
 - 🐳Docker
 
-## Configuration
+## :gear: Configuration
 1. Create a .env file 
 2. Copy .env_example in .env
 3. Move the .env on the api file
