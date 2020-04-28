@@ -1,4 +1,4 @@
-# Dentiio-api
+![](https://www.dentiio.com/img/logoblue.png)
 
 ### Principal contributors :  
 [Lory][L] 
