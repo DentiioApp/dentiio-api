@@ -35,7 +35,9 @@ Contributors :
 ## 🎉 Building your app  
 1. Launch the command  `make help` or `make` generate list of targets with descriptions
 2. Build the docker & the app
-    `make install`
-    `make composer`
-    `make fixtures`
 
+``` bash
+$ make install
+$ make composer
+$ make fixtures
+```
