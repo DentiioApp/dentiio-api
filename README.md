@@ -15,8 +15,9 @@ Contributors :
 
 
 ## Contents
-- [Requirements](#-requirements)
-- [Building your app](#-building-your-app)
+-   [Requirements](#-requirements)
+-   [Configuration](#-configuration)
+-   [Building your app](#-building-your-app)
 
 
 ## 📋 Requirements
@@ -26,10 +27,15 @@ Contributors :
 - NGINX >= 1.13.6  
 - 🐳Docker
 
-
-## 🎉 Building your app 
+## Configuration
 1. Create a .env file 
 2. Copy .env_example in .env
-3. Launch the command  ` make all `
 
+
+## 🎉 Building your app  
+1. Launch the command  `make help` or `make` generate list of targets with descriptions
+2. Build the docker & the app
+    `make install`
+    `make composer`
+    `make fixtures`
 
