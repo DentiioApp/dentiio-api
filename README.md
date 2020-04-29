@@ -49,6 +49,12 @@ $ make composer
 $ make fixtures
 ```
 
+or
+
+``` bash
+$ make all
+```
+
 ## Contributing on the Dentiio api
 
 Dentiio api is an Open Source, community-drivvern project community-driven project with of contributors. Join them contributing code or contributing documentation.
