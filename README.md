@@ -1,5 +1,9 @@
 ![Dentiio Api](https://www.dentiio.com/img/logoblue.png)
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+----------------
+
 [Dentiio](https://www.dentiio.com/) Api is an [API Platefom](https://github.com/api-platform/api-platform)
 
 
@@ -34,10 +38,10 @@
 - 🐳Docker
 
 ## :gear: Configuration
-1. Create a .env file 
-2. Copy .env_example in .env
-3. Update the variables on the .env at your environement 
-4. Move the .env on the api file
+0. Create a .env file on the api folder
+1. Copy .env_example in .env
+2. Update the variables on the .env at your environement 
+3. Create a passphrase for the JWT Authentication
 
 
 ## 🎉 Building your app  
@@ -60,6 +64,9 @@ $ make all
 
 ### without docker
 [Read the official "Getting Started" guide for the API Plateform](https://api-platform.com/docs/distribution/#using-symfony-flex-and-composer-advanced-users). It's the same for the Dentiio Api 
+
+### Install the JWT Authentication
+Launch the command `make jwt`
 
 ## Contributing on the Dentiio api
 

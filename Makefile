@@ -58,6 +58,11 @@ exec:
 fixtures:
 	$(EXEC) $(CONSOLE) doctrine:fixtures:load
 
+.PHONY: jwt ## Install the jwt config
+jwt:
+	# $(EXEC) composer require jwt-auth
+	$(EXEC) /bin/bash -c 'chmod +x ./jwt.sh'
+	$(EXEC) /bin/bash -c './jwt.sh'
 
 .PHONY: all ## Install all & start the project
 all: install composer fixtures
