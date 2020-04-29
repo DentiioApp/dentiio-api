@@ -36,7 +36,8 @@
 ## :gear: Configuration
 1. Create a .env file 
 2. Copy .env_example in .env
-3. Move the .env on the api file
+3. Update the variables on the .env at your environement 
+4. Move the .env on the api file
 
 
 ## 🎉 Building your app  
