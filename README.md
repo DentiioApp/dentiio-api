@@ -1,6 +1,6 @@
 ![Dentiio Api](https://www.dentiio.com/img/logoblue.png)
 
-[Dentiio](https://www.dentiio.com/) api is an [API Platefom](https://github.com/api-platform/api-platform)
+[Dentiio](https://www.dentiio.com/) Api is an [API Platefom](https://github.com/api-platform/api-platform)
 
 
 ----------------
@@ -58,6 +58,7 @@ $ make all
 ```
 
 ### without docker
+[Read the official "Getting Started" guide for the API Plateform](https://api-platform.com/docs/distribution/#using-symfony-flex-and-composer-advanced-users). It's the same for the Dentiio Api 
 
 ## Contributing on the Dentiio api
 
