@@ -61,6 +61,9 @@ $ make all
 ### without docker
 [Read the official "Getting Started" guide for the API Plateform](https://api-platform.com/docs/distribution/#using-symfony-flex-and-composer-advanced-users). It's the same for the Dentiio Api 
 
+### Install the JWT Authentication
+Launch the command `make jwt`
+
 ## Contributing on the Dentiio api
 
 Dentiio api is an Open Source, community-drivvern project community-driven project with of contributors. Join them contributing code or contributing documentation.

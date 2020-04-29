@@ -61,8 +61,9 @@ fixtures:
 .PHONY: jwt ## Install the jwt config
 jwt:
 	mkdir -p api/config/jwt
-	openssl genpkey -out api/config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
-	openssl pkey -in api/config/jwt/private.pem -out api/config/jwt/public.pem -pubout
+	jwt_passphrase=${JWT_PASSPHRASE:-$(grep ''^JWT_PASSPHRASE='' api/.env | cut -f 2 -d ''='')}
+	echo "$jwt_passphrase" | openssl genpkey -out config/jwt/private.pem -pass stdin -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+    echo "$jwt_passphrase" | openssl pkey -in config/jwt/private.pem -passin stdin -out config/jwt/public.pem -pubout
 
 .PHONY: all ## Install all & start the project
 all: install composer fixtures
