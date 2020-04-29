@@ -40,6 +40,8 @@
 
 
 ## 🎉 Building your app  
+
+### with docker
 1. Launch the command  `make help` or `make` generate list of targets with descriptions
 2. Build the docker & the app
 
@@ -54,6 +56,8 @@ or
 ``` bash
 $ make all
 ```
+
+### without docker
 
 ## Contributing on the Dentiio api
 
