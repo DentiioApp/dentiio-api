@@ -17,6 +17,7 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setPrenom($faker->firstName)
                 ->setNom($faker->lastName)
+                ->setPseudo($faker->email)
                 ->setEmail($faker->email)
                 ->setIsEnabled(true)
                 ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2');
