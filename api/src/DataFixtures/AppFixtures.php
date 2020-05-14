@@ -13,11 +13,43 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager){
         $faker = Factory::create('fr_FR');
+        $user = new User();
+        $user->setPrenom('dentiio')
+            ->setNom('dentiio')
+            ->setPseudo('dentiio')
+            ->setEmail('api@dentiio.fr')
+            ->setIsEnabled(true)
+            ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
+        
+        $manager->persist($user);
+
+        $userAdmin = new User();
+        $userAdmin->setPrenom('admin')
+            ->setNom('admin')
+            ->setPseudo('admin')
+            ->setEmail('admin@dentiio.fr')
+            ->setIsEnabled(true)
+            ->setRoles(["ROLE_ADMIN"])
+            ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
+    
+        $manager->persist($userAdmin);
+
+        $userModerator = new User();
+        $userModerator->setPrenom('moderator')
+            ->setNom('moderator')
+            ->setPseudo('moderator')
+            ->setEmail('moderator@dentiio.fr')
+            ->setIsEnabled(true)
+            ->setRoles(["ROLE_MODERATOR"])
+            ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
+    
+        $manager->persist($userModerator);
+
         for ($u=0; $u < 30; $u++){
             $user = new User();
             $user->setPrenom($faker->firstName)
                 ->setNom($faker->lastName)
-                ->setPseudo($faker->email)
+                ->setPseudo("$faker->lastName"."$faker->firstName")
                 ->setEmail($faker->email)
                 ->setIsEnabled(true)
                 ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2');
