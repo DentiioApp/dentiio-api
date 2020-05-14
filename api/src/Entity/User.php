@@ -53,7 +53,7 @@ class User implements UserInterface
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=191, unique=true)
      * @Assert\NotBlank(message="Le pseudo est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le pseudo doit faire au minimum 3 caracteres")
      * @Groups({"users_read"})
