@@ -3,6 +3,7 @@ namespace App\DataFixtures;
 
 use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
+use App\Entity\Functions;
 use App\Entity\Notation;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
@@ -44,6 +45,21 @@ class AppFixtures extends Fixture
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
     
         $manager->persist($userModerator);
+
+        $function = new Functions();
+        $function->setName('Chirurgien Dentiste')
+            ->setIdent('CD');
+        $manager->persist($function);
+
+        $function = new Functions();
+        $function->setName('Etudiant Dentiste')
+            ->setIdent('ED');
+        $manager->persist($function);
+ 
+        $function = new Functions();
+        $function->setName('Dentiste Interne')
+            ->setIdent('DI');
+        $manager->persist($function);
 
         for ($u=0; $u < 30; $u++){
             $user = new User();
