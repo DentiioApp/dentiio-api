@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * 
+ *
  * @ApiResource(
  *     normalizationContext={"groups"={"users_read"}}
  * )
@@ -40,7 +40,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le nom est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
      * @Groups({"users_read"})
      */
@@ -48,11 +47,18 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le prénom est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
      * @Groups({"users_read"})
      */
     private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=191, unique=true)
+     * @Assert\NotBlank(message="Le pseudo est obligatoire !")
+     * @Assert\Length(min=3, minMessage="Le pseudo doit faire au minimum 3 caracteres")
+     * @Groups({"users_read"})
+     */
+    private $pseudo;
 
 
     /**
@@ -96,11 +102,19 @@ class User implements UserInterface
      */
     private $isEnabled;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"users_read"})
+     */
+    private $job;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->clinicalCase = new ArrayCollection();
+        $this->job = new ArrayCollection();
     }
 
 
@@ -141,6 +155,18 @@ class User implements UserInterface
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
@@ -333,5 +359,15 @@ class User implements UserInterface
         return $this;
     }
 
-   
+    public function getJob(): ?Jobs
+    {
+        return $this->job;
+    }
+
+    public function setJob(?Jobs $job): self
+    {
+        $this->job = $job;
+
+        return $this;
+    }
 }

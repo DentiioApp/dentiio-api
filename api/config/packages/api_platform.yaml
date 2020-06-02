@@ -1,7 +1,14 @@
 api_platform:
+  title: 'API Dentiio'
+  description: 'API de Dentiio'
+  version: '0.5.0'
   mapping:
     paths: ["%kernel.project_dir%/src/Entity"]
   patch_formats:
     json: ["application/merge-patch+json"]
   swagger:
     versions: [3]
+    api_keys:
+      apiKey:
+        name: Authorization
+        type: header
