@@ -101,11 +101,18 @@ class ClinicalCase
      */
     private $isEnabled;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Symptome", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $symptome;
+
 
     public function __construct()
     {
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->symptome = new ArrayCollection();
     }
 
 
@@ -329,6 +336,32 @@ class ClinicalCase
     public function setPatient(?Patient $Patient): self
     {
         $this->Patient = $Patient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Symptome[]
+     */
+    public function getSymptome(): Collection
+    {
+        return $this->symptome;
+    }
+
+    public function addSymptome(Symptome $symptome): self
+    {
+        if (!$this->symptome->contains($symptome)) {
+            $this->symptome[] = $symptome;
+        }
+
+        return $this;
+    }
+
+    public function removeSymptome(Symptome $symptome): self
+    {
+        if ($this->symptome->contains($symptome)) {
+            $this->symptome->removeElement($symptome);
+        }
 
         return $this;
     }
