@@ -105,6 +105,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"users_read"})
      */
     private $job;
 
