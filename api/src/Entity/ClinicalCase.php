@@ -392,6 +392,9 @@ class ClinicalCase
             if ($treatment->getClinicalCaseId() === $this) {
                 $treatment->setClinicalCaseId(null);
             }
+            return $this;
+        }
+    }
 
     public function removeSymptome(Symptome $symptome): self
     {
