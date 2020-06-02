@@ -101,11 +101,17 @@ class ClinicalCase
      */
     private $isEnabled;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Treatment", mappedBy="clinicalCaseId")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $treatments;
 
     public function __construct()
     {
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->treatments = new ArrayCollection();
     }
 
 
@@ -329,6 +335,49 @@ class ClinicalCase
     public function setPatient(?Patient $Patient): self
     {
         $this->Patient = $Patient;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Treatment[]
+     */
+    public function getTreatments(): Collection
+    {
+        return $this->treatments;
+    }
+
+    public function addTreatment(Treatment $treatment): self
+    {
+        if (!$this->treatments->contains($treatment)) {
+            $this->treatments[] = $treatment;
+            $treatment->setClinicalCaseId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTreatment(Treatment $treatment): self
+    {
+        if ($this->treatments->contains($treatment)) {
+            $this->treatments->removeElement($treatment);
+            // set the owning side to null (unless already changed)
+            if ($treatment->getClinicalCaseId() === $this) {
+                $treatment->setClinicalCaseId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCaseTreatment(): ?CaseTreatment
+    {
+        return $this->caseTreatment;
+    }
+
+    public function setCaseTreatment(?CaseTreatment $caseTreatment): self
+    {
+        $this->caseTreatment = $caseTreatment;
 
         return $this;
     }
