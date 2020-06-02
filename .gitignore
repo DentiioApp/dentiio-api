@@ -9,6 +9,7 @@ api/.env.local.php
 api/.env.*.local
 api/config/secrets/prod/prod.decrypt.private.php
 api/public/bundles/
+api/src/Migrations
 api/var/
 api/vendor/
 api/.idea/

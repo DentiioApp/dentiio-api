@@ -102,11 +102,19 @@ class User implements UserInterface
      */
     private $isEnabled;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"users_read"})
+     */
+    private $job;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->clinicalCase = new ArrayCollection();
+        $this->job = new ArrayCollection();
     }
 
 
@@ -351,5 +359,15 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getJob(): ?Jobs
+    {
+        return $this->job;
+    }
 
+    public function setJob(?Jobs $job): self
+    {
+        $this->job = $job;
+
+        return $this;
+    }
 }

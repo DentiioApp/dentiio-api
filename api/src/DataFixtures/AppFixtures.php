@@ -3,6 +3,7 @@ namespace App\DataFixtures;
 
 use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
+use App\Entity\Jobs;
 use App\Entity\Notation;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
@@ -14,11 +15,28 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager){
         $faker = Factory::create('fr_FR');
         $user = new User();
+
+        $job1 = new Jobs();
+        $job1->setName('Chirurgien Dentiste')
+            ->setIdent('CD');
+        $manager->persist($job1);
+
+        $job2 = new Jobs();
+        $job2->setName('Etudiant Dentiste')
+            ->setIdent('ED');
+        $manager->persist($job2);
+ 
+        $job3 = new Jobs();
+        $job3->setName('Dentiste Interne')
+            ->setIdent('DI');
+        $manager->persist($job3);
+
         $user->setPrenom('dentiio')
             ->setNom('dentiio')
             ->setPseudo('dentiio')
             ->setEmail('api@dentiio.fr')
             ->setIsEnabled(true)
+            ->setJob($job2)
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
         
         $manager->persist($user);
@@ -29,6 +47,7 @@ class AppFixtures extends Fixture
             ->setPseudo('admin')
             ->setEmail('admin@dentiio.fr')
             ->setIsEnabled(true)
+            ->setJob($job1)
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
     
@@ -40,6 +59,7 @@ class AppFixtures extends Fixture
             ->setPseudo('moderator')
             ->setEmail('moderator@dentiio.fr')
             ->setIsEnabled(true)
+            ->setJob($job3)
             ->setRoles(["ROLE_MODERATOR"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
     
@@ -52,6 +72,7 @@ class AppFixtures extends Fixture
                 ->setPseudo("$faker->lastName"."$faker->firstName")
                 ->setEmail($faker->email)
                 ->setIsEnabled(true)
+                ->setJob($faker->randomElement([$job1, $job2, $job3]))
                 ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2');
 
             $manager->persist($user);
@@ -93,8 +114,6 @@ class AppFixtures extends Fixture
 
                 }
             }
-
-
         }
 
         $manager->flush();
