@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Functions;
+use App\Entity\Jobs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Functions|null find($id, $lockMode = null, $lockVersion = null)
- * @method Functions|null findOneBy(array $criteria, array $orderBy = null)
- * @method Functions[]    findAll()
- * @method Functions[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Jobs|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Jobs|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Jobs[]    findAll()
+ * @method Jobs[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FunctionsRepository extends ServiceEntityRepository
+class JobsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Functions::class);
+        parent::__construct($registry, Jobs::class);
     }
 
     // /**
-    //  * @return Functions[] Returns an array of Functions objects
+    //  * @return Jobs[] Returns an array of Jobs objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FunctionsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Functions
+    public function findOneBySomeField($value): ?Jobs
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.exampleField = :val')
