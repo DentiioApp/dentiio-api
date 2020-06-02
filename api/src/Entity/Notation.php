@@ -4,39 +4,52 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
- * @ORM\Entity(repositoryClass="App\Repository\CommentaireRepository")
+ * @ApiResource(
+ *     denormalizationContext={
+ *          "disable_type_enforcement"=true
+ *     },
+ *     normalizationContext={
+ *          "groups"={"notations_read"}
+ *     }
+ * )
+ * @ORM\Entity(repositoryClass="App\Repository\NotationRepository")
  */
-class Commentaire
+class Notation
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"clinicalcase_read"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Inserez un commentaire")
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Vous devez inserez une note")
+     * @Assert\Type(type="integer", message="Vous devez inserez un entier")
+     * @Groups({"clinicalcase_read"})
      */
-    private $comment;
+    private $note;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"clinicalcase_read"})
      */
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentaires")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="notations")
+     * @Groups({"clinicalcase_read"})
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ClinicalCase", inversedBy="commentaires")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClinicalCase", inversedBy="notations")
      */
     private $clinicalCase;
 
@@ -45,14 +58,14 @@ class Commentaire
         return $this->id;
     }
 
-    public function getComment(): ?string
+    public function getNote(): ?int
     {
-        return $this->comment;
+        return $this->note;
     }
 
-    public function setComment(string $comment): self
+    public function setNote($note): self
     {
-        $this->comment = $comment;
+        $this->note = $note;
 
         return $this;
     }
