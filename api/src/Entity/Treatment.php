@@ -47,8 +47,6 @@ class Treatment
         $this->clinicalCases = new ArrayCollection();
     }
 
-  
-
     public function getId(): ?int
     {
         return $this->id;
