@@ -22,19 +22,19 @@ class Jobs
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","jobs_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Groups({"users_read"})
+     * @Groups({"users_read","jobs_read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=3)
-     * @Groups({"users_read"})
+     * @Groups({"users_read","jobs_read"})
      */
     private $ident;
 
