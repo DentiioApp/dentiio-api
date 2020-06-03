@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(normalizationContext={
@@ -32,13 +35,19 @@ class Treatment
      * @ORM\JoinColumn(nullable=false)
      * 
      */
-    private $categorieId;
+    private $categorie;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ClinicalCase", inversedBy="treatments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="treatment")
      */
-    private $clinicalCaseId;
+    private $clinicalCases;
+
+    public function __construct()
+    {
+        $this->clinicalCases = new ArrayCollection();
+    }
+
+  
 
     public function getId(): ?int
     {
@@ -57,27 +66,44 @@ class Treatment
         return $this;
     }
 
-    public function getCategorieId(): ?CategorieTreatment
+    public function getCategorie(): ?CategorieTreatment
     {
-        return $this->categorieId;
+        return $this->categorie;
     }
 
-    public function setCategorieId(?CategorieTreatment $categorieId): self
+    public function setCategorie(?CategorieTreatment $categorie): self
     {
-        $this->categorieId = $categorieId;
+        $this->categorie = $categorie;
 
         return $this;
     }
 
-    public function getClinicalCaseId(): ?ClinicalCase
+    /**
+     * @return Collection|ClinicalCase[]
+     */
+    public function getClinicalCases(): Collection
     {
-        return $this->clinicalCaseId;
+        return $this->clinicalCases;
     }
 
-    public function setClinicalCaseId(?ClinicalCase $clinicalCaseId): self
+    public function addClinicalCase(ClinicalCase $clinicalCase): self
     {
-        $this->clinicalCaseId = $clinicalCaseId;
+        if (!$this->clinicalCases->contains($clinicalCase)) {
+            $this->clinicalCases[] = $clinicalCase;
+            $clinicalCase->addTreatment($this);
+        }
 
         return $this;
     }
+
+    public function removeClinicalCase(ClinicalCase $clinicalCase): self
+    {
+        if ($this->clinicalCases->contains($clinicalCase)) {
+            $this->clinicalCases->removeElement($clinicalCase);
+            $clinicalCase->removeTreatment($this);
+        }
+
+        return $this;
+    }
+
 }

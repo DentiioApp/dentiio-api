@@ -26,7 +26,7 @@ class CategorieTreatment
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Treatment", mappedBy="categorieId")
+     * @ORM\OneToMany(targetEntity="App\Entity\Treatment", mappedBy="categorie")
      */
     private $treatments;
 
@@ -64,7 +64,7 @@ class CategorieTreatment
     {
         if (!$this->treatments->contains($treatment)) {
             $this->treatments[] = $treatment;
-            $treatment->setCategorieId($this);
+            $treatment->setCategorie($this);
         }
 
         return $this;
@@ -75,8 +75,8 @@ class CategorieTreatment
         if ($this->treatments->contains($treatment)) {
             $this->treatments->removeElement($treatment);
             // set the owning side to null (unless already changed)
-            if ($treatment->getCategorieId() === $this) {
-                $treatment->setCategorieId(null);
+            if ($treatment->getCategorie() === $this) {
+                $treatment->setCategorie(null);
             }
         }
 
