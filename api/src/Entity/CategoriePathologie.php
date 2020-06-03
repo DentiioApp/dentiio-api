@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass="App\Repository\CategorieTreatmentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CategoriePathologieRepository")
  */
-class CategorieTreatment
+class CategoriePathologie
 {
     /**
      * @ORM\Id()
@@ -26,13 +26,13 @@ class CategorieTreatment
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Treatment", mappedBy="categorie")
+     * @ORM\OneToMany(targetEntity="App\Entity\Pathologie", mappedBy="categorie")
      */
-    private $treatments;
+    private $pathologies;
 
     public function __construct()
     {
-        $this->treatments = new ArrayCollection();
+        $this->pathologies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,30 +53,30 @@ class CategorieTreatment
     }
 
     /**
-     * @return Collection|Treatment[]
+     * @return Collection|Pathologie[]
      */
-    public function getTreatments(): Collection
+    public function getPathologies(): Collection
     {
-        return $this->treatments;
+        return $this->pathologies;
     }
 
-    public function addTreatment(Treatment $treatment): self
+    public function addPathology(Pathologie $pathology): self
     {
-        if (!$this->treatments->contains($treatment)) {
-            $this->treatments[] = $treatment;
-            $treatment->setCategorie($this);
+        if (!$this->pathologies->contains($pathology)) {
+            $this->pathologies[] = $pathology;
+            $pathology->setCategorie($this);
         }
 
         return $this;
     }
 
-    public function removeTreatment(Treatment $treatment): self
+    public function removePathology(Pathologie $pathology): self
     {
-        if ($this->treatments->contains($treatment)) {
-            $this->treatments->removeElement($treatment);
+        if ($this->pathologies->contains($pathology)) {
+            $this->pathologies->removeElement($pathology);
             // set the owning side to null (unless already changed)
-            if ($treatment->getCategorie() === $this) {
-                $treatment->setCategorie(null);
+            if ($pathology->getCategorie() === $this) {
+                $pathology->setCategorie(null);
             }
         }
 

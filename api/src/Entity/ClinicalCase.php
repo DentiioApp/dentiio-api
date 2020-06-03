@@ -101,11 +101,7 @@ class ClinicalCase
      */
     private $isEnabled;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Treatment", mappedBy="clinicalCaseId")
-     * @Groups({"clinicalcase_read"})
-     */
-    private $treatments;
+  
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Symptome", inversedBy="clinicalCases")
@@ -113,13 +109,26 @@ class ClinicalCase
      */
     private $symptome;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Treatment", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $treatment;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Pathologie", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $pathologie;
+
 
     public function __construct()
     {
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
-        $this->treatments = new ArrayCollection();
         $this->symptome = new ArrayCollection();
+        $this->treatment = new ArrayCollection();
+        $this->pathologie = new ArrayCollection();
     }
 
 
@@ -348,24 +357,6 @@ class ClinicalCase
     }
 
     /**
-
-     * @return Collection|Treatment[]
-     */
-    public function getTreatments(): Collection
-    {
-        return $this->treatments;
-    }
-
-    public function addTreatment(Treatment $treatment): self
-    {
-        if (!$this->treatments->contains($treatment)) {
-            $this->treatments[] = $treatment;
-            $treatment->setClinicalCaseId($this);
-        }
-
-        return $this;
-    }
-    /**
      * @return Collection|Symptome[]
      */
     public function getSymptome(): Collection
@@ -384,18 +375,6 @@ class ClinicalCase
     }
 
 
-    public function removeTreatment(Treatment $treatment): self
-    {
-        if ($this->treatments->contains($treatment)) {
-            $this->treatments->removeElement($treatment);
-            // set the owning side to null (unless already changed)
-            if ($treatment->getClinicalCaseId() === $this) {
-                $treatment->setClinicalCaseId(null);
-            }
-            return $this;
-        }
-    }
-
     public function removeSymptome(Symptome $symptome): self
     {
         if ($this->symptome->contains($symptome)) {
@@ -406,14 +385,54 @@ class ClinicalCase
         return $this;
     }
 
-    public function getCaseTreatment(): ?CaseTreatment
+    /**
+     * @return Collection|Treatment[]
+     */
+    public function getTreatment(): Collection
     {
-        return $this->caseTreatment;
+        return $this->treatment;
     }
 
-    public function setCaseTreatment(?CaseTreatment $caseTreatment): self
+    public function addTreatment(Treatment $treatment): self
     {
-        $this->caseTreatment = $caseTreatment;
+        if (!$this->treatment->contains($treatment)) {
+            $this->treatment[] = $treatment;
+        }
+
+        return $this;
+    }
+
+    public function removeTreatment(Treatment $treatment): self
+    {
+        if ($this->treatment->contains($treatment)) {
+            $this->treatment->removeElement($treatment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pathologie[]
+     */
+    public function getPathologie(): Collection
+    {
+        return $this->pathologie;
+    }
+
+    public function addPathologie(Pathologie $pathologie): self
+    {
+        if (!$this->pathologie->contains($pathologie)) {
+            $this->pathologie[] = $pathologie;
+        }
+
+        return $this;
+    }
+
+    public function removePathologie(Pathologie $pathologie): self
+    {
+        if ($this->pathologie->contains($pathologie)) {
+            $this->pathologie->removeElement($pathologie);
+        }
 
         return $this;
     }

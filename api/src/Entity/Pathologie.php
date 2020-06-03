@@ -10,11 +10,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(normalizationContext={
- *          "groups"={"treatment_read"}
+ *          "groups"={"pathologie_read"}
  *     })
- * @ORM\Entity(repositoryClass="App\Repository\TreatmentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PathologieRepository")
  */
-class Treatment
+class Pathologie
 {
     /**
      * @ORM\Id()
@@ -31,14 +31,13 @@ class Treatment
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CategorieTreatment", inversedBy="treatments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\CategoriePathologie", inversedBy="pathologies")
      * @ORM\JoinColumn(nullable=false)
-     * 
      */
     private $categorie;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="treatment")
+     * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="pathologie")
      */
     private $clinicalCases;
 
@@ -64,12 +63,12 @@ class Treatment
         return $this;
     }
 
-    public function getCategorie(): ?CategorieTreatment
+    public function getCategorie(): ?CategoriePathologie
     {
         return $this->categorie;
     }
 
-    public function setCategorie(?CategorieTreatment $categorie): self
+    public function setCategorie(?CategoriePathologie $categorie): self
     {
         $this->categorie = $categorie;
 
@@ -88,7 +87,7 @@ class Treatment
     {
         if (!$this->clinicalCases->contains($clinicalCase)) {
             $this->clinicalCases[] = $clinicalCase;
-            $clinicalCase->addTreatment($this);
+            $clinicalCase->addPathologie($this);
         }
 
         return $this;
@@ -98,10 +97,9 @@ class Treatment
     {
         if ($this->clinicalCases->contains($clinicalCase)) {
             $this->clinicalCases->removeElement($clinicalCase);
-            $clinicalCase->removeTreatment($this);
+            $clinicalCase->removePathologie($this);
         }
 
         return $this;
     }
-
 }
