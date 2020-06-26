@@ -10,6 +10,7 @@ use App\Entity\Notation;
 use App\Entity\Pathologie;
 use App\Entity\Patient;
 use App\Entity\Treatment;
+use App\Entity\Speciality;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -64,6 +65,63 @@ class AppFixtures extends Fixture
         $greffe->setName('Greffe osseuse');
         $greffe->setCategorie($implantologie);
         $manager->persist($greffe);
+
+
+        $omnipratique = new Speciality();
+        $omnipratique->setName('Omnipratique');
+        $manager->persist($omnipratique);
+    
+        $esthétique = new Speciality();
+        $esthétique->setName('Esthétique');
+        $manager->persist($esthétique);
+
+        $parodontie = new Speciality();
+        $parodontie->setName('Parodontie');
+        $manager->persist($parodontie);
+
+        $pedodontie = new Speciality();
+        $pedodontie->setName('Pedodontie');
+        $manager->persist($pedodontie);
+  
+        $implantologie = new Speciality();
+        $implantologie->setName('Implantologie');
+        $manager->persist($implantologie);
+   
+        $orthodontie = new Speciality();
+        $orthodontie->setName('Orthodontie');
+        $manager->persist($orthodontie);
+        
+        $orthopédie = new Speciality();
+        $orthopédie->setName('Orthopédie');
+        $manager->persist($orthopédie);
+ 
+        $chirurgieBuccale = new Speciality();
+        $chirurgieBuccale->setName('Chirurgie buccale');
+        $manager->persist($chirurgieBuccale);
+   
+        $chirurgieMaxillofaciale = new Speciality();
+        $chirurgieMaxillofaciale->setName('Chirurgie maxillofaciale');
+        $manager->persist($chirurgieMaxillofaciale);
+ 
+        $stomatologie = new Speciality();
+        $stomatologie->setName('Stomatologie');
+        $manager->persist($stomatologie);
+
+        $radiologie = new Speciality();
+        $radiologie->setName('Radiologie');
+        $manager->persist($radiologie);
+
+        $atm = new Speciality();
+        $atm->setName('ATM');
+        $manager->persist($atm);
+
+        $muqueuseOrale = new Speciality();
+        $muqueuseOrale->setName('Muqueuse orale');
+        $manager->persist($muqueuseOrale);
+            
+        $gérodontologie = new Speciality();
+        $gérodontologie->setName('Gérodontologie');
+        $manager->persist($gérodontologie);
 
 
         $job1 = new Jobs();
