@@ -121,6 +121,11 @@ class ClinicalCase
      */
     private $pathologie;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="clinicalCases")
+     */
+    private $speciality;
+
 
     public function __construct()
     {
@@ -129,6 +134,7 @@ class ClinicalCase
         $this->symptome = new ArrayCollection();
         $this->treatment = new ArrayCollection();
         $this->pathologie = new ArrayCollection();
+        $this->speciality = new ArrayCollection();
     }
 
 
@@ -432,6 +438,32 @@ class ClinicalCase
     {
         if ($this->pathologie->contains($pathologie)) {
             $this->pathologie->removeElement($pathologie);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Speciality[]
+     */
+    public function getSpeciality(): Collection
+    {
+        return $this->speciality;
+    }
+
+    public function addSpeciality(Speciality $speciality): self
+    {
+        if (!$this->speciality->contains($speciality)) {
+            $this->speciality[] = $speciality;
+        }
+
+        return $this;
+    }
+
+    public function removeSpeciality(Speciality $speciality): self
+    {
+        if ($this->speciality->contains($speciality)) {
+            $this->speciality->removeElement($speciality);
         }
 
         return $this;
