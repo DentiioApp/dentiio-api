@@ -8,7 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={
+ *          "groups"={"speciality_read"}
+ *     })
  * @ORM\Entity(repositoryClass="App\Repository\SpecialityRepository")
  */
 class Speciality
@@ -17,11 +19,13 @@ class Speciality
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $name;
 

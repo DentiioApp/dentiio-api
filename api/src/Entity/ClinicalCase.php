@@ -123,6 +123,7 @@ class ClinicalCase
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
      */
     private $speciality;
 

@@ -111,6 +111,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="users")
+     * @Groups({"users_read"})
      */
     private $speciality;
 
