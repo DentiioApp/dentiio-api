@@ -1,10 +1,15 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\CategoriePathologie;
+use App\Entity\CategorieTreatment;
 use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
 use App\Entity\Jobs;
 use App\Entity\Notation;
+use App\Entity\Pathologie;
+use App\Entity\Patient;
+use App\Entity\Treatment;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -15,6 +20,51 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager){
         $faker = Factory::create('fr_FR');
         $user = new User();
+
+        // Réferenciel
+        $traumatologie = new CategoriePathologie();
+        $traumatologie->setName("Traumatologie Facial");
+        $manager->persist($traumatologie);
+
+        $plaie = new Pathologie();
+        $plaie->setName('Brûlures de la face');
+        $plaie->setCategorie($traumatologie);
+        $manager->persist($plaie);
+
+        $fracture = new Pathologie();
+        $fracture->setName('Fracture de la face');
+        $fracture->setCategorie($traumatologie);
+        $manager->persist($fracture);
+
+        $brulure = new Pathologie();
+        $brulure->setName('Brulure de la face');
+        $brulure->setCategorie($traumatologie);
+        $manager->persist($brulure);
+
+
+        $omnipratique = new CategorieTreatment();
+        $omnipratique->setName('Omnipratique');
+        $manager->persist($omnipratique);
+
+        $detartrage = new Treatment();
+        $detartrage->setName('Détartrage');
+        $detartrage->setCategorie($omnipratique);
+        $manager->persist($detartrage);
+
+        $devitalisation = new Treatment();
+        $devitalisation->setName('Dévitalisation');
+        $devitalisation->setCategorie($omnipratique);
+        $manager->persist($devitalisation);
+
+        $implantologie = new CategorieTreatment();
+        $implantologie->setName('Implantologie');
+        $manager->persist($implantologie);
+
+        $greffe = new Treatment();
+        $greffe->setName('Greffe osseuse');
+        $greffe->setCategorie($implantologie);
+        $manager->persist($greffe);
+
 
         $job1 = new Jobs();
         $job1->setName('Chirurgien Dentiste')
@@ -30,6 +80,8 @@ class AppFixtures extends Fixture
         $job3->setName('Dentiste Interne')
             ->setIdent('DI');
         $manager->persist($job3);
+
+        // Utilisateurs
 
         $user->setPrenom('dentiio')
             ->setNom('dentiio')
@@ -65,6 +117,7 @@ class AppFixtures extends Fixture
     
         $manager->persist($userModerator);
 
+        // Cas Clinique
         for ($u=0; $u < 30; $u++){
             $user = new User();
             $user->setPrenom($faker->firstName)
@@ -78,8 +131,17 @@ class AppFixtures extends Fixture
             $manager->persist($user);
 
             for($c=0; $c < 5; $c++){
+                $patient = new Patient();
+                $patient->setAge($faker->randomNumber())
+                    ->setGender($faker->randomElement(["Monsieur", "Madame"]))
+                    ->setIsASmoker($faker->boolean)
+                    ->setIsMedicalBackground($faker->boolean)
+                    ->setInTreatment('test')
+                    ->setProblemHealth('test')
+                ;
                 $clinicalCase = new ClinicalCase();
                 $clinicalCase->setUser($user)
+                    ->setPatient($patient)
                     ->setCreatedAt(new \DateTime('NOW'))
                     ->setPresentation($faker->paragraph)
                     ->setEvolution($faker->paragraph)
