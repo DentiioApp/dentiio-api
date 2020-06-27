@@ -117,6 +117,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"users_read"})
      */
     private $created_at;
 
