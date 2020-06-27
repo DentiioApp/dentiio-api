@@ -5,6 +5,7 @@ use App\Entity\CategoriePathologie;
 use App\Entity\CategorieTreatment;
 use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
+use App\Entity\Favorite;
 use App\Entity\Jobs;
 use App\Entity\Notation;
 use App\Entity\Pathologie;
@@ -75,7 +76,7 @@ class AppFixtures extends Fixture
         $job2->setName('Etudiant Dentiste')
             ->setIdent('ED');
         $manager->persist($job2);
- 
+
         $job3 = new Jobs();
         $job3->setName('Dentiste Interne')
             ->setIdent('DI');
@@ -90,7 +91,7 @@ class AppFixtures extends Fixture
             ->setIsEnabled(true)
             ->setJob($job2)
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
-        
+
         $manager->persist($user);
 
         $userAdmin = new User();
@@ -102,7 +103,7 @@ class AppFixtures extends Fixture
             ->setJob($job1)
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
-    
+
         $manager->persist($userAdmin);
 
         $userModerator = new User();
@@ -114,13 +115,13 @@ class AppFixtures extends Fixture
             ->setJob($job3)
             ->setRoles(["ROLE_MODERATOR"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
-    
+
         $manager->persist($userModerator);
 
         // Cas Clinique
         for ($u=0; $u < 30; $u++){
-            $user = new User();
-            $user->setPrenom($faker->firstName)
+            $userBasic = new User();
+            $userBasic->setPrenom($faker->firstName)
                 ->setNom($faker->lastName)
                 ->setPseudo("$faker->lastName"."$faker->firstName")
                 ->setEmail($faker->email)
@@ -128,7 +129,7 @@ class AppFixtures extends Fixture
                 ->setJob($faker->randomElement([$job1, $job2, $job3]))
                 ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2');
 
-            $manager->persist($user);
+            $manager->persist($userBasic);
 
             for($c=0; $c < 5; $c++){
                 $patient = new Patient();
@@ -154,6 +155,14 @@ class AppFixtures extends Fixture
                     ->setSmoking($faker->randomElement([true,false]))
                     ->setIsEnabled($faker->randomElement([true,false]));
                 $manager->persist($clinicalCase);
+
+                //Favorites
+                $favorite = new Favorite();
+                $favorite->setCreatedAt(new \DateTime('NOW'))
+                    ->setUserId($user)
+                    ->setClinicalCaseId($clinicalCase);
+
+                $manager->persist($favorite);
 
                 for ($n=0; $n < 5; $n++){
                     $notations = new Notation();

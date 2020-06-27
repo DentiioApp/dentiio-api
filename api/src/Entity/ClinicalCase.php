@@ -121,6 +121,11 @@ class ClinicalCase
      */
     private $pathologie;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="clinicalCaseId")
+     */
+    private $favorites;
+
 
     public function __construct()
     {
@@ -129,6 +134,7 @@ class ClinicalCase
         $this->symptome = new ArrayCollection();
         $this->treatment = new ArrayCollection();
         $this->pathologie = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
 
@@ -432,6 +438,37 @@ class ClinicalCase
     {
         if ($this->pathologie->contains($pathologie)) {
             $this->pathologie->removeElement($pathologie);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->setClinicalCaseId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+            // set the owning side to null (unless already changed)
+            if ($favorite->getClinicalCaseId() === $this) {
+                $favorite->setClinicalCaseId(null);
+            }
         }
 
         return $this;
