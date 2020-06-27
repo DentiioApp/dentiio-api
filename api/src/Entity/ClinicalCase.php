@@ -120,8 +120,13 @@ class ClinicalCase
      * @Groups({"clinicalcase_read"})
      */
     private $pathologie;
-
-
+  
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $speciality;
+  
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -129,8 +134,23 @@ class ClinicalCase
         $this->symptome = new ArrayCollection();
         $this->treatment = new ArrayCollection();
         $this->pathologie = new ArrayCollection();
+        $this->speciality = new ArrayCollection();
     }
 
+
+    /**
+     * allows to recover the average of the marks of a clinical case 
+     * @Groups({"clinicalcase_read"})
+     *
+     */
+    public function getAverageNote(){
+        $average = 0;
+        $nbNotation = count($this->getNotations());
+        foreach ($this->getNotations() as $notation){
+            $average += $notation->getNote();
+        }
+        return $average/$nbNotation;
+    }
 
     public function getId(): ?int
     {
@@ -432,6 +452,32 @@ class ClinicalCase
     {
         if ($this->pathologie->contains($pathologie)) {
             $this->pathologie->removeElement($pathologie);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Speciality[]
+     */
+    public function getSpeciality(): Collection
+    {
+        return $this->speciality;
+    }
+
+    public function addSpeciality(Speciality $speciality): self
+    {
+        if (!$this->speciality->contains($speciality)) {
+            $this->speciality[] = $speciality;
+        }
+
+        return $this;
+    }
+
+    public function removeSpeciality(Speciality $speciality): self
+    {
+        if ($this->speciality->contains($speciality)) {
+            $this->speciality->removeElement($speciality);
         }
 
         return $this;
