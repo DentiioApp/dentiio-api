@@ -121,7 +121,6 @@ class ClinicalCase
      */
     private $pathologie;
 
-
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -131,6 +130,20 @@ class ClinicalCase
         $this->pathologie = new ArrayCollection();
     }
 
+
+    /**
+     * Permet de recuperer
+     * @Groups({"clinicalcase_read"})
+     *
+     */
+    public function getAverageNote(){
+        $average = 0;
+        $nbNotation = count($this->getNotations());
+        foreach ($this->getNotations() as $notation){
+            $average += $notation->getNote();
+        }
+        return $average/$nbNotation;
+    }
 
     public function getId(): ?int
     {
