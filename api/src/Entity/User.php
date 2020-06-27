@@ -114,6 +114,11 @@ class User implements UserInterface
      * @ApiSubresource()
      */
     private $favorites;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="users")
+     * @Groups({"users_read"})
+     */
+    private $speciality;
 
     public function __construct()
     {
@@ -122,6 +127,7 @@ class User implements UserInterface
         $this->clinicalCase = new ArrayCollection();
         $this->job = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->speciality = new ArrayCollection();
     }
 
 
@@ -392,8 +398,6 @@ class User implements UserInterface
             $this->favorites[] = $favorite;
             $favorite->setUserId($this);
         }
-
-        return $this;
     }
 
     public function removeFavorite(Favorite $favorite): self
@@ -404,6 +408,30 @@ class User implements UserInterface
             if ($favorite->getUserId() === $this) {
                 $favorite->setUserId(null);
             }
+        }
+    }
+
+    /**
+     * @return Collection|Speciality[]
+     */
+    public function getSpeciality(): Collection
+    {
+        return $this->speciality;
+    }
+
+    public function addSpeciality(Speciality $speciality): self
+    {
+        if (!$this->speciality->contains($speciality)) {
+            $this->speciality[] = $speciality;
+        }
+
+        return $this;
+    }
+
+    public function removeSpeciality(Speciality $speciality): self
+    {
+        if ($this->speciality->contains($speciality)) {
+            $this->speciality->removeElement($speciality);
         }
 
         return $this;

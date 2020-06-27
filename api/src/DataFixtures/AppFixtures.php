@@ -11,6 +11,8 @@ use App\Entity\Notation;
 use App\Entity\Pathologie;
 use App\Entity\Patient;
 use App\Entity\Treatment;
+use App\Entity\Speciality;
+use App\Entity\Symptome;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -22,7 +24,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $user = new User();
 
-        // Réferenciel
+        // Traumatoloqgie
         $traumatologie = new CategoriePathologie();
         $traumatologie->setName("Traumatologie Facial");
         $manager->persist($traumatologie);
@@ -42,7 +44,29 @@ class AppFixtures extends Fixture
         $brulure->setCategorie($traumatologie);
         $manager->persist($brulure);
 
+        //Symptomes
+        $irritabilite = new Symptome();
+        $irritabilite->setName('Une irritabilité. ...');
+        $manager->persist($irritabilite);
 
+        $gencivesGonflees = new Symptome();
+        $gencivesGonflees->setName('Des gencives gonflées. ...');
+        $manager->persist($gencivesGonflees);
+        
+        $gencivesRougesOrBleues = new Symptome();
+        $gencivesRougesOrBleues->setName('Des gencives rouges voir bleues. ...');
+        $manager->persist($gencivesRougesOrBleues);
+        
+        $diarrheeLegere = new Symptome();
+        $diarrheeLegere->setName('Une diarrhée légère. ...');
+        $manager->persist($diarrheeLegere);
+        
+        $fessesRougesAndIrritees = new Symptome();
+        $fessesRougesAndIrritees->setName('Des fesses rouges et irritées.');
+        $manager->persist($fessesRougesAndIrritees);
+
+
+        // Treatement 
         $omnipratique = new CategorieTreatment();
         $omnipratique->setName('Omnipratique');
         $manager->persist($omnipratique);
@@ -66,7 +90,64 @@ class AppFixtures extends Fixture
         $greffe->setCategorie($implantologie);
         $manager->persist($greffe);
 
+        //Speciality
+        $omnipratique = new Speciality();
+        $omnipratique->setName('Omnipratique');
+        $manager->persist($omnipratique);
+    
+        $esthétique = new Speciality();
+        $esthétique->setName('Esthétique');
+        $manager->persist($esthétique);
 
+        $parodontie = new Speciality();
+        $parodontie->setName('Parodontie');
+        $manager->persist($parodontie);
+
+        $pedodontie = new Speciality();
+        $pedodontie->setName('Pedodontie');
+        $manager->persist($pedodontie);
+  
+        $implantologie = new Speciality();
+        $implantologie->setName('Implantologie');
+        $manager->persist($implantologie);
+   
+        $orthodontie = new Speciality();
+        $orthodontie->setName('Orthodontie');
+        $manager->persist($orthodontie);
+        
+        $orthopédie = new Speciality();
+        $orthopédie->setName('Orthopédie');
+        $manager->persist($orthopédie);
+ 
+        $chirurgieBuccale = new Speciality();
+        $chirurgieBuccale->setName('Chirurgie buccale');
+        $manager->persist($chirurgieBuccale);
+   
+        $chirurgieMaxillofaciale = new Speciality();
+        $chirurgieMaxillofaciale->setName('Chirurgie maxillofaciale');
+        $manager->persist($chirurgieMaxillofaciale);
+ 
+        $stomatologie = new Speciality();
+        $stomatologie->setName('Stomatologie');
+        $manager->persist($stomatologie);
+
+        $radiologie = new Speciality();
+        $radiologie->setName('Radiologie');
+        $manager->persist($radiologie);
+
+        $atm = new Speciality();
+        $atm->setName('ATM');
+        $manager->persist($atm);
+
+        $muqueuseOrale = new Speciality();
+        $muqueuseOrale->setName('Muqueuse orale');
+        $manager->persist($muqueuseOrale);
+            
+        $gérodontologie = new Speciality();
+        $gérodontologie->setName('Gérodontologie');
+        $manager->persist($gérodontologie);
+
+        //Jobs
         $job1 = new Jobs();
         $job1->setName('Chirurgien Dentiste')
             ->setIdent('CD');
@@ -90,6 +171,7 @@ class AppFixtures extends Fixture
             ->setEmail('api@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job2)
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
         $manager->persist($user);
@@ -101,6 +183,7 @@ class AppFixtures extends Fixture
             ->setEmail('admin@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job1)
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
@@ -113,6 +196,7 @@ class AppFixtures extends Fixture
             ->setEmail('moderator@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job3)
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_MODERATOR"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
@@ -153,7 +237,16 @@ class AppFixtures extends Fixture
                     ->setUpdatedAt(new \DateTime('NOW'))
                     ->setAverage($faker->randomDigit)
                     ->setSmoking($faker->randomElement([true,false]))
-                    ->setIsEnabled($faker->randomElement([true,false]));
+                    ->setIsEnabled($faker->randomElement([true,false]))
+                    ->addSymptome($faker->randomElement([$irritabilite,$gencivesGonflees, $gencivesRougesOrBleues,$diarrheeLegere, $fessesRougesAndIrritees]));
+
+
+                    for($n=0; $n < rand(1, 5); $n++){
+
+                        $clinicalCase->addPathologie($faker->randomElement([$plaie,  $fracture, $brulure]))
+                        ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]));
+                    }
+
                 $manager->persist($clinicalCase);
 
                 //Favorites
