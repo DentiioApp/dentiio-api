@@ -110,6 +110,11 @@ class User implements UserInterface
     private $job;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="userId", orphanRemoval=true)
+     * @ApiSubresource()
+     */
+    private $favorites;
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="users")
      * @Groups({"users_read"})
      */
@@ -127,6 +132,7 @@ class User implements UserInterface
         $this->commentaires = new ArrayCollection();
         $this->clinicalCase = new ArrayCollection();
         $this->job = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
     }
 
@@ -382,6 +388,33 @@ class User implements UserInterface
         $this->job = $job;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->setUserId($this);
+        }
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+            // set the owning side to null (unless already changed)
+            if ($favorite->getUserId() === $this) {
+                $favorite->setUserId(null);
+            }
+        }
     }
 
     /**

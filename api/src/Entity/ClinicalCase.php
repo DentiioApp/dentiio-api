@@ -32,7 +32,7 @@ class ClinicalCase
      * @ORM\OneToOne(targetEntity="App\Entity\Patient", cascade={"persist", "remove"})
      */
     private $Patient;
-    
+
 
     /**
      * @ORM\Column(type="text")
@@ -101,7 +101,6 @@ class ClinicalCase
      */
     private $isEnabled;
 
-  
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Symptome", inversedBy="clinicalCases")
@@ -120,13 +119,19 @@ class ClinicalCase
      * @Groups({"clinicalcase_read"})
      */
     private $pathologie;
-  
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="clinicalCaseId")
+     */
+    private $favorites;
+
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="clinicalCases")
      * @Groups({"clinicalcase_read"})
      */
     private $speciality;
-  
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -134,12 +139,13 @@ class ClinicalCase
         $this->symptome = new ArrayCollection();
         $this->treatment = new ArrayCollection();
         $this->pathologie = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
     }
 
 
     /**
-     * allows to recover the average of the marks of a clinical case 
+     * allows to recover the average of the marks of a clinical case
      * @Groups({"clinicalcase_read"})
      *
      */
@@ -458,6 +464,22 @@ class ClinicalCase
     }
 
     /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->setClinicalCaseId($this);
+        }
+    }
+
+    /**
      * @return Collection|Speciality[]
      */
     public function getSpeciality(): Collection
@@ -474,14 +496,22 @@ class ClinicalCase
         return $this;
     }
 
-    public function removeSpeciality(Speciality $speciality): self
+    public function removeFavorite(Favorite $favorite): self
     {
-        if ($this->speciality->contains($speciality)) {
-            $this->speciality->removeElement($speciality);
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+            // set the owning side to null (unless already changed)
+            if ($favorite->getClinicalCaseId() === $this) {
+                $favorite->setClinicalCaseId(null);
+            }
         }
-
-        return $this;
     }
+            public function removeSpeciality(Speciality $speciality): self
+            {
+                if ($this->speciality->contains($speciality)) {
+                    $this->speciality->removeElement($speciality);
+                }
 
-
+                return $this;
+            }
 }
