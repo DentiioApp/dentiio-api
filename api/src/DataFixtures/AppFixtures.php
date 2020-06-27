@@ -89,7 +89,7 @@ class AppFixtures extends Fixture
         $greffe->setCategorie($implantologie);
         $manager->persist($greffe);
 
-
+        //Speciality
         $omnipratique = new Speciality();
         $omnipratique->setName('Omnipratique');
         $manager->persist($omnipratique);
@@ -146,7 +146,7 @@ class AppFixtures extends Fixture
         $gérodontologie->setName('Gérodontologie');
         $manager->persist($gérodontologie);
 
-
+        //Jobs
         $job1 = new Jobs();
         $job1->setName('Chirurgien Dentiste')
             ->setIdent('CD');
