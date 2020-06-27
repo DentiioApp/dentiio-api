@@ -120,6 +120,12 @@ class User implements UserInterface
      */
     private $speciality;
 
+    /**
+     * @ORM\Column(type="datetime")
+     * @Groups({"users_read"})
+     */
+    private $created_at;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -433,6 +439,18 @@ class User implements UserInterface
         if ($this->speciality->contains($speciality)) {
             $this->speciality->removeElement($speciality);
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

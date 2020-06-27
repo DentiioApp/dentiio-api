@@ -171,6 +171,7 @@ class AppFixtures extends Fixture
             ->setEmail('api@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job2)
+            ->setCreatedAt(new \DateTime('NOW'))
             ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
@@ -183,6 +184,7 @@ class AppFixtures extends Fixture
             ->setEmail('admin@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job1)
+            ->setCreatedAt(new \DateTime('NOW'))
             ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
@@ -196,6 +198,7 @@ class AppFixtures extends Fixture
             ->setEmail('moderator@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job3)
+            ->setCreatedAt(new \DateTime('NOW'))
             ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_MODERATOR"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
@@ -211,6 +214,7 @@ class AppFixtures extends Fixture
                 ->setEmail($faker->email)
                 ->setIsEnabled(true)
                 ->setJob($faker->randomElement([$job1, $job2, $job3]))
+                ->setCreatedAt(new \DateTime('NOW'))
                 ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2');
 
             $manager->persist($userBasic);
