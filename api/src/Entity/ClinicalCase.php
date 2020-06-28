@@ -146,6 +146,12 @@ class ClinicalCase
      */
     private $notifications;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Keyword", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $keyword;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -156,6 +162,7 @@ class ClinicalCase
         $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->keyword = new ArrayCollection();
     }
 
 
@@ -587,6 +594,32 @@ class ClinicalCase
             if ($notification->getClinicalCase() === $this) {
                 $notification->setClinicalCase(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Keyword[]
+     */
+    public function getKeyword(): Collection
+    {
+        return $this->keyword;
+    }
+
+    public function addKeyword(Keyword $keyword): self
+    {
+        if (!$this->keyword->contains($keyword)) {
+            $this->keyword[] = $keyword;
+        }
+
+        return $this;
+    }
+
+    public function removeKeyword(Keyword $keyword): self
+    {
+        if ($this->keyword->contains($keyword)) {
+            $this->keyword->removeElement($keyword);
         }
 
         return $this;
