@@ -147,6 +147,10 @@ class ClinicalCase
     private $notifications;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ImageClinicalCase", mappedBy="clinicalCase", orphanRemoval=true)
+     */
+    private $imageClinicalCases;
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Keyword", inversedBy="clinicalCases")
      * @Groups({"clinicalcase_read"})
      */
@@ -162,6 +166,7 @@ class ClinicalCase
         $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->imageClinicalCases = new ArrayCollection();
         $this->keyword = new ArrayCollection();
     }
 
@@ -528,7 +533,7 @@ class ClinicalCase
             }
         }
     }
-  
+
     public function removeSpeciality(Speciality $speciality): self
     {
         if ($this->speciality->contains($speciality)) {
@@ -600,6 +605,22 @@ class ClinicalCase
     }
 
     /**
+     * @return Collection|ImageClinicalCase[]
+     */
+    public function getImageClinicalCases(): Collection
+    {
+        return $this->imageClinicalCases;
+    }
+
+    public function addImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if (!$this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases[] = $imageClinicalCase;
+            $imageClinicalCase->setClinicalCase($this);
+        }
+    }
+
+    /**
      * @return Collection|Keyword[]
      */
     public function getKeyword(): Collection
@@ -614,6 +635,17 @@ class ClinicalCase
         }
 
         return $this;
+    }
+
+    public function removeImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if ($this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases->removeElement($imageClinicalCase);
+            // set the owning side to null (unless already changed)
+            if ($imageClinicalCase->getClinicalCase() === $this) {
+                $imageClinicalCase->setClinicalCase(null);
+            }
+        }
     }
 
     public function removeKeyword(Keyword $keyword): self
