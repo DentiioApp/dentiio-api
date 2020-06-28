@@ -150,6 +150,11 @@ class ClinicalCase
      * @ORM\OneToMany(targetEntity="App\Entity\ImageClinicalCase", mappedBy="clinicalCase", orphanRemoval=true)
      */
     private $imageClinicalCases;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Keyword", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $keyword;
 
     public function __construct()
     {
@@ -162,6 +167,7 @@ class ClinicalCase
         $this->speciality = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->imageClinicalCases = new ArrayCollection();
+        $this->keyword = new ArrayCollection();
     }
 
 
@@ -527,7 +533,7 @@ class ClinicalCase
             }
         }
     }
-  
+
     public function removeSpeciality(Speciality $speciality): self
     {
         if ($this->speciality->contains($speciality)) {
@@ -612,6 +618,21 @@ class ClinicalCase
             $this->imageClinicalCases[] = $imageClinicalCase;
             $imageClinicalCase->setClinicalCase($this);
         }
+    }
+
+    /**
+     * @return Collection|Keyword[]
+     */
+    public function getKeyword(): Collection
+    {
+        return $this->keyword;
+    }
+
+    public function addKeyword(Keyword $keyword): self
+    {
+        if (!$this->keyword->contains($keyword)) {
+            $this->keyword[] = $keyword;
+        }
 
         return $this;
     }
@@ -624,6 +645,13 @@ class ClinicalCase
             if ($imageClinicalCase->getClinicalCase() === $this) {
                 $imageClinicalCase->setClinicalCase(null);
             }
+        }
+    }
+
+    public function removeKeyword(Keyword $keyword): self
+    {
+        if ($this->keyword->contains($keyword)) {
+            $this->keyword->removeElement($keyword);
         }
 
         return $this;
