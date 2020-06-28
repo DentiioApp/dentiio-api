@@ -148,6 +148,7 @@ class ClinicalCase
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Keyword", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
      */
     private $keyword;
 

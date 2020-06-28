@@ -7,6 +7,7 @@ use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
 use App\Entity\Favorite;
 use App\Entity\Jobs;
+use App\Entity\Keyword;
 use App\Entity\MessageNotification;
 use App\Entity\Notation;
 use App\Entity\Notification;
@@ -149,6 +150,30 @@ class AppFixtures extends Fixture
         $gérodontologie->setName('Gérodontologie');
         $manager->persist($gérodontologie);
 
+        //keywords
+        $cancerKeyword = new Keyword();
+        $cancerKeyword->setName('Cancer');
+        $manager->persist($cancerKeyword);
+
+        $smokerKeyword = new Keyword();
+        $smokerKeyword->setName('Fumeur');
+        $manager->persist($smokerKeyword);
+
+   
+        $fractureKeyword = new Keyword();
+        $fractureKeyword->setName('Fracture');
+        $manager->persist($fractureKeyword);
+
+        $carAccidentKeyword = new Keyword();
+        $carAccidentKeyword->setName('Accident de voiture');
+        $manager->persist($carAccidentKeyword);
+
+        $allergieKeyword = new Keyword();
+        $allergieKeyword->setName('Allergie');
+        $manager->persist($allergieKeyword);
+
+
+
         //Jobs
         $job1 = new Jobs();
         $job1->setName('Chirurgien Dentiste')
@@ -265,6 +290,7 @@ class AppFixtures extends Fixture
                     for($n=0; $n < rand(1, 5); $n++){
 
                         $clinicalCase->addPathologie($faker->randomElement([$plaie,  $fracture, $brulure]))
+                        ->addKeyword($faker->randomElement([$allergieKeyword,  $carAccidentKeyword, $fractureKeyword, $smokerKeyword,$cancerKeyword]))
                         ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]));
                     }
 
