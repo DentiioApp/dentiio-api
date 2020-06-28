@@ -7,7 +7,9 @@ use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
 use App\Entity\Favorite;
 use App\Entity\Jobs;
+use App\Entity\MessageNotification;
 use App\Entity\Notation;
+use App\Entity\Notification;
 use App\Entity\Pathologie;
 use App\Entity\Patient;
 use App\Entity\Treatment;
@@ -205,6 +207,20 @@ class AppFixtures extends Fixture
 
         $manager->persist($userModerator);
 
+        //Messages Nptifications
+        $message1 = new MessageNotification();
+        $message1->setMessage("a publié un commentaire sur votre cas");
+        $manager->persist($message1);
+        $message2 = new MessageNotification();
+        $message2->setMessage("a noté votre cas");
+        $manager->persist($message2);
+        $message3 = new MessageNotification();
+        $message3->setMessage("vous a envoyé un message");
+        $manager->persist($message3);
+        $message4 = new MessageNotification();
+        $message4->setMessage("a participé à votre discussion");
+        $manager->persist($message4);
+
         // Cas Clinique
         for ($u=0; $u < 30; $u++){
             $userBasic = new User();
@@ -253,6 +269,17 @@ class AppFixtures extends Fixture
                     }
 
                 $manager->persist($clinicalCase);
+
+                //Notifications
+                $notification = new Notification();
+                $notification->setMessage($faker->randomElement([$message1, $message2, $message3, $message4]))
+                ->setCreatedAt(new \DateTime('NOW'))
+                ->setViewAt($faker->randomElement([new \DateTime('NOW'), null]))
+                ->setReceiver($faker->randomElement([$user, $userAdmin, $userModerator]))
+                ->setSender($faker->randomElement([$userBasic, $userModerator]))
+                ->setClinicalCase($clinicalCase);
+
+                $manager->persist($notification);
 
                 //Favorites
                 $favorite = new Favorite();
