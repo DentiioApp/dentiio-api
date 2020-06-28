@@ -248,6 +248,7 @@ class AppFixtures extends Fixture
                 $clinicalCase->setUser($user)
                     ->setPatient($patient)
                     ->setCreatedAt(new \DateTime('NOW'))
+                    ->setTitle($faker->sentence)
                     ->setPresentation($faker->paragraph)
                     ->setEvolution($faker->paragraph)
                     ->setTreatmentPlan($faker->paragraph)
