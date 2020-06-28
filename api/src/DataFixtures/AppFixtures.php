@@ -6,6 +6,8 @@ use App\Entity\CategorieTreatment;
 use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
 use App\Entity\Favorite;
+use App\Entity\ImageClinicalCase;
+use App\Entity\ImageClinicalCaseType;
 use App\Entity\Jobs;
 use App\Entity\MessageNotification;
 use App\Entity\Notation;
@@ -66,6 +68,25 @@ class AppFixtures extends Fixture
         $fessesRougesAndIrritees = new Symptome();
         $fessesRougesAndIrritees->setName('Des fesses rouges et irritées.');
         $manager->persist($fessesRougesAndIrritees);
+
+        //Image clinical case type
+        $scanner = new ImageClinicalCaseType();
+        $scanner->setName("scanner");
+        $manager->persist($scanner);
+
+        $biopsy = new ImageClinicalCaseType();
+        $biopsy->setName("biopsy");
+        $manager->persist($biopsy);
+
+
+        $examen = new ImageClinicalCaseType();
+        $examen->setName("examen");
+        $manager->persist($examen);
+
+        $treatmentplan = new ImageClinicalCaseType();
+        $treatmentplan->setName("plan-de-traitement");
+        $manager->persist($treatmentplan);
+
 
 
         // Treatement
@@ -207,7 +228,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($userModerator);
 
-        //Messages Nptifications
+        //Messages Notifications
         $message1 = new MessageNotification();
         $message1->setMessage("a publié un commentaire sur votre cas");
         $manager->persist($message1);
@@ -269,6 +290,15 @@ class AppFixtures extends Fixture
                     }
 
                 $manager->persist($clinicalCase);
+
+                //Image Clinical case
+                for ($n=0; $n < rand(1, 5); $n++){
+                    $image = new ImageClinicalCase();
+                    $image->setClinicalCase($clinicalCase)
+                    ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen]))
+                    ->setPath($faker->randomElement(["1apres.jpg", "1avant.jpg", "dent-necrose.jpg", "dent-sur-numerer.jpg", "gencive.jpg", "gout.jpg", "radio.jpg"]));
+                    $manager->persist($image);
+                }
 
                 //Notifications
                 $notification = new Notification();

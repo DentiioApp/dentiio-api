@@ -146,6 +146,11 @@ class ClinicalCase
      */
     private $notifications;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ImageClinicalCase", mappedBy="clinicalCase", orphanRemoval=true)
+     */
+    private $imageClinicalCases;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -156,6 +161,7 @@ class ClinicalCase
         $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->imageClinicalCases = new ArrayCollection();
     }
 
 
@@ -586,6 +592,37 @@ class ClinicalCase
             // set the owning side to null (unless already changed)
             if ($notification->getClinicalCase() === $this) {
                 $notification->setClinicalCase(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ImageClinicalCase[]
+     */
+    public function getImageClinicalCases(): Collection
+    {
+        return $this->imageClinicalCases;
+    }
+
+    public function addImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if (!$this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases[] = $imageClinicalCase;
+            $imageClinicalCase->setClinicalCase($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if ($this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases->removeElement($imageClinicalCase);
+            // set the owning side to null (unless already changed)
+            if ($imageClinicalCase->getClinicalCase() === $this) {
+                $imageClinicalCase->setClinicalCase(null);
             }
         }
 
