@@ -52,21 +52,21 @@ class AppFixtures extends Fixture
         $gencivesGonflees = new Symptome();
         $gencivesGonflees->setName('Des gencives gonflées. ...');
         $manager->persist($gencivesGonflees);
-        
+
         $gencivesRougesOrBleues = new Symptome();
         $gencivesRougesOrBleues->setName('Des gencives rouges voir bleues. ...');
         $manager->persist($gencivesRougesOrBleues);
-        
+
         $diarrheeLegere = new Symptome();
         $diarrheeLegere->setName('Une diarrhée légère. ...');
         $manager->persist($diarrheeLegere);
-        
+
         $fessesRougesAndIrritees = new Symptome();
         $fessesRougesAndIrritees->setName('Des fesses rouges et irritées.');
         $manager->persist($fessesRougesAndIrritees);
 
 
-        // Treatement 
+        // Treatement
         $omnipratique = new CategorieTreatment();
         $omnipratique->setName('Omnipratique');
         $manager->persist($omnipratique);
@@ -94,7 +94,7 @@ class AppFixtures extends Fixture
         $omnipratique = new Speciality();
         $omnipratique->setName('Omnipratique');
         $manager->persist($omnipratique);
-    
+
         $esthétique = new Speciality();
         $esthétique->setName('Esthétique');
         $manager->persist($esthétique);
@@ -106,27 +106,27 @@ class AppFixtures extends Fixture
         $pedodontie = new Speciality();
         $pedodontie->setName('Pedodontie');
         $manager->persist($pedodontie);
-  
+
         $implantologie = new Speciality();
         $implantologie->setName('Implantologie');
         $manager->persist($implantologie);
-   
+
         $orthodontie = new Speciality();
         $orthodontie->setName('Orthodontie');
         $manager->persist($orthodontie);
-        
+
         $orthopédie = new Speciality();
         $orthopédie->setName('Orthopédie');
         $manager->persist($orthopédie);
- 
+
         $chirurgieBuccale = new Speciality();
         $chirurgieBuccale->setName('Chirurgie buccale');
         $manager->persist($chirurgieBuccale);
-   
+
         $chirurgieMaxillofaciale = new Speciality();
         $chirurgieMaxillofaciale->setName('Chirurgie maxillofaciale');
         $manager->persist($chirurgieMaxillofaciale);
- 
+
         $stomatologie = new Speciality();
         $stomatologie->setName('Stomatologie');
         $manager->persist($stomatologie);
@@ -142,7 +142,7 @@ class AppFixtures extends Fixture
         $muqueuseOrale = new Speciality();
         $muqueuseOrale->setName('Muqueuse orale');
         $manager->persist($muqueuseOrale);
-            
+
         $gérodontologie = new Speciality();
         $gérodontologie->setName('Gérodontologie');
         $manager->persist($gérodontologie);
@@ -232,6 +232,7 @@ class AppFixtures extends Fixture
                 $clinicalCase->setUser($user)
                     ->setPatient($patient)
                     ->setCreatedAt(new \DateTime('NOW'))
+                    ->setTitle($faker->sentence)
                     ->setPresentation($faker->paragraph)
                     ->setEvolution($faker->paragraph)
                     ->setTreatmentPlan($faker->paragraph)

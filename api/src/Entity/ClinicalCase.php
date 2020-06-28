@@ -132,6 +132,16 @@ class ClinicalCase
      */
     private $speciality;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -506,12 +516,42 @@ class ClinicalCase
             }
         }
     }
-            public function removeSpeciality(Speciality $speciality): self
-            {
-                if ($this->speciality->contains($speciality)) {
-                    $this->speciality->removeElement($speciality);
-                }
+    public function removeSpeciality(Speciality $speciality): self
+    {
+        if ($this->speciality->contains($speciality)) {
+            $this->speciality->removeElement($speciality);
+        }
 
-                return $this;
-            }
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        $slug = $this->slugify($this->title);
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $this->slugify($slug);
+
+        return $this;
+    }
+
+    public function slugify($string){
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string), '-'));
+    }
 }
