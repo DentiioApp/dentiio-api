@@ -7,7 +7,9 @@ use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
 use App\Entity\Favorite;
 use App\Entity\Jobs;
+use App\Entity\MessageNotification;
 use App\Entity\Notation;
+use App\Entity\Notification;
 use App\Entity\Pathologie;
 use App\Entity\Patient;
 use App\Entity\Treatment;
@@ -52,21 +54,21 @@ class AppFixtures extends Fixture
         $gencivesGonflees = new Symptome();
         $gencivesGonflees->setName('Des gencives gonflées. ...');
         $manager->persist($gencivesGonflees);
-        
+
         $gencivesRougesOrBleues = new Symptome();
         $gencivesRougesOrBleues->setName('Des gencives rouges voir bleues. ...');
         $manager->persist($gencivesRougesOrBleues);
-        
+
         $diarrheeLegere = new Symptome();
         $diarrheeLegere->setName('Une diarrhée légère. ...');
         $manager->persist($diarrheeLegere);
-        
+
         $fessesRougesAndIrritees = new Symptome();
         $fessesRougesAndIrritees->setName('Des fesses rouges et irritées.');
         $manager->persist($fessesRougesAndIrritees);
 
 
-        // Treatement 
+        // Treatement
         $omnipratique = new CategorieTreatment();
         $omnipratique->setName('Omnipratique');
         $manager->persist($omnipratique);
@@ -94,7 +96,7 @@ class AppFixtures extends Fixture
         $omnipratique = new Speciality();
         $omnipratique->setName('Omnipratique');
         $manager->persist($omnipratique);
-    
+
         $esthétique = new Speciality();
         $esthétique->setName('Esthétique');
         $manager->persist($esthétique);
@@ -106,27 +108,27 @@ class AppFixtures extends Fixture
         $pedodontie = new Speciality();
         $pedodontie->setName('Pedodontie');
         $manager->persist($pedodontie);
-  
+
         $implantologie = new Speciality();
         $implantologie->setName('Implantologie');
         $manager->persist($implantologie);
-   
+
         $orthodontie = new Speciality();
         $orthodontie->setName('Orthodontie');
         $manager->persist($orthodontie);
-        
+
         $orthopédie = new Speciality();
         $orthopédie->setName('Orthopédie');
         $manager->persist($orthopédie);
- 
+
         $chirurgieBuccale = new Speciality();
         $chirurgieBuccale->setName('Chirurgie buccale');
         $manager->persist($chirurgieBuccale);
-   
+
         $chirurgieMaxillofaciale = new Speciality();
         $chirurgieMaxillofaciale->setName('Chirurgie maxillofaciale');
         $manager->persist($chirurgieMaxillofaciale);
- 
+
         $stomatologie = new Speciality();
         $stomatologie->setName('Stomatologie');
         $manager->persist($stomatologie);
@@ -142,7 +144,7 @@ class AppFixtures extends Fixture
         $muqueuseOrale = new Speciality();
         $muqueuseOrale->setName('Muqueuse orale');
         $manager->persist($muqueuseOrale);
-            
+
         $gérodontologie = new Speciality();
         $gérodontologie->setName('Gérodontologie');
         $manager->persist($gérodontologie);
@@ -205,6 +207,20 @@ class AppFixtures extends Fixture
 
         $manager->persist($userModerator);
 
+        //Messages Nptifications
+        $message1 = new MessageNotification();
+        $message1->setMessage("a publié un commentaire sur votre cas");
+        $manager->persist($message1);
+        $message2 = new MessageNotification();
+        $message2->setMessage("a noté votre cas");
+        $manager->persist($message2);
+        $message3 = new MessageNotification();
+        $message3->setMessage("vous a envoyé un message");
+        $manager->persist($message3);
+        $message4 = new MessageNotification();
+        $message4->setMessage("a participé à votre discussion");
+        $manager->persist($message4);
+
         // Cas Clinique
         for ($u=0; $u < 30; $u++){
             $userBasic = new User();
@@ -252,6 +268,17 @@ class AppFixtures extends Fixture
                     }
 
                 $manager->persist($clinicalCase);
+
+                //Notifications
+                $notification = new Notification();
+                $notification->setMessage($faker->randomElement([$message1, $message2, $message3, $message4]))
+                ->setCreatedAt(new \DateTime('NOW'))
+                ->setViewAt($faker->randomElement([new \DateTime('NOW'), null]))
+                ->setReceiver($faker->randomElement([$user, $userAdmin, $userModerator]))
+                ->setSender($faker->randomElement([$userBasic, $userModerator]))
+                ->setClinicalCase($clinicalCase);
+
+                $manager->persist($notification);
 
                 //Favorites
                 $favorite = new Favorite();

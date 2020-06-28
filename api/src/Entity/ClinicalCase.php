@@ -132,6 +132,11 @@ class ClinicalCase
      */
     private $speciality;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="clinicalCase")
+     */
+    private $notifications;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -141,6 +146,7 @@ class ClinicalCase
         $this->pathologie = new ArrayCollection();
         $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
 
@@ -510,6 +516,37 @@ class ClinicalCase
             {
                 if ($this->speciality->contains($speciality)) {
                     $this->speciality->removeElement($speciality);
+                }
+
+                return $this;
+            }
+
+            /**
+             * @return Collection|Notification[]
+             */
+            public function getNotifications(): Collection
+            {
+                return $this->notifications;
+            }
+
+            public function addNotification(Notification $notification): self
+            {
+                if (!$this->notifications->contains($notification)) {
+                    $this->notifications[] = $notification;
+                    $notification->setClinicalCase($this);
+                }
+
+                return $this;
+            }
+
+            public function removeNotification(Notification $notification): self
+            {
+                if ($this->notifications->contains($notification)) {
+                    $this->notifications->removeElement($notification);
+                    // set the owning side to null (unless already changed)
+                    if ($notification->getClinicalCase() === $this) {
+                        $notification->setClinicalCase(null);
+                    }
                 }
 
                 return $this;
