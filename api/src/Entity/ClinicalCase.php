@@ -32,7 +32,7 @@ class ClinicalCase
      * @ORM\OneToOne(targetEntity="App\Entity\Patient", cascade={"persist", "remove"})
      */
     private $Patient;
-    
+
 
     /**
      * @ORM\Column(type="text")
@@ -101,7 +101,6 @@ class ClinicalCase
      */
     private $isEnabled;
 
-  
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Symptome", inversedBy="clinicalCases")
@@ -120,13 +119,43 @@ class ClinicalCase
      * @Groups({"clinicalcase_read"})
      */
     private $pathologie;
-  
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="clinicalCaseId")
+     */
+    private $favorites;
+
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="clinicalCases")
      * @Groups({"clinicalcase_read"})
      */
     private $speciality;
-  
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="clinicalCase")
+     */
+    private $notifications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ImageClinicalCase", mappedBy="clinicalCase", orphanRemoval=true)
+     */
+    private $imageClinicalCases;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Keyword", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $keyword;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -134,12 +163,16 @@ class ClinicalCase
         $this->symptome = new ArrayCollection();
         $this->treatment = new ArrayCollection();
         $this->pathologie = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->imageClinicalCases = new ArrayCollection();
+        $this->keyword = new ArrayCollection();
     }
 
 
     /**
-     * allows to recover the average of the marks of a clinical case 
+     * allows to recover the average of the marks of a clinical case
      * @Groups({"clinicalcase_read"})
      *
      */
@@ -458,6 +491,22 @@ class ClinicalCase
     }
 
     /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->setClinicalCaseId($this);
+        }
+    }
+
+    /**
      * @return Collection|Speciality[]
      */
     public function getSpeciality(): Collection
@@ -474,6 +523,17 @@ class ClinicalCase
         return $this;
     }
 
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+            // set the owning side to null (unless already changed)
+            if ($favorite->getClinicalCaseId() === $this) {
+                $favorite->setClinicalCaseId(null);
+            }
+        }
+    }
+
     public function removeSpeciality(Speciality $speciality): self
     {
         if ($this->speciality->contains($speciality)) {
@@ -483,5 +543,117 @@ class ClinicalCase
         return $this;
     }
 
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
 
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        $slug = $this->slugify($this->title);
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $this->slugify($slug);
+
+        return $this;
+    }
+
+    public function slugify($string){
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string), '-'));
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setClinicalCase($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getClinicalCase() === $this) {
+                $notification->setClinicalCase(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ImageClinicalCase[]
+     */
+    public function getImageClinicalCases(): Collection
+    {
+        return $this->imageClinicalCases;
+    }
+
+    public function addImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if (!$this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases[] = $imageClinicalCase;
+            $imageClinicalCase->setClinicalCase($this);
+        }
+    }
+
+    /**
+     * @return Collection|Keyword[]
+     */
+    public function getKeyword(): Collection
+    {
+        return $this->keyword;
+    }
+
+    public function addKeyword(Keyword $keyword): self
+    {
+        if (!$this->keyword->contains($keyword)) {
+            $this->keyword[] = $keyword;
+        }
+
+        return $this;
+    }
+
+    public function removeImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if ($this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases->removeElement($imageClinicalCase);
+            // set the owning side to null (unless already changed)
+            if ($imageClinicalCase->getClinicalCase() === $this) {
+                $imageClinicalCase->setClinicalCase(null);
+            }
+        }
+    }
+
+    public function removeKeyword(Keyword $keyword): self
+    {
+        if ($this->keyword->contains($keyword)) {
+            $this->keyword->removeElement($keyword);
+        }
+
+        return $this;
+    }
 }
