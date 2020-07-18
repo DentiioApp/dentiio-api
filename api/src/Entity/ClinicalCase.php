@@ -122,6 +122,7 @@ class ClinicalCase
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="clinicalCaseId")
+     * @Groups({"clinicalcase_read"})
      */
     private $favorites;
 
@@ -134,20 +135,24 @@ class ClinicalCase
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"clinicalcase_read"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"clinicalcase_read"})
      */
     private $title;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="clinicalCase")
+     * @Groups({"clinicalcase_read"})
      */
     private $notifications;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ImageClinicalCase", mappedBy="clinicalCase", orphanRemoval=true)
+     * @Groups({"clinicalcase_read"})
      */
     private $imageClinicalCases;
     /**
