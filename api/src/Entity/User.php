@@ -104,7 +104,6 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
      * @Groups({"users_read"})
      */
     private $job;
@@ -141,7 +140,6 @@ class User implements UserInterface
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->clinicalCase = new ArrayCollection();
-        $this->job = new ArrayCollection();
         $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
         $this->notificationsSend = new ArrayCollection();
