@@ -26,7 +26,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $id;
 
@@ -34,21 +34,21 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Le nom est obligatoire !")
      * @Assert\Email(message="Entrer une adresse mail valide")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $prenom;
 
@@ -56,7 +56,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=191, unique=true)
      * @Assert\NotBlank(message="Le pseudo est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le pseudo doit faire au minimum 3 caracteres")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $pseudo;
 
@@ -104,7 +104,8 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
-     * @Groups({"users_read","jobs_read"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"users_read","clinicalcase_read","jobs_read"})
      */
     private $job;
 
