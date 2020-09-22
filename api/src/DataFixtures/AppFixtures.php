@@ -236,7 +236,7 @@ class AppFixtures extends Fixture
             ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
-
+            
         $manager->persist($userAdmin);
 
         $userModerator = new User();
