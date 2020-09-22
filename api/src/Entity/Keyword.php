@@ -27,7 +27,7 @@ class Keyword
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcase_read", "keyword_read"})
      */
     private $name;
 
