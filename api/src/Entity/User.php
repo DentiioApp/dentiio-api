@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"users_read"}}
+ *     normalizationContext={"groups"={"users_read","jobs_read"}}
  * )
  * @UniqueEntity("email",message="L'email existe déjà")
  */
@@ -105,7 +105,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read","clinicalcase_read","jobs_read"})
      */
     private $job;
 
@@ -141,7 +141,6 @@ class User implements UserInterface
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->clinicalCase = new ArrayCollection();
-        $this->job = new ArrayCollection();
         $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
         $this->notificationsSend = new ArrayCollection();
@@ -152,6 +151,13 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -445,7 +451,7 @@ class User implements UserInterface
 
         return $this;
     }
-
+    
     public function removeSpeciality(Speciality $speciality): self
     {
         if ($this->speciality->contains($speciality)) {

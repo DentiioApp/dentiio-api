@@ -43,7 +43,7 @@ class Commentaire
      * @Groups({"clinicalcase_read"})
      */
     private $user;
-
+    
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ClinicalCase", inversedBy="commentaires")
      */
