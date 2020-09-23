@@ -27,7 +27,7 @@ class Speciality
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read","clinicalcase_read", "speciality_read"})
      */
     private $name;
 
