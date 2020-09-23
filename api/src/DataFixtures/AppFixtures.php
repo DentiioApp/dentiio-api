@@ -221,6 +221,7 @@ class AppFixtures extends Fixture
             ->setJob($job2)
             ->setCreatedAt(new \DateTime('NOW'))
             ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
+            ->setActivationToken(md5(uniqid()))
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
         $manager->persist($user);
@@ -235,6 +236,7 @@ class AppFixtures extends Fixture
             ->setCreatedAt(new \DateTime('NOW'))
             ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_ADMIN"])
+            ->setActivationToken(md5(uniqid()))
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
         $manager->persist($userAdmin);
@@ -249,6 +251,7 @@ class AppFixtures extends Fixture
             ->setCreatedAt(new \DateTime('NOW'))
             ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_MODERATOR"])
+            ->setActivationToken(md5(uniqid()))
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
         $manager->persist($userModerator);
@@ -277,7 +280,8 @@ class AppFixtures extends Fixture
                 ->setIsEnabled(true)
                 ->setJob($faker->randomElement([$job1, $job2, $job3]))
                 ->setCreatedAt(new \DateTime('NOW'))
-                ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2');
+                ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2')
+                ->setActivationToken(md5(uniqid()));
 
             $manager->persist($userBasic);
 
