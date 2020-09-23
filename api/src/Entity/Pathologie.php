@@ -26,7 +26,7 @@ class Pathologie
 
     /**
      * @ORM\Column(type="string", length=45)
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcase_read", "pathologie_read"})
      */
     private $name;
 
