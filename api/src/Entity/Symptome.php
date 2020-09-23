@@ -26,7 +26,7 @@ class Symptome
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcase_read", "symptome_read"})
      */
     private $name;
 

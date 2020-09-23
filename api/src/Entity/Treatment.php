@@ -26,7 +26,7 @@ class Treatment
 
     /**
      * @ORM\Column(type="string", length=45)
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcase_read", "treatment_read"})
      */
     private $name;
 
