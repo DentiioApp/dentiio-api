@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -20,11 +21,13 @@ class ImageClinicalCase
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ImageClinicalCaseType")
+     * @Groups({"clinicalcase_read"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"clinicalcase_read"})
      */
     private $path;
 
