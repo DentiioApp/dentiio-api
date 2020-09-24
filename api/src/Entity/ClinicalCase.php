@@ -160,6 +160,7 @@ class ClinicalCase
      * @Groups({"clinicalcase_read"})
      */
     private $keyword;
+    
 
     public function __construct()
     {
@@ -184,6 +185,9 @@ class ClinicalCase
     public function getAverageNote(){
         $average = 0;
         $nbNotation = count($this->getNotations());
+        if($nbNotation == 0){
+            return 0;
+        }
         foreach ($this->getNotations() as $notation){
             $average += $notation->getNote();
         }
