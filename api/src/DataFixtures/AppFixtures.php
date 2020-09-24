@@ -313,6 +313,10 @@ class AppFixtures extends Fixture
                     ->setAverage($faker->randomDigit)
                     ->setSmoking($faker->randomElement([true,false]))
                     ->setIsEnabled($faker->randomElement([true,false]))
+                    ->setReasonConsult($faker->sentence)
+                    ->setScanner($faker->sentence)
+                    ->setBiopsy($faker->sentence)
+                    ->setDiagnostic($faker->sentence)
                     ->addSymptome($faker->randomElement([$irritabilite,$gencivesGonflees, $gencivesRougesOrBleues,$diarrheeLegere, $fessesRougesAndIrritees]));
 
 
