@@ -5,6 +5,9 @@ use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 require dirname(__DIR__).'/config/bootstrap.php';
+ini_set('max_execution_time', '0');
+ini_set('memory_limit', '-1');
+
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
