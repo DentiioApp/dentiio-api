@@ -28,5 +28,8 @@ services:
         arguments: ['@App\Swagger\SwaggerDecorator.inner']
         autoconfigure: false
 
+    App\Events\JWTCreatedSubscriber:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: updateJwtData }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
