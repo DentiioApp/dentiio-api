@@ -162,6 +162,30 @@ class ClinicalCase
     private $keyword;
     
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $reason_consult;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $scanner;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $biopsy;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $diagnostic;
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -662,6 +686,54 @@ class ClinicalCase
         if ($this->keyword->contains($keyword)) {
             $this->keyword->removeElement($keyword);
         }
+
+        return $this;
+    }
+
+    public function getReasonConsult(): ?string
+    {
+        return $this->reason_consult;
+    }
+
+    public function setReasonConsult(?string $reason_consult): self
+    {
+        $this->reason_consult = $reason_consult;
+
+        return $this;
+    }
+
+    public function getScanner(): ?string
+    {
+        return $this->scanner;
+    }
+
+    public function setScanner(?string $scanner): self
+    {
+        $this->scanner = $scanner;
+
+        return $this;
+    }
+
+    public function getBiopsy(): ?string
+    {
+        return $this->biopsy;
+    }
+
+    public function setBiopsy(?string $biopsy): self
+    {
+        $this->biopsy = $biopsy;
+
+        return $this;
+    }
+
+    public function getDiagnostic(): ?string
+    {
+        return $this->diagnostic;
+    }
+
+    public function setDiagnostic(?string $diagnostic): self
+    {
+        $this->diagnostic = $diagnostic;
 
         return $this;
     }
