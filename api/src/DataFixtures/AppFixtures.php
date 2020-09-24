@@ -71,6 +71,10 @@ class AppFixtures extends Fixture
         $manager->persist($fessesRougesAndIrritees);
 
         //Image clinical case type
+        $principal = new ImageClinicalCaseType();
+        $principal->setName("principal");
+        $manager->persist($principal);
+
         $scanner = new ImageClinicalCaseType();
         $scanner->setName("scanner");
         $manager->persist($scanner);
@@ -87,6 +91,10 @@ class AppFixtures extends Fixture
         $treatmentplan = new ImageClinicalCaseType();
         $treatmentplan->setName("plan-de-traitement");
         $manager->persist($treatmentplan);
+
+        $evolution = new ImageClinicalCaseType();
+        $evolution->setName("evolution");
+        $manager->persist($evolution);
 
 
 
@@ -317,12 +325,18 @@ class AppFixtures extends Fixture
 
                 $manager->persist($clinicalCase);
 
+                $imagePrincipal = new ImageClinicalCase();
+                $imagePrincipal->setClinicalCase($clinicalCase)
+                    ->setType($principal)
+                    ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
+                $manager->persist($imagePrincipal);
+
                 //Image Clinical case
-                for ($n=0; $n < rand(1, 5); $n++){
+                for ($n=0; $n < rand(3, 5); $n++){
                     $image = new ImageClinicalCase();
                     $image->setClinicalCase($clinicalCase)
-                    ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen]))
-                    ->setPath($faker->randomElement(["1apres.jpg", "1avant.jpg", "dent-necrose.jpg", "dent-sur-numerer.jpg", "gencive.jpg", "gout.jpg", "radio.jpg"]));
+                    ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen, $evolution]))
+                    ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
                     $manager->persist($image);
                 }
 
