@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-
+use Swift_Mailer;
+use Swift_Message;
 
 class MailerGenerator
 {
@@ -26,13 +27,18 @@ class MailerGenerator
     public function registerMail($user)
     {
         // create message
-        $message = (new \Swift_Message('Register & account activation '))
+        /** @var Swift_Message $message */
+        $message = (new Swift_Message('Register & account activation '))
         ->setFrom(['contact@edentiio.com' => 'Admin'])
         ->setTo([$user->getEmail() => 'Normal User'])
-        ->setBody('This is Message body from Swift mailer SMTP test with Attachment script!');
+        ->setBody(
+                $user->getNom(), "test este sessidfjsfkjsf sifjd"
+        );
 
         $this->mailer->send($message);
-        dd("ANzi");
+        dump($user->getNom());
+        dump($message);
+        die;
     }
 
 
