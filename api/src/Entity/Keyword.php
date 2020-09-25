@@ -7,14 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(normalizationContext={
- *          "groups"={"treatment_read"}
+ *          "groups"={"keyword_read"}
  *     })
- * @ORM\Entity(repositoryClass="App\Repository\TreatmentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\KeywordRepository")
  */
-class Treatment
+class Keyword
 {
     /**
      * @ORM\Id()
@@ -25,20 +26,13 @@ class Treatment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=45)
-     * @Groups({"clinicalcase_read", "treatment_read"})
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"clinicalcase_read", "keyword_read"})
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CategorieTreatment", inversedBy="treatments")
-     * @ORM\JoinColumn(nullable=false)
-     * 
-     */
-    private $categorie;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="treatment")
+     * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="keyword")
      */
     private $clinicalCases;
 
@@ -64,18 +58,6 @@ class Treatment
         return $this;
     }
 
-    public function getCategorie(): ?CategorieTreatment
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?CategorieTreatment $categorie): self
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
     /**
      * @return Collection|ClinicalCase[]
      */
@@ -88,7 +70,7 @@ class Treatment
     {
         if (!$this->clinicalCases->contains($clinicalCase)) {
             $this->clinicalCases[] = $clinicalCase;
-            $clinicalCase->addTreatment($this);
+            $clinicalCase->addKeyword($this);
         }
 
         return $this;
@@ -98,10 +80,9 @@ class Treatment
     {
         if ($this->clinicalCases->contains($clinicalCase)) {
             $this->clinicalCases->removeElement($clinicalCase);
-            $clinicalCase->removeTreatment($this);
+            $clinicalCase->removeKeyword($this);
         }
 
         return $this;
     }
-
 }

@@ -7,43 +7,43 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(normalizationContext={
- *          "groups"={"treatment_read"}
+ *          "groups"={"speciality_read"}
  *     })
- * @ORM\Entity(repositoryClass="App\Repository\TreatmentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SpecialityRepository")
  */
-class Treatment
+class Speciality
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=45)
-     * @Groups({"clinicalcase_read", "treatment_read"})
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"users_read","clinicalcase_read", "speciality_read"})
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CategorieTreatment", inversedBy="treatments")
-     * @ORM\JoinColumn(nullable=false)
-     * 
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="speciality")
      */
-    private $categorie;
+    private $users;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="treatment")
+     * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="speciality")
      */
     private $clinicalCases;
 
     public function __construct()
     {
+        $this->users = new ArrayCollection();
         $this->clinicalCases = new ArrayCollection();
     }
 
@@ -64,14 +64,30 @@ class Treatment
         return $this;
     }
 
-    public function getCategorie(): ?CategorieTreatment
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
     {
-        return $this->categorie;
+        return $this->users;
     }
 
-    public function setCategorie(?CategorieTreatment $categorie): self
+    public function addUser(User $user): self
     {
-        $this->categorie = $categorie;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addSpeciality($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeSpeciality($this);
+        }
 
         return $this;
     }
@@ -88,7 +104,7 @@ class Treatment
     {
         if (!$this->clinicalCases->contains($clinicalCase)) {
             $this->clinicalCases[] = $clinicalCase;
-            $clinicalCase->addTreatment($this);
+            $clinicalCase->addSpeciality($this);
         }
 
         return $this;
@@ -98,10 +114,9 @@ class Treatment
     {
         if ($this->clinicalCases->contains($clinicalCase)) {
             $this->clinicalCases->removeElement($clinicalCase);
-            $clinicalCase->removeTreatment($this);
+            $clinicalCase->removeSpeciality($this);
         }
 
         return $this;
     }
-
 }

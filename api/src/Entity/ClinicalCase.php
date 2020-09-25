@@ -32,7 +32,7 @@ class ClinicalCase
      * @ORM\OneToOne(targetEntity="App\Entity\Patient", cascade={"persist", "remove"})
      */
     private $Patient;
-    
+
 
     /**
      * @ORM\Column(type="text")
@@ -90,7 +90,7 @@ class ClinicalCase
     private $commentaires;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ClinicalCase")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clinicalCase")
      * @Groups({"clinicalcase_read"})
      */
     private $user;
@@ -101,7 +101,6 @@ class ClinicalCase
      */
     private $isEnabled;
 
-  
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Symptome", inversedBy="clinicalCases")
@@ -121,6 +120,71 @@ class ClinicalCase
      */
     private $pathologie;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="clinicalCaseId")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $favorites;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $speciality;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $title;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="clinicalCase")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $notifications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ImageClinicalCase", mappedBy="clinicalCase", orphanRemoval=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $imageClinicalCases;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Keyword", inversedBy="clinicalCases")
+     * @Groups({"clinicalcase_read"})
+     */
+    private $keyword;
+    
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $reason_consult;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $scanner;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $biopsy;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"clinicalcase_read"})
+     */
+    private $diagnostic;
 
     public function __construct()
     {
@@ -129,8 +193,30 @@ class ClinicalCase
         $this->symptome = new ArrayCollection();
         $this->treatment = new ArrayCollection();
         $this->pathologie = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
+        $this->speciality = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->imageClinicalCases = new ArrayCollection();
+        $this->keyword = new ArrayCollection();
     }
 
+
+    /**
+     * allows to recover the average of the marks of a clinical case
+     * @Groups({"clinicalcase_read"})
+     *
+     */
+    public function getAverageNote(){
+        $average = 0;
+        $nbNotation = count($this->getNotations());
+        if($nbNotation == 0){
+            return 0;
+        }
+        foreach ($this->getNotations() as $notation){
+            $average += $notation->getNote();
+        }
+        return $average/$nbNotation;
+    }
 
     public function getId(): ?int
     {
@@ -437,5 +523,218 @@ class ClinicalCase
         return $this;
     }
 
+    /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
 
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->setClinicalCaseId($this);
+        }
+    }
+
+    /**
+     * @return Collection|Speciality[]
+     */
+    public function getSpeciality(): Collection
+    {
+        return $this->speciality;
+    }
+
+    public function addSpeciality(Speciality $speciality): self
+    {
+        if (!$this->speciality->contains($speciality)) {
+            $this->speciality[] = $speciality;
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+            // set the owning side to null (unless already changed)
+            if ($favorite->getClinicalCaseId() === $this) {
+                $favorite->setClinicalCaseId(null);
+            }
+        }
+    }
+
+    public function removeSpeciality(Speciality $speciality): self
+    {
+        if ($this->speciality->contains($speciality)) {
+            $this->speciality->removeElement($speciality);
+        }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        $slug = $this->slugify($this->title);
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $this->slugify($slug);
+
+        return $this;
+    }
+
+    public function slugify($string){
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string), '-'));
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setClinicalCase($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getClinicalCase() === $this) {
+                $notification->setClinicalCase(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ImageClinicalCase[]
+     */
+    public function getImageClinicalCases(): Collection
+    {
+        return $this->imageClinicalCases;
+    }
+
+    public function addImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if (!$this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases[] = $imageClinicalCase;
+            $imageClinicalCase->setClinicalCase($this);
+        }
+    }
+
+    /**
+     * @return Collection|Keyword[]
+     */
+    public function getKeyword(): Collection
+    {
+        return $this->keyword;
+    }
+
+    public function addKeyword(Keyword $keyword): self
+    {
+        if (!$this->keyword->contains($keyword)) {
+            $this->keyword[] = $keyword;
+        }
+
+        return $this;
+    }
+
+    public function removeImageClinicalCase(ImageClinicalCase $imageClinicalCase): self
+    {
+        if ($this->imageClinicalCases->contains($imageClinicalCase)) {
+            $this->imageClinicalCases->removeElement($imageClinicalCase);
+            // set the owning side to null (unless already changed)
+            if ($imageClinicalCase->getClinicalCase() === $this) {
+                $imageClinicalCase->setClinicalCase(null);
+            }
+        }
+    }
+
+    public function removeKeyword(Keyword $keyword): self
+    {
+        if ($this->keyword->contains($keyword)) {
+            $this->keyword->removeElement($keyword);
+        }
+
+        return $this;
+    }
+
+    public function getReasonConsult(): ?string
+    {
+        return $this->reason_consult;
+    }
+
+    public function setReasonConsult(?string $reason_consult): self
+    {
+        $this->reason_consult = $reason_consult;
+
+        return $this;
+    }
+
+    public function getScanner(): ?string
+    {
+        return $this->scanner;
+    }
+
+    public function setScanner(?string $scanner): self
+    {
+        $this->scanner = $scanner;
+
+        return $this;
+    }
+
+    public function getBiopsy(): ?string
+    {
+        return $this->biopsy;
+    }
+
+    public function setBiopsy(?string $biopsy): self
+    {
+        $this->biopsy = $biopsy;
+
+        return $this;
+    }
+
+    public function getDiagnostic(): ?string
+    {
+        return $this->diagnostic;
+    }
+
+    public function setDiagnostic(?string $diagnostic): self
+    {
+        $this->diagnostic = $diagnostic;
+
+        return $this;
+    }
 }

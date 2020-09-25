@@ -5,11 +5,19 @@ use App\Entity\CategoriePathologie;
 use App\Entity\CategorieTreatment;
 use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
+use App\Entity\Favorite;
+use App\Entity\ImageClinicalCase;
+use App\Entity\ImageClinicalCaseType;
 use App\Entity\Jobs;
+use App\Entity\Keyword;
+use App\Entity\MessageNotification;
 use App\Entity\Notation;
+use App\Entity\Notification;
 use App\Entity\Pathologie;
 use App\Entity\Patient;
 use App\Entity\Treatment;
+use App\Entity\Speciality;
+use App\Entity\Symptome;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -21,7 +29,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $user = new User();
 
-        // Réferenciel
+        // Traumatoloqgie
         $traumatologie = new CategoriePathologie();
         $traumatologie->setName("Traumatologie Facial");
         $manager->persist($traumatologie);
@@ -41,7 +49,56 @@ class AppFixtures extends Fixture
         $brulure->setCategorie($traumatologie);
         $manager->persist($brulure);
 
+        //Symptomes
+        $irritabilite = new Symptome();
+        $irritabilite->setName('Une irritabilité. ...');
+        $manager->persist($irritabilite);
 
+        $gencivesGonflees = new Symptome();
+        $gencivesGonflees->setName('Des gencives gonflées. ...');
+        $manager->persist($gencivesGonflees);
+
+        $gencivesRougesOrBleues = new Symptome();
+        $gencivesRougesOrBleues->setName('Des gencives rouges voir bleues. ...');
+        $manager->persist($gencivesRougesOrBleues);
+
+        $diarrheeLegere = new Symptome();
+        $diarrheeLegere->setName('Une diarrhée légère. ...');
+        $manager->persist($diarrheeLegere);
+
+        $fessesRougesAndIrritees = new Symptome();
+        $fessesRougesAndIrritees->setName('Des fesses rouges et irritées.');
+        $manager->persist($fessesRougesAndIrritees);
+
+        //Image clinical case type
+        $principal = new ImageClinicalCaseType();
+        $principal->setName("principal");
+        $manager->persist($principal);
+
+        $scanner = new ImageClinicalCaseType();
+        $scanner->setName("scanner");
+        $manager->persist($scanner);
+
+        $biopsy = new ImageClinicalCaseType();
+        $biopsy->setName("biopsy");
+        $manager->persist($biopsy);
+
+
+        $examen = new ImageClinicalCaseType();
+        $examen->setName("examen");
+        $manager->persist($examen);
+
+        $treatmentplan = new ImageClinicalCaseType();
+        $treatmentplan->setName("plan-de-traitement");
+        $manager->persist($treatmentplan);
+
+        $evolution = new ImageClinicalCaseType();
+        $evolution->setName("evolution");
+        $manager->persist($evolution);
+
+
+
+        // Treatement
         $omnipratique = new CategorieTreatment();
         $omnipratique->setName('Omnipratique');
         $manager->persist($omnipratique);
@@ -65,7 +122,88 @@ class AppFixtures extends Fixture
         $greffe->setCategorie($implantologie);
         $manager->persist($greffe);
 
+        //Speciality
+        $omnipratique = new Speciality();
+        $omnipratique->setName('Omnipratique');
+        $manager->persist($omnipratique);
 
+        $esthétique = new Speciality();
+        $esthétique->setName('Esthétique');
+        $manager->persist($esthétique);
+
+        $parodontie = new Speciality();
+        $parodontie->setName('Parodontie');
+        $manager->persist($parodontie);
+
+        $pedodontie = new Speciality();
+        $pedodontie->setName('Pedodontie');
+        $manager->persist($pedodontie);
+
+        $implantologie = new Speciality();
+        $implantologie->setName('Implantologie');
+        $manager->persist($implantologie);
+
+        $orthodontie = new Speciality();
+        $orthodontie->setName('Orthodontie');
+        $manager->persist($orthodontie);
+
+        $orthopédie = new Speciality();
+        $orthopédie->setName('Orthopédie');
+        $manager->persist($orthopédie);
+
+        $chirurgieBuccale = new Speciality();
+        $chirurgieBuccale->setName('Chirurgie buccale');
+        $manager->persist($chirurgieBuccale);
+
+        $chirurgieMaxillofaciale = new Speciality();
+        $chirurgieMaxillofaciale->setName('Chirurgie maxillofaciale');
+        $manager->persist($chirurgieMaxillofaciale);
+
+        $stomatologie = new Speciality();
+        $stomatologie->setName('Stomatologie');
+        $manager->persist($stomatologie);
+
+        $radiologie = new Speciality();
+        $radiologie->setName('Radiologie');
+        $manager->persist($radiologie);
+
+        $atm = new Speciality();
+        $atm->setName('ATM');
+        $manager->persist($atm);
+
+        $muqueuseOrale = new Speciality();
+        $muqueuseOrale->setName('Muqueuse orale');
+        $manager->persist($muqueuseOrale);
+
+        $gérodontologie = new Speciality();
+        $gérodontologie->setName('Gérodontologie');
+        $manager->persist($gérodontologie);
+
+        //keywords
+        $cancerKeyword = new Keyword();
+        $cancerKeyword->setName('Cancer');
+        $manager->persist($cancerKeyword);
+
+        $smokerKeyword = new Keyword();
+        $smokerKeyword->setName('Fumeur');
+        $manager->persist($smokerKeyword);
+
+   
+        $fractureKeyword = new Keyword();
+        $fractureKeyword->setName('Fracture');
+        $manager->persist($fractureKeyword);
+
+        $carAccidentKeyword = new Keyword();
+        $carAccidentKeyword->setName('Accident de voiture');
+        $manager->persist($carAccidentKeyword);
+
+        $allergieKeyword = new Keyword();
+        $allergieKeyword->setName('Allergie');
+        $manager->persist($allergieKeyword);
+
+
+
+        //Jobs
         $job1 = new Jobs();
         $job1->setName('Chirurgien Dentiste')
             ->setIdent('CD');
@@ -75,7 +213,7 @@ class AppFixtures extends Fixture
         $job2->setName('Etudiant Dentiste')
             ->setIdent('ED');
         $manager->persist($job2);
- 
+
         $job3 = new Jobs();
         $job3->setName('Dentiste Interne')
             ->setIdent('DI');
@@ -89,8 +227,10 @@ class AppFixtures extends Fixture
             ->setEmail('api@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job2)
+            ->setCreatedAt(new \DateTime('NOW'))
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
-        
+
         $manager->persist($user);
 
         $userAdmin = new User();
@@ -100,9 +240,11 @@ class AppFixtures extends Fixture
             ->setEmail('admin@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job1)
+            ->setCreatedAt(new \DateTime('NOW'))
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
-    
+            
         $manager->persist($userAdmin);
 
         $userModerator = new User();
@@ -112,23 +254,40 @@ class AppFixtures extends Fixture
             ->setEmail('moderator@dentiio.fr')
             ->setIsEnabled(true)
             ->setJob($job3)
+            ->setCreatedAt(new \DateTime('NOW'))
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
             ->setRoles(["ROLE_MODERATOR"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
-    
+
         $manager->persist($userModerator);
+
+        //Messages Notifications
+        $message1 = new MessageNotification();
+        $message1->setMessage("a publié un commentaire sur votre cas");
+        $manager->persist($message1);
+        $message2 = new MessageNotification();
+        $message2->setMessage("a noté votre cas");
+        $manager->persist($message2);
+        $message3 = new MessageNotification();
+        $message3->setMessage("vous a envoyé un message");
+        $manager->persist($message3);
+        $message4 = new MessageNotification();
+        $message4->setMessage("a participé à votre discussion");
+        $manager->persist($message4);
 
         // Cas Clinique
         for ($u=0; $u < 30; $u++){
-            $user = new User();
-            $user->setPrenom($faker->firstName)
+            $userBasic = new User();
+            $userBasic->setPrenom($faker->firstName)
                 ->setNom($faker->lastName)
                 ->setPseudo("$faker->lastName"."$faker->firstName")
                 ->setEmail($faker->email)
                 ->setIsEnabled(true)
                 ->setJob($faker->randomElement([$job1, $job2, $job3]))
+                ->setCreatedAt(new \DateTime('NOW'))
                 ->setPassword('$2y$13$Q27cK8NiNv7FFDjdKOoloO2FvukD4sKSZuCS8MY41n7yitBA2.Aj2');
 
-            $manager->persist($user);
+            $manager->persist($userBasic);
 
             for($c=0; $c < 5; $c++){
                 $patient = new Patient();
@@ -143,6 +302,7 @@ class AppFixtures extends Fixture
                 $clinicalCase->setUser($user)
                     ->setPatient($patient)
                     ->setCreatedAt(new \DateTime('NOW'))
+                    ->setTitle($faker->sentence)
                     ->setPresentation($faker->paragraph)
                     ->setEvolution($faker->paragraph)
                     ->setTreatmentPlan($faker->paragraph)
@@ -152,8 +312,56 @@ class AppFixtures extends Fixture
                     ->setUpdatedAt(new \DateTime('NOW'))
                     ->setAverage($faker->randomDigit)
                     ->setSmoking($faker->randomElement([true,false]))
-                    ->setIsEnabled($faker->randomElement([true,false]));
+                    ->setIsEnabled($faker->randomElement([true,false]))
+                    ->setReasonConsult($faker->sentence)
+                    ->setScanner($faker->sentence)
+                    ->setBiopsy($faker->sentence)
+                    ->setDiagnostic($faker->sentence)
+                    ->addSymptome($faker->randomElement([$irritabilite,$gencivesGonflees, $gencivesRougesOrBleues,$diarrheeLegere, $fessesRougesAndIrritees]));
+
+
+                    for($n=0; $n < rand(1, 5); $n++){
+
+                        $clinicalCase->addPathologie($faker->randomElement([$plaie,  $fracture, $brulure]))
+                        ->addKeyword($faker->randomElement([$allergieKeyword,  $carAccidentKeyword, $fractureKeyword, $smokerKeyword,$cancerKeyword]))
+                        ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]));
+                    }
+
                 $manager->persist($clinicalCase);
+
+                $imagePrincipal = new ImageClinicalCase();
+                $imagePrincipal->setClinicalCase($clinicalCase)
+                    ->setType($principal)
+                    ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
+                $manager->persist($imagePrincipal);
+
+                //Image Clinical case
+                for ($n=0; $n < rand(3, 5); $n++){
+                    $image = new ImageClinicalCase();
+                    $image->setClinicalCase($clinicalCase)
+                    ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen, $evolution]))
+                    ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
+                    $manager->persist($image);
+                }
+
+                //Notifications
+                $notification = new Notification();
+                $notification->setMessage($faker->randomElement([$message1, $message2, $message3, $message4]))
+                ->setCreatedAt(new \DateTime('NOW'))
+                ->setViewAt($faker->randomElement([new \DateTime('NOW'), null]))
+                ->setReceiver($faker->randomElement([$user, $userAdmin, $userModerator]))
+                ->setSender($faker->randomElement([$userBasic, $userModerator]))
+                ->setClinicalCase($clinicalCase);
+
+                $manager->persist($notification);
+
+                //Favorites
+                $favorite = new Favorite();
+                $favorite->setCreatedAt(new \DateTime('NOW'))
+                    ->setUserId($user)
+                    ->setClinicalCaseId($clinicalCase);
+
+                $manager->persist($favorite);
 
                 for ($n=0; $n < 5; $n++){
                     $notations = new Notation();

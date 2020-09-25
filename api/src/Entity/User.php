@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"users_read"}}
+ *     normalizationContext={"groups"={"users_read","jobs_read"}}
  * )
  * @UniqueEntity("email",message="L'email existe déjà")
  */
@@ -26,7 +26,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $id;
 
@@ -34,21 +34,21 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Le nom est obligatoire !")
      * @Assert\Email(message="Entrer une adresse mail valide")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $prenom;
 
@@ -56,7 +56,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=191, unique=true)
      * @Assert\NotBlank(message="Le pseudo est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le pseudo doit faire au minimum 3 caracteres")
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read"})
      */
     private $pseudo;
 
@@ -105,22 +105,59 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"users_read"})
+     * @Groups({"users_read","clinicalcase_read","jobs_read"})
      */
     private $job;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="userId", orphanRemoval=true)
+     * @ApiSubresource()
+     */
+    private $favorites;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="users")
+     * @Groups({"users_read"})
+     */
+    private $speciality;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Groups({"users_read"})
+     */
+    private $created_at;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="sender")
+     */
+    private $notificationsSend;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="receiver")
+     */
+    private $notificationsReceive;
 
     public function __construct()
     {
         $this->notations = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->clinicalCase = new ArrayCollection();
-        $this->job = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
+        $this->speciality = new ArrayCollection();
+        $this->notificationsSend = new ArrayCollection();
+        $this->notificationsReceive = new ArrayCollection();
     }
 
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -367,6 +404,133 @@ class User implements UserInterface
     public function setJob(?Jobs $job): self
     {
         $this->job = $job;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->setUserId($this);
+        }
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+            // set the owning side to null (unless already changed)
+            if ($favorite->getUserId() === $this) {
+                $favorite->setUserId(null);
+            }
+        }
+    }
+
+    /**
+     * @return Collection|Speciality[]
+     */
+    public function getSpeciality(): Collection
+    {
+        return $this->speciality;
+    }
+
+    public function addSpeciality(Speciality $speciality): self
+    {
+        if (!$this->speciality->contains($speciality)) {
+            $this->speciality[] = $speciality;
+        }
+
+        return $this;
+    }
+    
+    public function removeSpeciality(Speciality $speciality): self
+    {
+        if ($this->speciality->contains($speciality)) {
+            $this->speciality->removeElement($speciality);
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotificationsSend(): Collection
+    {
+        return $this->notificationsSend;
+    }
+
+    public function addNotificationsSend(Notification $notificationsSend): self
+    {
+        if (!$this->notificationsSend->contains($notificationsSend)) {
+            $this->notificationsSend[] = $notificationsSend;
+            $notificationsSend->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotificationsSend(Notification $notificationsSend): self
+    {
+        if ($this->notificationsSend->contains($notificationsSend)) {
+            $this->notificationsSend->removeElement($notificationsSend);
+            // set the owning side to null (unless already changed)
+            if ($notificationsSend->getSender() === $this) {
+                $notificationsSend->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotificationsReceive(): Collection
+    {
+        return $this->notificationsReceive;
+    }
+
+    public function addNotificationsReceive(Notification $notificationsReceive): self
+    {
+        if (!$this->notificationsReceive->contains($notificationsReceive)) {
+            $this->notificationsReceive[] = $notificationsReceive;
+            $notificationsReceive->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotificationsReceive(Notification $notificationsReceive): self
+    {
+        if ($this->notificationsReceive->contains($notificationsReceive)) {
+            $this->notificationsReceive->removeElement($notificationsReceive);
+            // set the owning side to null (unless already changed)
+            if ($notificationsReceive->getReceiver() === $this) {
+                $notificationsReceive->setReceiver(null);
+            }
+        }
 
         return $this;
     }
