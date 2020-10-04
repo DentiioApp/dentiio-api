@@ -6,9 +6,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(normalizationContext={
+ *          "groups"={"categorieTreatments_read"}
+ *     })
  * @ORM\Entity(repositoryClass="App\Repository\CategorieTreatmentRepository")
  */
 class CategorieTreatment
@@ -17,16 +20,19 @@ class CategorieTreatment
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"categorieTreatments_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=45)
+     * @Groups({"categorieTreatments_read"})
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Treatment", mappedBy="categorie")
+     * @Groups({"categorieTreatments_read"})
      */
     private $treatments;
 
