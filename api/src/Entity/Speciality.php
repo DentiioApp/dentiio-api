@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(normalizationContext={
@@ -41,10 +40,17 @@ class Speciality
      */
     private $clinicalCases;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Treatment", mappedBy="speciality")
+     * @Groups({"speciality_read"})
+     */
+    private $treatments;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->clinicalCases = new ArrayCollection();
+        $this->treatments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +121,37 @@ class Speciality
         if ($this->clinicalCases->contains($clinicalCase)) {
             $this->clinicalCases->removeElement($clinicalCase);
             $clinicalCase->removeSpeciality($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Treatment[]
+     */
+    public function getTreatments(): Collection
+    {
+        return $this->treatments;
+    }
+
+    public function addTreatment(Treatment $treatment): self
+    {
+        if (!$this->treatments->contains($treatment)) {
+            $this->treatments[] = $treatment;
+            $treatment->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTreatment(Treatment $treatment): self
+    {
+        if ($this->treatments->contains($treatment)) {
+            $this->treatments->removeElement($treatment);
+            // set the owning side to null (unless already changed)
+            if ($treatment->getCategorie() === $this) {
+                $treatment->setCategorie(null);
+            }
         }
 
         return $this;
