@@ -27,32 +27,38 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
         ];
     }
     public function convertImage(ViewEvent $event){
-        $imageClinicalCase = $event->getControllerResult();
+        $image = $event->getControllerResult();
         $methods = $event->getRequest()->getMethod();
-        if ($imageClinicalCase instanceof ImageClinicalCase && $methods == 'POST'){
-            $imageBase64 = $imageClinicalCase->getImage64();
-            $clinicalCase = $imageClinicalCase->getClinicalCase();
+//----------------------------------------ImageClinicalCase----------------------------   
+
+        if ($image instanceof ImageClinicalCase && $methods == 'POST'){
+            $imageBase64 = $image->getImage64();
+            $clinicalCase = $image->getClinicalCase();
             $path = $this->base64ToImage($imageBase64,$clinicalCase);
             if ($path != 'ErrorFormat'){
-                $imageClinicalCase->setPath($path);
+                $image->setPath($path);
             }else{
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
             }
         }
 
-//----------------------------------------USER----------------------------   
+//----------------------------------------User----------------------------   
      
-        if ($imageClinicalCase instanceof User && $methods == 'POST'){
+        if ($image instanceof User && $methods == 'PUT'){
             $imageBase64 = $user->getLicenceDoc();
             $user = $user->getUser();
             $path = $this->base64ToImageUser($imageBase64,$user);
             if ($path != 'ErrorFormat'){
-                $imageClinicalCase->setPath($path);
+                $image->setPath($path);
             }else{
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
             }
         }
     }
+
+//----------------------------------------------------------------------------------------  
+
+//----------------------------------------ImageClinicalCase----------------------------   
 
     public function base64ToImage($base64,$clinicalCase){
         $formatAuthorized = [
@@ -81,7 +87,7 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
         return "ErrorFormat";
     }
 
-//----------------------------------------USER----------------------------
+//----------------------------------------User----------------------------
 
     public function base64ToImageUser($base64,$user){
         $formatAuthorized = [
@@ -109,6 +115,8 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
         }
         return "ErrorFormat";
     }
+
+//----------------------------------------------------------------------------------------  
 
     public function getApplicationRootDir(){
         return $this->params->get('kernel.project_dir');
