@@ -27,16 +27,16 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
         ];
     }
     public function convertImage(ViewEvent $event){
-        $image = $event->getControllerResult();
+        $entityImage = $event->getControllerResult();
         $methods = $event->getRequest()->getMethod();
 //----------------------------------------ImageClinicalCase----------------------------   
 
-        if ($image instanceof ImageClinicalCase && $methods == 'POST'){
-            $imageBase64 = $image->getImage64();
-            $clinicalCase = $image->getClinicalCase();
+        if ($entityImage instanceof ImageClinicalCase && $methods == 'POST'){
+            $imageBase64 = $entityImage->getImage64();
+            $clinicalCase = $entityImage->getClinicalCase();
             $path = $this->base64ToImage($imageBase64,$clinicalCase);
             if ($path != 'ErrorFormat'){
-                $image->setPath($path);
+                $entityImage->setPath($path);
             }else{
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
             }
@@ -44,12 +44,12 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
 
 //----------------------------------------User----------------------------   
      
-        if ($image instanceof User && $methods == 'PUT'){
-            $imageBase64 = $user->getLicenceDoc();
-            $user = $user->getUser();
+        if ($entityImage instanceof User && $methods == 'PUT'){
+            $imageBase64 = $entityImage->getLicenceDoc();
+            $user = $entityImage->getUser();
             $path = $this->base64ToImageUser($imageBase64,$user);
             if ($path != 'ErrorFormat'){
-                $image->setPath($path);
+                $entityImage->setPath($path);
             }else{
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
             }
