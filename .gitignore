@@ -4,7 +4,6 @@
 .idea/
 
 api/.env
-api/composer.lock
 api/.env.local
 api/.env.local.php
 api/.env.*.local
