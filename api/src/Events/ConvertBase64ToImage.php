@@ -39,6 +39,19 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
             }
         }
+
+//----------------------------------------USER----------------------------   
+     
+        if ($imageClinicalCase instanceof User && $methods == 'POST'){
+            $imageBase64 = $user->getLicenceDoc();
+            $user = $user->getUser();
+            $path = $this->base64ToImageUser($imageBase64,$user);
+            if ($path != 'ErrorFormat'){
+                $imageClinicalCase->setPath($path);
+            }else{
+                throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
+            }
+        }
     }
 
     public function base64ToImage($base64,$clinicalCase){
@@ -63,6 +76,35 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
             $file = $pathFolder . $imageName;
             file_put_contents($file, $image_base64);
             $path = "clinicalCases/".$idClinicalCase."/".$imageName;
+            return $path;
+        }
+        return "ErrorFormat";
+    }
+
+//----------------------------------------USER----------------------------
+
+    public function base64ToImageUser($base64,$user){
+        $formatAuthorized = [
+            'jpg',
+            'jpeg',
+            "png",
+        ];
+        $idUser = $user->getId();
+        $webPath = $this->getApplicationRootDir() . '/public/images/users/';
+        $pathFolder = $webPath . $idUser . "/" ;
+        if (!file_exists($pathFolder)) {
+            mkdir($pathFolder, 0777, true);
+        }
+        $image_parts = explode(";base64,", $base64);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+
+        if(in_array($image_type,$formatAuthorized) ){
+            $image_base64 = base64_decode($image_parts[1]);
+            $imageName = uniqid().'.'.$image_type;
+            $file = $pathFolder . $imageName;
+            file_put_contents($file, $image_base64);
+            $path = "users/".$idUser."/".$imageName;
             return $path;
         }
         return "ErrorFormat";
