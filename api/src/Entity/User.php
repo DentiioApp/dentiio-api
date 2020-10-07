@@ -111,7 +111,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Avatar::class, mappedBy="user", cascade={"persist", "remove"})
-     * @Groups({"users_read","avatars_read"})
+     * @Groups({"users_read","avatars_read","clinicalcase_read"})
      */
     private $avatar;
 
