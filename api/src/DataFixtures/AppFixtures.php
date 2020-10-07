@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Avatar;
 use App\Entity\CategoriePathologie;
 use App\Entity\ClinicalCase;
 use App\Entity\Commentaire;
@@ -26,7 +27,6 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager){
         $faker = Factory::create('fr_FR');
-        $user = new User();
 
         // Traumatoloqgie
         $traumatologie = new CategoriePathologie();
@@ -441,6 +441,7 @@ class AppFixtures extends Fixture
 
         // Utilisateurs
 
+        $user = new User();
         $user->setPrenom('Nikita de Dentiio')
             ->setNom('dentiio')
             ->setPseudo('dentiio')
@@ -452,6 +453,22 @@ class AppFixtures extends Fixture
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
         $manager->persist($user);
+
+        $avatar = new Avatar();
+        $avatar->setAccessoriesType("Blank")
+            ->setClotheColor("Red")
+            ->setClotheType("ShirtCrewNeck")
+            ->setEyebrowType("Default")
+            ->setEyeType("Dizzy")
+            ->setFacialHairColor("BrownDark")
+            ->setFacialHairType("Blank")
+            ->setHairColor("BrownDark")
+            ->setMouthType("Smile")
+            ->setSkinColor("Brown")
+            ->setTopType("ShortHairShortWaved")
+            ->setUser($user);
+        $manager->persist($avatar);
+
 
         $userAdmin = new User();
         $userAdmin->setPrenom('admin')
@@ -467,6 +484,21 @@ class AppFixtures extends Fixture
 
         $manager->persist($userAdmin);
 
+        $avatar = new Avatar();
+        $avatar->setAccessoriesType("Blank")
+            ->setClotheColor("Red")
+            ->setClotheType("ShirtCrewNeck")
+            ->setEyebrowType("Default")
+            ->setEyeType("Dizzy")
+            ->setFacialHairColor("BrownDark")
+            ->setFacialHairType("Blank")
+            ->setHairColor("BrownDark")
+            ->setMouthType("Smile")
+            ->setSkinColor("Brown")
+            ->setTopType("ShortHairShortWaved")
+            ->setUser($userAdmin);
+        $manager->persist($avatar);
+
         $userModerator = new User();
         $userModerator->setPrenom('moderator')
             ->setNom('moderator')
@@ -480,6 +512,21 @@ class AppFixtures extends Fixture
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
         $manager->persist($userModerator);
+
+        $avatar = new Avatar();
+        $avatar->setAccessoriesType("Blank")
+            ->setClotheColor("Red")
+            ->setClotheType("ShirtCrewNeck")
+            ->setEyebrowType("Default")
+            ->setEyeType("Dizzy")
+            ->setFacialHairColor("BrownDark")
+            ->setFacialHairType("Blank")
+            ->setHairColor("BrownDark")
+            ->setMouthType("Smile")
+            ->setSkinColor("Brown")
+            ->setTopType("ShortHairShortWaved")
+            ->setUser($userModerator);
+        $manager->persist($avatar);
 
         //Messages Notifications
         $message1 = new MessageNotification();
