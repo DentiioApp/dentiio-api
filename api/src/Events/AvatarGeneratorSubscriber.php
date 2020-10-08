@@ -8,15 +8,25 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use App\Service\AvatarRandom;
 
 class AvatarGeneratorSubscriber implements EventSubscriberInterface {
 
     /** @var EntityManager */
     public $em;
 
-    public function __construct(EntityManagerInterface $em)
+    /** @var AvatarRandom */
+    public $avatarRandom;
+
+    public function __construct(EntityManagerInterface $em, AvatarRandom $avatarRandom)
     {
         $this->em = $em;
+        $this->avatarRandom = $avatarRandom;
+    }
+
+    public function randomElement($array){
+        $random_keys=array_rand($array,3);
+        return $array[$random_keys[0]];
     }
 
     public static function getSubscribedEvents(){
@@ -32,16 +42,17 @@ class AvatarGeneratorSubscriber implements EventSubscriberInterface {
             $avatar = new Avatar();
             $avatar->setUser($user)
                 ->setAccessoriesType("Blank")
-                ->setClotheColor("Blue")
-                ->setClotheType("ShirtCrewNeck")
-                ->setEyebrowType("Default")
-                ->setEyeType("Dizzy")
-                ->setFacialHairColor("BrownDark")
-                ->setFacialHairType("Blank")
-                ->setHairColor("BrownDark")
-                ->setMouthType("Smile")
-                ->setSkinColor("Yellow")
-                ->setTopType("ShortHairShortWaved");
+                ->setClotheColor($this->randomElement($this->avatarRandom->clothesColor))
+                ->setClotheType($this->randomElement($this->avatarRandom->clothes))
+                ->setEyebrowType($this->randomElement($this->avatarRandom->eyebrows))
+                ->setEyeType($this->randomElement($this->avatarRandom->eye))
+                ->setFacialHairColor($this->randomElement($this->avatarRandom->hairColor))
+                ->setFacialHairType($this->randomElement($this->avatarRandom->beard))
+                ->setHairColor($this->randomElement($this->avatarRandom->hairColor))
+                ->setMouthType($this->randomElement($this->avatarRandom->mouth))
+                ->setSkinColor($this->randomElement($this->avatarRandom->skinColor))
+                ->setTopType($this->randomElement($this->avatarRandom->hair))
+            ;
 
             $this->em->persist($avatar);
             $this->em->flush();
