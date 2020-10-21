@@ -1,6 +1,10 @@
 ![Dentiio Api](https://www.dentiio.com/img/logoblue.png)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DentiioApp_dentiio-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=DentiioApp_dentiio-api)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![CircleCI](https://circleci.com/gh/DentiioApp/dentiio-api.svg?style=svg)](https://app.circleci.com/pipelines/github/DentiioApp/dentiio-api)
+[![Known Vulnerabilities](https://snyk.io/test/github/dentiio/dentiio-front/badge.svg)](https://app.snyk.io/org/dentiio/projects)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8351686dd3932e5858a0/maintainability)](https://codeclimate.com/github/DentiioApp/dentiio-front/maintainability)
+[![dependencies](https://david-dm.org/DentiioApp/dentiio-front.svg)]()
 
 ----------------
 
