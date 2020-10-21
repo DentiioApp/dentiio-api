@@ -4,12 +4,15 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.4-node-browsers
+      - image: 'mariadb'
+        environment:
+          MYSQL_ROOT_PASSWORD: db_password
 
     steps:
       - checkout
 
       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip pdo_mysql
+      - run: sudo docker-php-ext-install zip pdo pdo_mysql
 
       # Download and cache dependencies
       - restore_cache:
