@@ -43,8 +43,8 @@
 
 ## :gear: Configuration
 0. Create a .env file on the api folder
-1. Copy .env_example in .env
-2. Update the variables on the .env at your environement 
+1. Override .env with create .env.local 
+2. Update the variables on the .env.local at your environement 
 3. Create a passphrase for the JWT Authentication
 
 
