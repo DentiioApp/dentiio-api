@@ -51,11 +51,11 @@ jobs:
 
       # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Validate composer.json and composer.lock
-        run: composer validate
+        run: cd api/ && composer validate
 
       - name: Get composer cache directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: cd api/ && echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache composer dependencies
         uses: actions/cache@v1
@@ -65,28 +65,28 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        run: make install
+        run: cd api/ && make install
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
       - name: Check Symfony requirements
-        run: vendor/bin/requirements-checker
+        run: cd api/ && vendor/bin/requirements-checker
 
       - name: Check the Symfony console
         run: |
-          php bin/console -V
-          php bin/console strangebuzz:version
+          cd api/ && php bin/console -V
+          cd api/ && php bin/console strangebuzz:version
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       - name: Coding standards checks (php_codesniffer + PHPStan)
-        run: make cs
+        run: cd api/ && make cs
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
       - name: Load Doctrine fixtures and populate the Elasticsearch indexes
         run: |
-          make load-fixtures
-          make populate
+          cd api/ && make load-fixtures
+          cd api/ && make populate
 
       - name: Run functionnal and unit tests
         run: |
-          cp phpunit.xml.ci phpunit.xml
-          make test
+          cd api/ && cp phpunit.xml.ci phpunit.xml
+          cd api/ && make test

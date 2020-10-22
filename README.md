@@ -4,6 +4,7 @@
 [![CircleCI](https://circleci.com/gh/DentiioApp/dentiio-api.svg?style=svg)](https://app.circleci.com/pipelines/github/DentiioApp/dentiio-api)
 [![Known Vulnerabilities](https://snyk.io/test/github/dentiio/dentiio-front/badge.svg)](https://app.snyk.io/org/dentiio/projects)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f0de0aab8c05ebffd234/maintainability)](https://codeclimate.com/github/DentiioApp/dentiio-api/maintainability)[![dependencies](https://david-dm.org/DentiioApp/dentiio-api.svg)]()
+[![CodeFactor](https://www.codefactor.io/repository/github/dentiioapp/dentiio-api/badge)](https://www.codefactor.io/repository/github/dentiioapp/dentiio-api)
 
 ----------------
 
