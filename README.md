@@ -4,7 +4,6 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/dentiio/dentiio-api/badge.svg)](https://app.snyk.io/org/dentiio/projects)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f0de0aab8c05ebffd234/maintainability)](https://codeclimate.com/github/DentiioApp/dentiio-api/maintainability)[![dependencies](https://david-dm.org/DentiioApp/dentiio-api.svg)]()
 [![CodeFactor](https://www.codefactor.io/repository/github/dentiioapp/dentiio-api/badge)](https://www.codefactor.io/repository/github/dentiioapp/dentiio-api)
-
 ----------------
 
 [Dentiio](https://www.dentiio.com/) Api is an [API Platefom](https://github.com/api-platform/api-platform)
