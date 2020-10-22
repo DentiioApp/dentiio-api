@@ -4,7 +4,6 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.4-node-browsers
-      - image: 'mariadb'
         environment:
           MYSQL_ROOT_PASSWORD: db_password
 
