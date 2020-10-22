@@ -3,6 +3,7 @@ name: Full CI process for Symfony 5
 on:
   push:
     branches:
+      - dev
       - master
 env:
   ES_HTTP_PORT: 9209
