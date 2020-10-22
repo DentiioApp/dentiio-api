@@ -5,6 +5,8 @@ on:
     branches:
       - dev
       - master
+  pull_request:
+    types: [opened, synchronize, reopened]
 env:
   ES_HTTP_PORT: 9209
 jobs:
