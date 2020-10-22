@@ -18,8 +18,7 @@ jobs:
       # however, curl seems to be the fastest
       - name: Install PHP_CodeSniffer
         run: |
-          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-          cd api/ && php phpcs.phar --version
+          cd api/ && curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && php phpcs.phar --version
 
       - uses: tinovyatkin/action-php-codesniffer@v1
         with:
