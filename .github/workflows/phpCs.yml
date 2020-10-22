@@ -1,7 +1,12 @@
 name: "PhpCs"
 
 on:
+  push:
+    branches:
+      - dev
+      - master
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - "**.php"
       - "phpcs.xml"
