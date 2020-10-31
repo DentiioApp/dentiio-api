@@ -3,12 +3,13 @@ namespace App\Events;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\ImageClinicalCase;
+use App\Entity\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ConvertBase64ToImage implements EventSubscriberInterface {
+class UploadLicenceDocUser implements EventSubscriberInterface {
     /* @var ParameterBagInterface */
     public $params;
 
@@ -19,33 +20,34 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
 
     public static function getSubscribedEvents(){
         return [
-            KernelEvents::VIEW =>['convertImage', EventPriorities::PRE_WRITE]
+            KernelEvents::VIEW =>['convertImage', EventPriorities::POST_WRITE]
         ];
     }
     public function convertImage(ViewEvent $event){
-        $imageClinicalCase = $event->getControllerResult();
+        $user = $event->getControllerResult();
         $methods = $event->getRequest()->getMethod();
-        if ($imageClinicalCase instanceof ImageClinicalCase && $methods == 'POST'){
-            $imageBase64 = $imageClinicalCase->getImage64();
-            $clinicalCase = $imageClinicalCase->getClinicalCase();
-            $path = $this->base64ToImage($imageBase64,$clinicalCase);
+        if ($user instanceof User && $methods == 'POST'){
+            $imageBase64 = $user->getImage64();
+            $path = $this->base64ToImage($imageBase64,$user);
             if ($path != 'ErrorFormat'){
-                $imageClinicalCase->setPath($path);
+                $user->setLicenceDoc($path);
+                $user->setImage64(null);
             }else{
-                throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
+                throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg', 'pdf' ou 'png'");
             }
         }
     }
 
-    public function base64ToImage($base64,$clinicalCase){
+    public function base64ToImage($base64,$user){
         $formatAuthorized = [
             'jpg',
             'jpeg',
             "png",
+            "pdf"
         ];
-        $idClinicalCase = $clinicalCase->getId();
-        $webPath = $this->getApplicationRootDir() . '/public/images/clinicalCases/';
-        $pathFolder = $webPath . $idClinicalCase . "/" ;
+        $idUser = $user->getId();
+        $webPath = $this->getApplicationRootDir() . '/public/images/users/';
+        $pathFolder = $webPath . $idUser . "/" ;
         if (!file_exists($pathFolder)) {
             mkdir($pathFolder, 0777, true);
         }
@@ -58,7 +60,7 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
             $imageName = uniqid().'.'.$image_type;
             $file = $pathFolder . $imageName;
             file_put_contents($file, $image_base64);
-            $path = "clinicalCases/".$idClinicalCase."/".$imageName;
+            $path = "users/".$idUser."/".$imageName;
             return $path;
         }
         return "ErrorFormat";

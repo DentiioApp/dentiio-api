@@ -32,21 +32,21 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank(message="Le nom est obligatoire !")
+     * @Assert\NotBlank(message="Le mail est obligatoire !")
      * @Assert\Email(message="Entrer une adresse mail valide")
      * @Groups({"users_read","clinicalcase_read"})
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
      * @Groups({"users_read","clinicalcase_read"})
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
      * @Groups({"users_read","clinicalcase_read"})
      */
@@ -76,10 +76,16 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255,nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"users_read"})
      */
     private $licenceDoc;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image64;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Notation", mappedBy="user")
@@ -104,7 +110,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"users_read","clinicalcase_read","jobs_read"})
      */
     private $job;
@@ -142,6 +148,12 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="receiver")
      */
     private $notificationsReceive;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"users_read"})
+     */
+    private $acceptCgu;
 
 
     public function __construct()
@@ -556,6 +568,36 @@ class User implements UserInterface
         if ($avatar->getUser() !== $this) {
             $avatar->setUser($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage64()
+    {
+        return $this->image64;
+    }
+
+    /**
+     * @param mixed $image64
+     * @return User
+     */
+    public function setImage64($image64)
+    {
+        $this->image64 = $image64;
+        return $this;
+    }
+
+    public function getAcceptCgu(): ?bool
+    {
+        return $this->acceptCgu;
+    }
+
+    public function setAcceptCgu(?bool $acceptCgu): self
+    {
+        $this->acceptCgu = $acceptCgu;
 
         return $this;
     }

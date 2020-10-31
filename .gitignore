@@ -11,6 +11,10 @@ api/src/Migrations
 api/var/
 api/vendor/
 api/.idea/
+api/public/images/clinicalCases/*
+!api/public/images/clinicalCases/.gitkeep
+api/public/images/users/*
+!api/public/images/users/.gitkeep
 
 .DS_Store
 ###< symfony/framework-bundle ###
