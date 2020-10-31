@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"users_read","jobs_read"}}
+ *     normalizationContext={"groups"={"users_read","jobs_read","avatars_read"}}
  * )
  * @UniqueEntity("email",message="L'email existe déjà")
  */
@@ -110,10 +110,17 @@ class User implements UserInterface
     private $job;
 
     /**
+     * @ORM\OneToOne(targetEntity=Avatar::class, mappedBy="user", cascade={"persist", "remove"})
+     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     */
+    private $avatar;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="userId", orphanRemoval=true)
      * @ApiSubresource()
      */
     private $favorites;
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="users")
      * @Groups({"users_read"})
@@ -135,6 +142,7 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="receiver")
      */
     private $notificationsReceive;
+
 
     public function __construct()
     {
@@ -451,7 +459,7 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
     public function removeSpeciality(Speciality $speciality): self
     {
         if ($this->speciality->contains($speciality)) {
@@ -530,6 +538,23 @@ class User implements UserInterface
             if ($notificationsReceive->getReceiver() === $this) {
                 $notificationsReceive->setReceiver(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?Avatar
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(Avatar $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        // set the owning side of the relation if necessary
+        if ($avatar->getUser() !== $this) {
+            $avatar->setUser($this);
         }
 
         return $this;

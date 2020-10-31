@@ -4,8 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Jobs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method Jobs|null find($id, $lockMode = null, $lockVersion = null)
  * @method Jobs|null findOneBy(array $criteria, array $orderBy = null)
