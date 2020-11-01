@@ -2,19 +2,24 @@
 namespace App\Events;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\ImageClinicalCase;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class UploadLicenceDocUser implements EventSubscriberInterface {
+
+    /** @var EntityManager */
+    public $em;
+
     /* @var ParameterBagInterface */
     public $params;
 
-    public function __construct(ParameterBagInterface $params)
+    public function __construct(EntityManagerInterface $em, ParameterBagInterface $params)
     {
+        $this->em = $em;
         $this->params = $params;
     }
 
@@ -32,6 +37,8 @@ class UploadLicenceDocUser implements EventSubscriberInterface {
             if ($path != 'ErrorFormat'){
                 $user->setLicenceDoc($path);
                 $user->setImage64(null);
+                $this->em->persist($user);
+                $this->em->flush();
             }else{
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg', 'pdf' ou 'png'");
             }

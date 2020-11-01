@@ -18,7 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ApiResource(
  *     normalizationContext={"groups"={"users_read","jobs_read","avatars_read"}}
  * )
- * @UniqueEntity("email",message="L'email existe déjà")
+ * @UniqueEntity("email", message="{{ value }} est déjà utilisé, veuillez en choisir un autre")
+ * @UniqueEntity("pseudo", message="{{ value }} est déjà utilisé, veuillez en choisir un autre")
  */
 class User implements UserInterface
 {
