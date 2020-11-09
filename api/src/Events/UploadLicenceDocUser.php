@@ -31,16 +31,18 @@ class UploadLicenceDocUser implements EventSubscriberInterface {
     public function convertImage(ViewEvent $event){
         $user = $event->getControllerResult();
         $methods = $event->getRequest()->getMethod();
-        if ($user instanceof User && $methods == 'POST'){
+        if ($user instanceof User && $methods == 'PUT'){
             $imageBase64 = $user->getImage64();
-            $path = $this->base64ToImage($imageBase64,$user);
-            if ($path != 'ErrorFormat'){
-                $user->setLicenceDoc($path);
-                $user->setImage64(null);
-                $this->em->persist($user);
-                $this->em->flush();
-            }else{
-                throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg', 'pdf' ou 'png'");
+            if ($imageBase64 != null) {
+                $path = $this->base64ToImage($imageBase64,$user);
+                if ($path != 'ErrorFormat'){
+                    $user->setLicenceDoc($path);
+                    $user->setImage64(null);
+                    $this->em->persist($user);
+                    $this->em->flush();
+                }else{
+                    throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg', 'pdf' ou 'png'");
+                }
             }
         }
     }
