@@ -47,6 +47,7 @@ class UploadLicenceDocUser implements EventSubscriberInterface {
         }
     }
 
+    //TODO D'ONT WORK WITH PDF
     public function base64ToImage($base64,$user){
         $formatAuthorized = [
             'jpg',
