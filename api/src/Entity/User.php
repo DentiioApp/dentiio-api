@@ -27,7 +27,7 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read","clinicalcase_read", "clinicalcaseOmni_read"})
      */
     private $id;
 
@@ -42,14 +42,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read","clinicalcase_read", "clinicalcaseOmni_read"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read","clinicalcase_read", "clinicalcaseOmni_read"})
      */
     private $prenom;
 
@@ -57,7 +57,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=191, unique=true)
      * @Assert\NotBlank(message="Le pseudo est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le pseudo doit faire au minimum 3 caracteres")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read","clinicalcase_read", "clinicalcaseOmni_read"})
      */
     private $pseudo;
 
@@ -112,13 +112,13 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
      * @ORM\JoinColumn(nullable=true)
-     * @Groups({"users_read","clinicalcase_read","jobs_read"})
+     * @Groups({"users_read","clinicalcase_read","jobs_read", "clinicalcaseOmni_read"})
      */
     private $job;
 
     /**
      * @ORM\OneToOne(targetEntity=Avatar::class, mappedBy="user", cascade={"persist", "remove"})
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcase_read", "clinicalcaseOmni_read"})
      */
     private $avatar;
 
@@ -156,6 +156,11 @@ class User implements UserInterface
      */
     private $acceptCgu;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ClinicalCaseOmnipratique::class, mappedBy="User")
+     */
+    private $clinicalCaseOmnipratiques;
+
 
     public function __construct()
     {
@@ -166,6 +171,7 @@ class User implements UserInterface
         $this->speciality = new ArrayCollection();
         $this->notificationsSend = new ArrayCollection();
         $this->notificationsReceive = new ArrayCollection();
+        $this->clinicalCaseOmnipratiques = new ArrayCollection();
     }
 
 
@@ -599,6 +605,37 @@ class User implements UserInterface
     public function setAcceptCgu(?bool $acceptCgu): self
     {
         $this->acceptCgu = $acceptCgu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ClinicalCaseOmnipratique[]
+     */
+    public function getClinicalCaseOmnipratiques(): Collection
+    {
+        return $this->clinicalCaseOmnipratiques;
+    }
+
+    public function addClinicalCaseOmnipratique(ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        if (!$this->clinicalCaseOmnipratiques->contains($clinicalCaseOmnipratique)) {
+            $this->clinicalCaseOmnipratiques[] = $clinicalCaseOmnipratique;
+            $clinicalCaseOmnipratique->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClinicalCaseOmnipratique(ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        if ($this->clinicalCaseOmnipratiques->contains($clinicalCaseOmnipratique)) {
+            $this->clinicalCaseOmnipratiques->removeElement($clinicalCaseOmnipratique);
+            // set the owning side to null (unless already changed)
+            if ($clinicalCaseOmnipratique->getUser() === $this) {
+                $clinicalCaseOmnipratique->setUser(null);
+            }
+        }
 
         return $this;
     }
