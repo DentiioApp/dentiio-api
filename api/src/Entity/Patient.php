@@ -63,6 +63,11 @@ class Patient
      */
     private $inTreatment;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ClinicalCaseOmnipratique::class, mappedBy="Patient", cascade={"persist", "remove"})
+     */
+    private $clinicalCaseOmnipratique;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +141,24 @@ class Patient
     public function setInTreatment(string $inTreatment): self
     {
         $this->inTreatment = $inTreatment;
+
+        return $this;
+    }
+
+    public function getClinicalCaseOmnipratique(): ?ClinicalCaseOmnipratique
+    {
+        return $this->clinicalCaseOmnipratique;
+    }
+
+    public function setClinicalCaseOmnipratique(?ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        $this->clinicalCaseOmnipratique = $clinicalCaseOmnipratique;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newPatient = null === $clinicalCaseOmnipratique ? null : $this;
+        if ($clinicalCaseOmnipratique->getPatient() !== $newPatient) {
+            $clinicalCaseOmnipratique->setPatient($newPatient);
+        }
 
         return $this;
     }
