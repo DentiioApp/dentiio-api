@@ -24,7 +24,7 @@ services:
             - './config/nginx:/etc/nginx/conf.d:cached'
 
     database:
-        image: 'mariadb'
+        image: 'mariadb:10.5'
         container_name: dentiio-database
         restart: 'on-failure'
         ports:

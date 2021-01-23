@@ -15,5 +15,4 @@ RUN apt-get install -y libpng-dev libfreetype6-dev libjpeg62-turbo-dev && \
     docker-php-ext-install -j$(nproc) gd && \
     docker-php-ext-install exif
 
-RUN curl --silent --show-error https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.19

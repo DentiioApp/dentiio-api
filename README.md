@@ -35,8 +35,9 @@
 ## 📋 Requirements
 - 🛠Make
 - :elephant: PHP-fpm >= 7.3 
-- MariaDB 
-- NGINX >= 1.13.6  
+- MariaDB = 10.5
+- NGINX >= 1.13.6
+- Composer = 1.10.19
 - 🐳Docker
 
 ## :gear: Configuration
