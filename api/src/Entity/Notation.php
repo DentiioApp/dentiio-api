@@ -24,7 +24,7 @@ class Notation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $id;
 
@@ -32,19 +32,19 @@ class Notation
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Vous devez inserez une note")
      * @Assert\Type(type="integer", message="Vous devez inserez un entier")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $note;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="notations")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $user;
 

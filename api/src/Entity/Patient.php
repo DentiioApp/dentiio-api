@@ -17,13 +17,13 @@ class Patient
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      * @Assert\NotBlank(message="L'age est obligatoire !")
      */
     private $age;
@@ -31,27 +31,27 @@ class Patient
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le genre est obligatoire !")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $gender;
 
     /**
      * @ORM\Column(type="boolean")
      * @Assert\NotBlank(message="L'attribut est un fumeur est obligatoire !")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $isASmoker;
 
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $problemHealth;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $inTreatment;
 
@@ -62,16 +62,19 @@ class Patient
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $isDrinker;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $reasonConsult;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $allergie;
 

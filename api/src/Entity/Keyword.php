@@ -21,13 +21,13 @@ class Keyword
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"clinicalcase_read", "keyword_read"})
+     * @Groups({"clinicalcaseOmni_read", "keyword_read"})
      */
     private $name;
 

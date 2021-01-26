@@ -21,26 +21,26 @@ class Commentaire
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Inserez un commentaire")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $comment;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentaires")
-     * @Groups({"clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $user;
 
