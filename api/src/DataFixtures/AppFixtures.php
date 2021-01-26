@@ -4,10 +4,12 @@ namespace App\DataFixtures;
 use App\Entity\Avatar;
 use App\Entity\CategoriePathologie;
 use App\Entity\ClinicalCase;
+use App\Entity\ClinicalCaseOmnipratique;
 use App\Entity\Commentaire;
 use App\Entity\Favorite;
 use App\Entity\ImageClinicalCase;
 use App\Entity\ImageClinicalCaseType;
+use App\Entity\ImgClinicalCaseOmnipratique;
 use App\Entity\Jobs;
 use App\Entity\Keyword;
 use App\Entity\MessageNotification;
@@ -562,50 +564,38 @@ class AppFixtures extends Fixture
             ->setIsASmoker($faker->boolean)
             ->setInTreatment('Aucun')
             ->setProblemHealth('Aucun')
+            ->setAllergie("Codéine")
+            ->setIsDrinker($faker->boolean)
+            ->setReasonConsult("Accident de voiture")
         ;
         $manager->persist($patient);
 
-        $clinicalCase = new ClinicalCase();
-        $clinicalCase->setUser($user)
+        $clinicalCaseOmni = new ClinicalCaseOmnipratique();
+        $clinicalCaseOmni->setUser($user)
             ->setPatient($patient)
             ->setCreatedAt(new \DateTime('NOW'))
             ->setTitle("Gingivite complexe")
-            ->setPresentation("Patient de 25 ans, non fumeur, sans antécédents médicaux. Il a perdu les dents supero-antérieures il y a 10 ans lors d’un accident de voiture. Les dents infero-anterieur ont une légère mobilité et sont douloureuses depuis quelques jours.")
-            ->setEvolution("Evolution au bout d’un mois après le traitement. Plus de movilité, plus de douleur.")
-            ->setTreatmentPlan("Mise sous antibiotique (amoxicilline acide clavulanique) pour diminuer la douleur. Traitement endodontique des 3 incisives inférieures restantes 3 jours après plus surfaçage de la zone.")
-            ->setObservation("A la radio panoramique on observe un kyste qui englobe les racine de 31 41 42 et l’absence de 32.")
-            ->setConclusion("Traitement réussi avec succès. A surveiller, le patient revient dans 6 mois pour un contrôle")
-            ->setAge($faker->randomDigit)
-            ->setUpdatedAt(new \DateTime('NOW'))
-            ->setAverage($faker->randomDigit)
-            ->setSmoking($faker->randomElement([true,false]))
-            ->setIsEnabled($faker->randomElement([true,false]))
-            ->setReasonConsult("La patient a des douleurs au niveau de la gencive")
-            ->setScanner("Aucun scanner")
-            ->setBiopsy("Aucune")
-            ->setDiagnostic("Kyste traumatique")
-            ->addSymptome($faker->randomElement([$irritabilite,$gencivesGonflees, $gencivesRougesOrBleues,$diarrheeLegere, $fessesRougesAndIrritees]));
+            ->setExamDescription("Description des examen")
+            ->setIsEnable(true)
+            ->setPathologie("Fracture")
+            ->setTreatmentDescription("Description des étapes de traitements")
+            ;
 
-        for($n=0; $n < rand(1, 5); $n++){
 
-            $clinicalCase->addPathologie($faker->randomElement([$plaie,  $fracture, $brulure]))
-                ->addKeyword($faker->randomElement([$allergieKeyword,  $carAccidentKeyword, $fractureKeyword, $smokerKeyword,$cancerKeyword,$fractureKeyword,$Alcool,$Greffe,$Enfant, $Douleur, $Parodontie]))
-                ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]));
-        }
+        $manager->persist($clinicalCaseOmni);
 
-        $manager->persist($clinicalCase);
-
-        $imagePrincipal = new ImageClinicalCase();
-        $imagePrincipal->setClinicalCase($clinicalCase)
-            ->setType($principal)
+        $imagePrincipal = new ImgClinicalCaseOmnipratique();
+        $imagePrincipal->setClinicalsCaseOmnipratique($clinicalCaseOmni)
+            ->setType($examen)
+            ->setIsPrincipal(true)
             ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
         $manager->persist($imagePrincipal);
 
         //Image Clinical case
         for ($n=0; $n < rand(5, 9); $n++){
-            $image = new ImageClinicalCase();
-            $image->setClinicalCase($clinicalCase)
-                ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen, $evolution]))
+            $image = new ImgClinicalCaseOmnipratique();
+            $image->setClinicalsCaseOmnipratique($clinicalCaseOmni)
+                ->setType($faker->randomElement([$treatmentplan, $examen]))
                 ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
             $manager->persist($image);
         }
@@ -782,7 +772,7 @@ niveau du cou.")
 
 
 
-        //Notifications
+        /**Notifications
         $notification = new Notification();
         $notification->setMessage($faker->randomElement([$message1, $message2, $message3, $message4]))
             ->setCreatedAt(new \DateTime('NOW'))
@@ -811,12 +801,13 @@ niveau du cou.")
             $manager->persist($notations);
 
         }
+         **/
         for ($co=0; $co < 5; $co++){
             $commentaire = new Commentaire();
             $commentaire->setCreatedAt(new \DateTime('NOW'))
                 ->setComment($faker->paragraph)
                 ->setUser($user)
-                ->setClinicalCase($clinicalCase);
+                ->setClinicalCaseOmnipratique($clinicalCaseOmni);
 
             $manager->persist($commentaire);
 
