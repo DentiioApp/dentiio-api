@@ -42,24 +42,16 @@ class Patient
      */
     private $isASmoker;
 
-    /**
-     * @ORM\Column(type="boolean")
-     * @Assert\NotBlank(message="L'attribut si le patient a eu un antecedent medical est obligatoire !")
-     * @Groups({"clinicalcase_read"})
-     */
-    private $isMedicalBackground;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"clinicalcase_read"})
-     * @Assert\NotBlank(message="Les problemes de santé du patient est obligatoire !")
      */
     private $problemHealth;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"clinicalcase_read"})
-     * @Assert\NotBlank(message="Les traitements du patient est obligatoire !")
      */
     private $inTreatment;
 
@@ -67,6 +59,21 @@ class Patient
      * @ORM\OneToOne(targetEntity=ClinicalCaseOmnipratique::class, mappedBy="Patient", cascade={"persist", "remove"})
      */
     private $clinicalCaseOmnipratique;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isDrinker;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $reasonConsult;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $allergie;
 
     public function getId(): ?int
     {
@@ -114,12 +121,6 @@ class Patient
         return $this->isMedicalBackground;
     }
 
-    public function setIsMedicalBackground(bool $isMedicalBackground): self
-    {
-        $this->isMedicalBackground = $isMedicalBackground;
-
-        return $this;
-    }
 
     public function getProblemHealth(): ?string
     {
@@ -159,6 +160,42 @@ class Patient
         if ($clinicalCaseOmnipratique->getPatient() !== $newPatient) {
             $clinicalCaseOmnipratique->setPatient($newPatient);
         }
+
+        return $this;
+    }
+
+    public function getIsDrinker(): ?bool
+    {
+        return $this->isDrinker;
+    }
+
+    public function setIsDrinker(?bool $isDrinker): self
+    {
+        $this->isDrinker = $isDrinker;
+
+        return $this;
+    }
+
+    public function getReasonConsult(): ?string
+    {
+        return $this->reasonConsult;
+    }
+
+    public function setReasonConsult(?string $reasonConsult): self
+    {
+        $this->reasonConsult = $reasonConsult;
+
+        return $this;
+    }
+
+    public function getAllergie(): ?string
+    {
+        return $this->allergie;
+    }
+
+    public function setAllergie(?string $allergie): self
+    {
+        $this->allergie = $allergie;
 
         return $this;
     }

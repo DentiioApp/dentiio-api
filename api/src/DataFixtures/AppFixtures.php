@@ -560,7 +560,6 @@ class AppFixtures extends Fixture
         $patient->setAge($faker->randomNumber($nbDigits = 2, $strict = true))
             ->setGender($faker->randomElement(["Masculin", "Féminin"]))
             ->setIsASmoker($faker->boolean)
-            ->setIsMedicalBackground($faker->boolean)
             ->setInTreatment('Aucun')
             ->setProblemHealth('Aucun')
         ;
