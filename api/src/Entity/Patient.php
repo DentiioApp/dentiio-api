@@ -116,11 +116,6 @@ class Patient
         return $this;
     }
 
-    public function getIsMedicalBackground(): ?bool
-    {
-        return $this->isMedicalBackground;
-    }
-
 
     public function getProblemHealth(): ?string
     {
