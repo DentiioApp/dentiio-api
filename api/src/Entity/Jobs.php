@@ -28,13 +28,13 @@ class Jobs
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Groups({"users_read","jobs_read","clinicalcase_read"})
+     * @Groups({"users_read","jobs_read","clinicalcaseOmni_read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=3)
-     * @Groups({"users_read","jobs_read","clinicalcase_read"})
+     * @Groups({"users_read","jobs_read","clinicalcaseOmni_read"})
      */
     private $ident;
 
