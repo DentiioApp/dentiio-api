@@ -1,36 +1,44 @@
 <?php
 namespace App\Events;
-
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\ImageClinicalCase;
+use App\Entity\ImgClinicalCaseOmnipratique;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ConvertBase64ToImage implements EventSubscriberInterface {
+class UploadImgCcOmni implements EventSubscriberInterface {
+
+    /** @var EntityManager */
+    public $em;
+
     /* @var ParameterBagInterface */
     public $params;
 
-    public function __construct(ParameterBagInterface $params)
+    public function __construct(EntityManagerInterface $em, ParameterBagInterface $params)
     {
+        $this->em = $em;
         $this->params = $params;
     }
 
     public static function getSubscribedEvents(){
         return [
-            KernelEvents::VIEW =>['convertImage', EventPriorities::PRE_WRITE]
+            KernelEvents::VIEW =>['convertImage', EventPriorities::POST_WRITE]
         ];
     }
     public function convertImage(ViewEvent $event){
         $imageClinicalCase = $event->getControllerResult();
         $methods = $event->getRequest()->getMethod();
-        if ($imageClinicalCase instanceof ImageClinicalCase && $methods == 'POST'){
+        if ($imageClinicalCase instanceof ImgClinicalCaseOmnipratique && $methods == 'POST'){
             $imageBase64 = $imageClinicalCase->getImage64();
-            $clinicalCase = $imageClinicalCase->getClinicalCase();
+            $clinicalCase = $imageClinicalCase->getClinicalsCaseOmnipratique();
             $path = $this->base64ToImage($imageBase64,$clinicalCase);
             if ($path != 'ErrorFormat'){
-                $imageClinicalCase->setPath($path);
+                $imageClinicalCase->setPath($path)
+                ->setImage64(null);
+                $this->em->persist($imageClinicalCase);
+                $this->em->flush();
             }else{
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
             }
@@ -44,7 +52,7 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
             "png",
         ];
         $idClinicalCase = $clinicalCase->getId();
-        $webPath = $this->getApplicationRootDir() . '/public/images/clinicalCases/';
+        $webPath = $this->getApplicationRootDir() . '/public/images/clinicalCasesOmnipratique/';
         $pathFolder = $webPath . $idClinicalCase . "/" ;
         if (!file_exists($pathFolder)) {
             mkdir($pathFolder, 0777, true);
@@ -58,7 +66,7 @@ class ConvertBase64ToImage implements EventSubscriberInterface {
             $imageName = uniqid().'.'.$image_type;
             $file = $pathFolder . $imageName;
             file_put_contents($file, $image_base64);
-            $path = "clinicalCases/".$idClinicalCase."/".$imageName;
+            $path = "clinicalCasesOmnipratique/".$idClinicalCase."/".$imageName;
             return $path;
         }
         return "ErrorFormat";
