@@ -15,6 +15,8 @@ api/public/images/clinicalCases/*
 !api/public/images/clinicalCases/.gitkeep
 api/public/images/users/*
 !api/public/images/users/.gitkeep
+api/public/images/clinicalCasesOmnipratique/*
+!api/public/images/clinicalCasesOmnipratique/.gitkeep
 
 .DS_Store
 ###< symfony/framework-bundle ###
