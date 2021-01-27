@@ -23,7 +23,7 @@ class ImgClinicalCaseOmnipratique
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ImageClinicalCaseType::class, inversedBy="imgClinicalCaseOmnipratiques")
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"clinicalcaseOmni_read"})
      */
     private $type;
@@ -54,12 +54,12 @@ class ImgClinicalCaseOmnipratique
         return $this->id;
     }
 
-    public function getType(): ?ImageClinicalCaseType
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(?ImageClinicalCaseType $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 

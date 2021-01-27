@@ -20,13 +20,13 @@ class Speciality
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"users_read","clinicalcase_read", "clinicalcaseOmni_read"})
+     * @Groups({"users_read", "clinicalcaseOmni_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"users_read","clinicalcase_read", "speciality_read", "clinicalcaseOmni_read"})
+     * @Groups({"users_read", "speciality_read", "clinicalcaseOmni_read"})
      */
     private $name;
 

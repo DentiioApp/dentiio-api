@@ -20,73 +20,73 @@ class Avatar
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $topType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $accessoriesType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $hairColor;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $facialHairType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $facialHairColor;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $clotheType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $clotheColor;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $eyeType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $eyebrowType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $mouthType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"users_read","avatars_read","clinicalcase_read"})
+     * @Groups({"users_read","avatars_read","clinicalcaseOmni_read"})
      */
     private $skinColor;
 

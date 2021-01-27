@@ -36,8 +36,8 @@ class UploadLicenceDocUser implements EventSubscriberInterface {
             if ($imageBase64 != null) {
                 $path = $this->base64ToImage($imageBase64,$user);
                 if ($path != 'ErrorFormat'){
-                    $user->setLicenceDoc($path);
-                    $user->setImage64(null);
+                    $user->setLicenceDoc($path)
+                    ->setImage64(null);
                     $this->em->persist($user);
                     $this->em->flush();
                 }else{

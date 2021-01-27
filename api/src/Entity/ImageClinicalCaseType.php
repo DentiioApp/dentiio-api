@@ -27,15 +27,6 @@ class ImageClinicalCaseType
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ImgClinicalCaseOmnipratique::class, mappedBy="type")
-     */
-    private $imgClinicalCaseOmnipratiques;
-
-    public function __construct()
-    {
-        $this->imgClinicalCaseOmnipratiques = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -54,34 +45,4 @@ class ImageClinicalCaseType
         return $this;
     }
 
-    /**
-     * @return Collection|ImgClinicalCaseOmnipratique[]
-     */
-    public function getImgClinicalCaseOmnipratiques(): Collection
-    {
-        return $this->imgClinicalCaseOmnipratiques;
-    }
-
-    public function addImgClinicalCaseOmnipratique(ImgClinicalCaseOmnipratique $imgClinicalCaseOmnipratique): self
-    {
-        if (!$this->imgClinicalCaseOmnipratiques->contains($imgClinicalCaseOmnipratique)) {
-            $this->imgClinicalCaseOmnipratiques[] = $imgClinicalCaseOmnipratique;
-            $imgClinicalCaseOmnipratique->setType($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImgClinicalCaseOmnipratique(ImgClinicalCaseOmnipratique $imgClinicalCaseOmnipratique): self
-    {
-        if ($this->imgClinicalCaseOmnipratiques->contains($imgClinicalCaseOmnipratique)) {
-            $this->imgClinicalCaseOmnipratiques->removeElement($imgClinicalCaseOmnipratique);
-            // set the owning side to null (unless already changed)
-            if ($imgClinicalCaseOmnipratique->getType() === $this) {
-                $imgClinicalCaseOmnipratique->setType(null);
-            }
-        }
-
-        return $this;
-    }
 }

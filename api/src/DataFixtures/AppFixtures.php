@@ -586,7 +586,7 @@ class AppFixtures extends Fixture
 
         $imagePrincipal = new ImgClinicalCaseOmnipratique();
         $imagePrincipal->setClinicalsCaseOmnipratique($clinicalCaseOmni)
-            ->setType($examen)
+            ->setType($faker->randomElement(["treatment", "examen"]))
             ->setIsPrincipal(true)
             ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
         $manager->persist($imagePrincipal);
@@ -595,7 +595,7 @@ class AppFixtures extends Fixture
         for ($n=0; $n < rand(5, 9); $n++){
             $image = new ImgClinicalCaseOmnipratique();
             $image->setClinicalsCaseOmnipratique($clinicalCaseOmni)
-                ->setType($faker->randomElement([$treatmentplan, $examen]))
+                ->setType($faker->randomElement(["treatment", "examen"]))
                 ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
             $manager->persist($image);
         }
@@ -609,7 +609,7 @@ class AppFixtures extends Fixture
         ;
         $manager->persist($patient1);
 
-        $clinicalCase1 = new ClinicalCase();
+        /**$clinicalCase1 = new ClinicalCase();
         $clinicalCase1->setUser($user)
             ->setPatient($patient1)
             ->setCreatedAt(new \DateTime('NOW'))
@@ -641,7 +641,7 @@ class AppFixtures extends Fixture
 
         $imagePrincipal = new ImageClinicalCase();
         $imagePrincipal->setClinicalCase($clinicalCase1)
-            ->setType($principal)
+            ->setType($faker->randomElement(["treatment", "examen"]))
             ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
         $manager->persist($imagePrincipal);
 
@@ -649,7 +649,7 @@ class AppFixtures extends Fixture
         for ($n=0; $n < rand(5, 9); $n++){
             $image = new ImageClinicalCase();
             $image->setClinicalCase($clinicalCase1)
-                ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen, $evolution]))
+                ->setType($faker->randomElement(["treatment", "examen"]))
                 ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
             $manager->persist($image);
         }
@@ -697,7 +697,7 @@ niveau du cou.")
 
         $imagePrincipal = new ImageClinicalCase();
         $imagePrincipal->setClinicalCase($clinicalCase2)
-            ->setType($principal)
+            ->setType($faker->randomElement(["treatment", "examen"]))
             ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
         $manager->persist($imagePrincipal);
 
@@ -705,7 +705,7 @@ niveau du cou.")
         for ($n=0; $n < rand(5, 9); $n++){
             $image = new ImageClinicalCase();
             $image->setClinicalCase($clinicalCase2)
-                ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen, $evolution]))
+                ->setType($faker->randomElement(["treatment", "examen"]))
                 ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
             $manager->persist($image);
         }
@@ -752,7 +752,7 @@ niveau du cou.")
 
         $imagePrincipal = new ImageClinicalCase();
         $imagePrincipal->setClinicalCase($clinicalCase3)
-            ->setType($principal)
+            ->setType($faker->randomElement(["treatment", "examen"]))
             ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
         $manager->persist($imagePrincipal);
 
@@ -760,10 +760,10 @@ niveau du cou.")
         for ($n=0; $n < rand(5, 9); $n++){
             $image = new ImageClinicalCase();
             $image->setClinicalCase($clinicalCase3)
-                ->setType($faker->randomElement([$scanner, $biopsy, $treatmentplan, $examen, $evolution]))
+                ->setType($faker->randomElement(["treatment", "examen"]))
                 ->setPath($faker->randomElement(["fixtures/1apres.jpg", "fixtures/1avant.jpg", "fixtures/dent-necrose.jpg", "fixtures/dent-sur-numerer.jpg", "fixtures/gencive.jpg", "fixtures/gout.jpg", "fixtures/radio.jpg"]));
             $manager->persist($image);
-        }
+        }**/
 
 
 
