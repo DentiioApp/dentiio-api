@@ -46,6 +46,7 @@ class ImgClinicalCaseOmnipratique
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $isPrincipal;
 
