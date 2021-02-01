@@ -13,6 +13,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD}}
           key: ${{ secrets.SSH_KEY }}
           script: |
             deployda
