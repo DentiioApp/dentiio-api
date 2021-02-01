@@ -17,6 +17,7 @@ jobs:
           script: |
             cd /var/www/html/dentiio-api
             sudo git pull origin develop
+            cd /var/www/html/dentiio-api/api
             sudo composer update --no-plugins --no-scripts
             sudo composer install --no-plugins --no-scripts
             sudo php bin/console c:c --no-warmup --env=prod
