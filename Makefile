@@ -63,7 +63,9 @@ jwt:
 	# $(EXEC) composer require jwt-auth
 	$(EXEC) /bin/bash -c 'chmod +x ./jwt.sh'
 	$(EXEC) /bin/bash -c './jwt.sh'
+	$(EXEC) chmod 644 ./config/jwt/private.pem
+	$(EXEC) chmod -R 0777 ./public/images
 
 .PHONY: all ## Install all & start the project
-all: install composer fixtures
+all: install composer fixtures jwt
 
