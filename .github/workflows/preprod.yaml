@@ -15,4 +15,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD}}
           script: |
-            deployda
+            cd /var/www/html/dentiio-api
+            sudo git pull origin develop
+            sudo composer update --no-plugins --no-scripts
+            sudo composer install --no-plugins --no-scripts
+            sudo php bin/console c:c --no-warmup --env=prod
