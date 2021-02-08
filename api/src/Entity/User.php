@@ -158,6 +158,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=ClinicalCaseOmnipratique::class, mappedBy="User")
+     * @ApiSubresource()
      */
     private $clinicalCaseOmnipratiques;
 
