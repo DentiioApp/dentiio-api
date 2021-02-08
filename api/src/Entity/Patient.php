@@ -37,7 +37,6 @@ class Patient
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank(message="L'attribut est un fumeur est obligatoire !")
      * @Groups({"clinicalcaseOmni_read"})
      */
     private $isASmoker;
