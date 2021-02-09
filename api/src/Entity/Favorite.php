@@ -25,12 +25,6 @@ class Favorite
     private $userId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\clinicalcase", inversedBy="favorites")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $clinicalCaseId;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -53,18 +47,6 @@ class Favorite
     public function setUserId(?user $userId): self
     {
         $this->userId = $userId;
-
-        return $this;
-    }
-
-    public function getClinicalCaseId(): ?clinicalcase
-    {
-        return $this->clinicalCaseId;
-    }
-
-    public function setClinicalCaseId(?clinicalcase $clinicalCaseId): self
-    {
-        $this->clinicalCaseId = $clinicalCaseId;
 
         return $this;
     }

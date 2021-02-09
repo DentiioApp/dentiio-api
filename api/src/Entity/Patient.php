@@ -36,7 +36,7 @@ class Patient
     private $gender;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      * @Groups({"clinicalcaseOmni_read"})
      */
     private $isASmoker;
@@ -64,6 +64,12 @@ class Patient
      * @Groups({"clinicalcaseOmni_read"})
      */
     private $isDrinker;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
+     */
+    private $isPregnant;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -169,6 +175,18 @@ class Patient
     public function setIsDrinker(?bool $isDrinker): self
     {
         $this->isDrinker = $isDrinker;
+
+        return $this;
+    }
+
+    public function getIsPregnant(): ?bool
+    {
+        return $this->isPregnant;
+    }
+
+    public function setIsPregnant(?bool $isPregnant): self
+    {
+        $this->isPregnant = $isPregnant;
 
         return $this;
     }
