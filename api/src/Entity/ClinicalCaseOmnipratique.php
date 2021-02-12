@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource(
  *     normalizationContext={
  *          "groups"={"clinicalcaseOmni_read"}
- *     }
+ *     },
+ *     attributes={"order"={"created_at": "DESC"}}
  * )
  * @ORM\Entity(repositoryClass=ClinicalCaseOmnipratiqueRepository::class)
  */
