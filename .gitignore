@@ -1,9 +1,7 @@
 
 ###> symfony/framework-bundle ###
-.env
 .idea/
 
-api/.env
 api/.env.local
 api/.env.local.php
 api/.env.*.local
@@ -13,6 +11,12 @@ api/src/Migrations
 api/var/
 api/vendor/
 api/.idea/
+api/public/images/clinicalCases/*
+!api/public/images/clinicalCases/.gitkeep
+api/public/images/users/*
+!api/public/images/users/.gitkeep
+api/public/images/clinicalCasesOmnipratique/*
+!api/public/images/clinicalCasesOmnipratique/.gitkeep
 
 .DS_Store
 ###< symfony/framework-bundle ###

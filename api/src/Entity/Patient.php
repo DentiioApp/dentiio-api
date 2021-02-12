@@ -17,13 +17,13 @@ class Patient
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      * @Assert\NotBlank(message="L'age est obligatoire !")
      */
     private $age;
@@ -31,37 +31,57 @@ class Patient
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le genre est obligatoire !")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $gender;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Assert\NotBlank(message="L'attribut est un fumeur est obligatoire !")
-     * @Groups({"clinicalcase_read"})
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $isASmoker;
 
-    /**
-     * @ORM\Column(type="boolean")
-     * @Assert\NotBlank(message="L'attribut si le patient a eu un antecedent medical est obligatoire !")
-     * @Groups({"clinicalcase_read"})
-     */
-    private $isMedicalBackground;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"clinicalcase_read"})
-     * @Assert\NotBlank(message="Les problemes de santé du patient est obligatoire !")
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $problemHealth;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"clinicalcase_read"})
-     * @Assert\NotBlank(message="Les traitements du patient est obligatoire !")
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $inTreatment;
+
+    /**
+     * @ORM\OneToOne(targetEntity=ClinicalCaseOmnipratique::class, mappedBy="Patient", cascade={"persist", "remove"})
+     */
+    private $clinicalCaseOmnipratique;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
+     */
+    private $isDrinker;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
+     */
+    private $isPregnant;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
+     */
+    private $reasonConsult;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"clinicalcaseOmni_read"})
+     */
+    private $allergie;
 
     public function getId(): ?int
     {
@@ -104,17 +124,6 @@ class Patient
         return $this;
     }
 
-    public function getIsMedicalBackground(): ?bool
-    {
-        return $this->isMedicalBackground;
-    }
-
-    public function setIsMedicalBackground(bool $isMedicalBackground): self
-    {
-        $this->isMedicalBackground = $isMedicalBackground;
-
-        return $this;
-    }
 
     public function getProblemHealth(): ?string
     {
@@ -136,6 +145,72 @@ class Patient
     public function setInTreatment(string $inTreatment): self
     {
         $this->inTreatment = $inTreatment;
+
+        return $this;
+    }
+
+    public function getClinicalCaseOmnipratique(): ?ClinicalCaseOmnipratique
+    {
+        return $this->clinicalCaseOmnipratique;
+    }
+
+    public function setClinicalCaseOmnipratique(?ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        $this->clinicalCaseOmnipratique = $clinicalCaseOmnipratique;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newPatient = null === $clinicalCaseOmnipratique ? null : $this;
+        if ($clinicalCaseOmnipratique->getPatient() !== $newPatient) {
+            $clinicalCaseOmnipratique->setPatient($newPatient);
+        }
+
+        return $this;
+    }
+
+    public function getIsDrinker(): ?bool
+    {
+        return $this->isDrinker;
+    }
+
+    public function setIsDrinker(?bool $isDrinker): self
+    {
+        $this->isDrinker = $isDrinker;
+
+        return $this;
+    }
+
+    public function getIsPregnant(): ?bool
+    {
+        return $this->isPregnant;
+    }
+
+    public function setIsPregnant(?bool $isPregnant): self
+    {
+        $this->isPregnant = $isPregnant;
+
+        return $this;
+    }
+
+    public function getReasonConsult(): ?string
+    {
+        return $this->reasonConsult;
+    }
+
+    public function setReasonConsult(?string $reasonConsult): self
+    {
+        $this->reasonConsult = $reasonConsult;
+
+        return $this;
+    }
+
+    public function getAllergie(): ?string
+    {
+        return $this->allergie;
+    }
+
+    public function setAllergie(?string $allergie): self
+    {
+        $this->allergie = $allergie;
 
         return $this;
     }

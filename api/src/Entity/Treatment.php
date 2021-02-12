@@ -26,16 +26,16 @@ class Treatment
 
     /**
      * @ORM\Column(type="string", length=45)
-     * @Groups({"clinicalcase_read", "treatment_read"})
+     * @Groups({"clinicalcase_read", "treatment_read", "speciality_read"})
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CategorieTreatment", inversedBy="treatments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Speciality", inversedBy="treatments")
      * @ORM\JoinColumn(nullable=false)
-     * 
+     *
      */
-    private $categorie;
+    private $speciality;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\ClinicalCase", mappedBy="treatment")
@@ -64,14 +64,14 @@ class Treatment
         return $this;
     }
 
-    public function getCategorie(): ?CategorieTreatment
+    public function getSpeciality(): ?Speciality
     {
-        return $this->categorie;
+        return $this->speciality;
     }
 
-    public function setCategorie(?CategorieTreatment $categorie): self
+    public function setSpeciality(?Speciality $speciality): self
     {
-        $this->categorie = $categorie;
+        $this->speciality = $speciality;
 
         return $this;
     }

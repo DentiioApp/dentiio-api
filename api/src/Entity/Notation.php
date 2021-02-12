@@ -24,7 +24,7 @@ class Notation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $id;
 
@@ -32,19 +32,19 @@ class Notation
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Vous devez inserez une note")
      * @Assert\Type(type="integer", message="Vous devez inserez un entier")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $note;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="notations")
-     * @Groups({"clinicalcase_read"})
+     * @Groups({"clinicalcaseOmni_read"})
      */
     private $user;
 
@@ -52,6 +52,11 @@ class Notation
      * @ORM\ManyToOne(targetEntity="App\Entity\ClinicalCase", inversedBy="notations")
      */
     private $clinicalCase;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ClinicalCaseOmnipratique::class, inversedBy="notations")
+     */
+    private $clinicalCaseOmnipratique;
 
     public function getId(): ?int
     {
@@ -102,6 +107,18 @@ class Notation
     public function setClinicalCase(?ClinicalCase $clinicalCase): self
     {
         $this->clinicalCase = $clinicalCase;
+
+        return $this;
+    }
+
+    public function getClinicalCaseOmnipratique(): ?ClinicalCaseOmnipratique
+    {
+        return $this->clinicalCaseOmnipratique;
+    }
+
+    public function setClinicalCaseOmnipratique(?ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        $this->clinicalCaseOmnipratique = $clinicalCaseOmnipratique;
 
         return $this;
     }

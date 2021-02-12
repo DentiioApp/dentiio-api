@@ -1,7 +1,9 @@
 ![Dentiio Api](https://www.dentiio.com/img/logoblue.png)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DentiioApp_dentiio-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=DentiioApp_dentiio-api)
-
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Known Vulnerabilities](https://snyk.io/test/github/dentiio/dentiio-api/badge.svg)](https://app.snyk.io/org/dentiio/projects)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f0de0aab8c05ebffd234/maintainability)](https://codeclimate.com/github/DentiioApp/dentiio-api/maintainability)[![dependencies](https://david-dm.org/DentiioApp/dentiio-api.svg)]()
+[![CodeFactor](https://www.codefactor.io/repository/github/dentiioapp/dentiio-api/badge)](https://www.codefactor.io/repository/github/dentiioapp/dentiio-api)
 ----------------
 
 [Dentiio](https://www.dentiio.com/) Api is an [API Platefom](https://github.com/api-platform/api-platform)
@@ -33,14 +35,15 @@
 ## 📋 Requirements
 - 🛠Make
 - :elephant: PHP-fpm >= 7.3 
-- MariaDB 
-- NGINX >= 1.13.6  
+- MariaDB = 10.5
+- NGINX >= 1.13.6
+- Composer = 1.10.19
 - 🐳Docker
 
 ## :gear: Configuration
 0. Create a .env file on the api folder
-1. Copy .env_example in .env
-2. Update the variables on the .env at your environement 
+1. Override .env with create .env.local 
+2. Update the variables on the .env.local at your environement 
 3. Create a passphrase for the JWT Authentication
 
 

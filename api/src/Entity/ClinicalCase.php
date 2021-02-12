@@ -72,7 +72,8 @@ class ClinicalCase
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime"
+)
      * @Groups({"clinicalcase_read"})
      */
     private $updatedAt;
@@ -120,12 +121,6 @@ class ClinicalCase
      */
     private $pathologie;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="clinicalCaseId")
-     * @Groups({"clinicalcase_read"})
-     */
-    private $favorites;
-
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="clinicalCases")
@@ -160,7 +155,7 @@ class ClinicalCase
      * @Groups({"clinicalcase_read"})
      */
     private $keyword;
-    
+
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -193,7 +188,6 @@ class ClinicalCase
         $this->symptome = new ArrayCollection();
         $this->treatment = new ArrayCollection();
         $this->pathologie = new ArrayCollection();
-        $this->favorites = new ArrayCollection();
         $this->speciality = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->imageClinicalCases = new ArrayCollection();
@@ -523,21 +517,6 @@ class ClinicalCase
         return $this;
     }
 
-    /**
-     * @return Collection|Favorite[]
-     */
-    public function getFavorites(): Collection
-    {
-        return $this->favorites;
-    }
-
-    public function addFavorite(Favorite $favorite): self
-    {
-        if (!$this->favorites->contains($favorite)) {
-            $this->favorites[] = $favorite;
-            $favorite->setClinicalCaseId($this);
-        }
-    }
 
     /**
      * @return Collection|Speciality[]
@@ -556,16 +535,6 @@ class ClinicalCase
         return $this;
     }
 
-    public function removeFavorite(Favorite $favorite): self
-    {
-        if ($this->favorites->contains($favorite)) {
-            $this->favorites->removeElement($favorite);
-            // set the owning side to null (unless already changed)
-            if ($favorite->getClinicalCaseId() === $this) {
-                $favorite->setClinicalCaseId(null);
-            }
-        }
-    }
 
     public function removeSpeciality(Speciality $speciality): self
     {

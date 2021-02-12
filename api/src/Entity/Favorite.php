@@ -25,15 +25,14 @@ class Favorite
     private $userId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\clinicalcase", inversedBy="favorites")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $clinicalCaseId;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ClinicalCaseOmnipratique::class, inversedBy="favorites")
+     */
+    private $clinicalCaseOmnipratique;
 
     public function getId(): ?int
     {
@@ -52,18 +51,6 @@ class Favorite
         return $this;
     }
 
-    public function getClinicalCaseId(): ?clinicalcase
-    {
-        return $this->clinicalCaseId;
-    }
-
-    public function setClinicalCaseId(?clinicalcase $clinicalCaseId): self
-    {
-        $this->clinicalCaseId = $clinicalCaseId;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -72,6 +59,18 @@ class Favorite
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getClinicalCaseOmnipratique(): ?ClinicalCaseOmnipratique
+    {
+        return $this->clinicalCaseOmnipratique;
+    }
+
+    public function setClinicalCaseOmnipratique(?ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        $this->clinicalCaseOmnipratique = $clinicalCaseOmnipratique;
 
         return $this;
     }

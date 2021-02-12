@@ -16,9 +16,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"users_read","jobs_read"}}
+ *     normalizationContext={"groups"={"users_read","jobs_read","avatars_read"}}
  * )
- * @UniqueEntity("email",message="L'email existe déjà")
+ * @UniqueEntity("email", message="{{ value }} est déjà utilisé, veuillez en choisir un autre")
+ * @UniqueEntity("pseudo", message="{{ value }} est déjà utilisé, veuillez en choisir un autre")
  */
 class User implements UserInterface
 {
@@ -26,29 +27,29 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read", "clinicalcaseOmni_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank(message="Le nom est obligatoire !")
+     * @Assert\NotBlank(message="Le mail est obligatoire !")
      * @Assert\Email(message="Entrer une adresse mail valide")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read"})
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, minMessage="Le nom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read", "clinicalcaseOmni_read"})
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(min=3, minMessage="Le prenom doit faire au minimum 3 caracteres")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read", "clinicalcaseOmni_read"})
      */
     private $prenom;
 
@@ -56,7 +57,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=191, unique=true)
      * @Assert\NotBlank(message="Le pseudo est obligatoire !")
      * @Assert\Length(min=3, minMessage="Le pseudo doit faire au minimum 3 caracteres")
-     * @Groups({"users_read","clinicalcase_read"})
+     * @Groups({"users_read", "clinicalcaseOmni_read"})
      */
     private $pseudo;
 
@@ -76,10 +77,16 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255,nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"users_read"})
      */
     private $licenceDoc;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image64;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Notation", mappedBy="user")
@@ -104,16 +111,23 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Jobs", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups({"users_read","clinicalcase_read","jobs_read"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"users_read","jobs_read", "clinicalcaseOmni_read"})
      */
     private $job;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Avatar::class, mappedBy="user", cascade={"persist", "remove"})
+     * @Groups({"users_read","avatars_read", "clinicalcaseOmni_read"})
+     */
+    private $avatar;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Favorite", mappedBy="userId", orphanRemoval=true)
      * @ApiSubresource()
      */
     private $favorites;
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Speciality", inversedBy="users")
      * @Groups({"users_read"})
@@ -136,6 +150,19 @@ class User implements UserInterface
      */
     private $notificationsReceive;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"users_read"})
+     */
+    private $acceptCgu;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ClinicalCaseOmnipratique::class, mappedBy="User")
+     * @ApiSubresource()
+     */
+    private $clinicalCaseOmnipratiques;
+
+
     public function __construct()
     {
         $this->notations = new ArrayCollection();
@@ -145,6 +172,7 @@ class User implements UserInterface
         $this->speciality = new ArrayCollection();
         $this->notificationsSend = new ArrayCollection();
         $this->notificationsReceive = new ArrayCollection();
+        $this->clinicalCaseOmnipratiques = new ArrayCollection();
     }
 
 
@@ -451,7 +479,7 @@ class User implements UserInterface
 
         return $this;
     }
-    
+
     public function removeSpeciality(Speciality $speciality): self
     {
         if ($this->speciality->contains($speciality)) {
@@ -529,6 +557,84 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($notificationsReceive->getReceiver() === $this) {
                 $notificationsReceive->setReceiver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?Avatar
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(Avatar $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        // set the owning side of the relation if necessary
+        if ($avatar->getUser() !== $this) {
+            $avatar->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage64()
+    {
+        return $this->image64;
+    }
+
+    /**
+     * @param mixed $image64
+     * @return User
+     */
+    public function setImage64($image64)
+    {
+        $this->image64 = $image64;
+        return $this;
+    }
+
+    public function getAcceptCgu(): ?bool
+    {
+        return $this->acceptCgu;
+    }
+
+    public function setAcceptCgu(?bool $acceptCgu): self
+    {
+        $this->acceptCgu = $acceptCgu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ClinicalCaseOmnipratique[]
+     */
+    public function getClinicalCaseOmnipratiques(): Collection
+    {
+        return $this->clinicalCaseOmnipratiques;
+    }
+
+    public function addClinicalCaseOmnipratique(ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        if (!$this->clinicalCaseOmnipratiques->contains($clinicalCaseOmnipratique)) {
+            $this->clinicalCaseOmnipratiques[] = $clinicalCaseOmnipratique;
+            $clinicalCaseOmnipratique->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClinicalCaseOmnipratique(ClinicalCaseOmnipratique $clinicalCaseOmnipratique): self
+    {
+        if ($this->clinicalCaseOmnipratiques->contains($clinicalCaseOmnipratique)) {
+            $this->clinicalCaseOmnipratiques->removeElement($clinicalCaseOmnipratique);
+            // set the owning side to null (unless already changed)
+            if ($clinicalCaseOmnipratique->getUser() === $this) {
+                $clinicalCaseOmnipratique->setUser(null);
             }
         }
 

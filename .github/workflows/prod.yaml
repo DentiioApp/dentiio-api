@@ -1,0 +1,24 @@
+name: deploy-prod
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD}}
+          script: |
+            cd /var/www/html/dentiio-api
+            sudo git pull origin develop
+            cd /var/www/html/dentiio-api/api
+            sudo composer update --no-plugins --no-scripts
+            sudo composer install --no-plugins --no-scripts
+            sudo php bin/console doctrine:schema:update --force
+            sudo php bin/console c:c --no-warmup --env=prod

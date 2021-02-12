@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ClinicalCase;
+use App\Entity\ClinicalCaseOmnipratique;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ClinicalCase|null find($id, $lockMode = null, $lockVersion = null)
- * @method ClinicalCase|null findOneBy(array $criteria, array $orderBy = null)
- * @method ClinicalCase[]    findAll()
- * @method ClinicalCase[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ClinicalCaseOmnipratique|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ClinicalCaseOmnipratique|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ClinicalCaseOmnipratique[]    findAll()
+ * @method ClinicalCaseOmnipratique[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ClinicalCaseRepository extends ServiceEntityRepository
+class ClinicalCaseOmnipratiqueRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ClinicalCase::class);
+        parent::__construct($registry, ClinicalCaseOmnipratique::class);
     }
 
     // /**
-    //  * @return ClinicalCase[] Returns an array of ClinicalCase objects
+    //  * @return ClinicalCaseOmnipratique[] Returns an array of ClinicalCaseOmnipratique objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ClinicalCaseRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ClinicalCase
+    public function findOneBySomeField($value): ?ClinicalCaseOmnipratique
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

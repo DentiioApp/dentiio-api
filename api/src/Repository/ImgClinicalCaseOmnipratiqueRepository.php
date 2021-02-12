@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ImageClinicalCaseType;
+use App\Entity\ImgClinicalCaseOmnipratique;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ImageClinicalCaseType|null find($id, $lockMode = null, $lockVersion = null)
- * @method ImageClinicalCaseType|null findOneBy(array $criteria, array $orderBy = null)
- * @method ImageClinicalCaseType[]    findAll()
- * @method ImageClinicalCaseType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ImgClinicalCaseOmnipratique|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ImgClinicalCaseOmnipratique|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ImgClinicalCaseOmnipratique[]    findAll()
+ * @method ImgClinicalCaseOmnipratique[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ImageClinicalCaseTypeRepository extends ServiceEntityRepository
+class ImgClinicalCaseOmnipratiqueRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ImageClinicalCaseType::class);
+        parent::__construct($registry, ImgClinicalCaseOmnipratique::class);
     }
 
     // /**
-    //  * @return ImageClinicalCaseType[] Returns an array of ImageClinicalCaseType objects
+    //  * @return ImgClinicalCaseOmnipratique[] Returns an array of ImgClinicalCaseOmnipratique objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ImageClinicalCaseTypeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ImageClinicalCaseType
+    public function findOneBySomeField($value): ?ImgClinicalCaseOmnipratique
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.exampleField = :val')

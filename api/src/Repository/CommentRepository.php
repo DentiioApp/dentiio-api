@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\CategorieTreatment;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CategorieTreatment|null find($id, $lockMode = null, $lockVersion = null)
- * @method CategorieTreatment|null findOneBy(array $criteria, array $orderBy = null)
- * @method CategorieTreatment[]    findAll()
- * @method CategorieTreatment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Comment[]    findAll()
+ * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategorieTreatmentRepository extends ServiceEntityRepository
+class CommentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CategorieTreatment::class);
+        parent::__construct($registry, Comment::class);
     }
 
     // /**
-    //  * @return CategorieTreatment[] Returns an array of CategorieTreatment objects
+    //  * @return Comment[] Returns an array of Comment objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CategorieTreatmentRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CategorieTreatment
+    public function findOneBySomeField($value): ?Comment
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
