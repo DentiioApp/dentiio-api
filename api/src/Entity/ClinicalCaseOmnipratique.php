@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     normalizationContext={
  *          "groups"={"clinicalcaseOmni_read"}
  *     },
- *     attributes={"order"={"created_at": "DESC"}}
+ *     attributes={"order"={"createdAt": "DESC"}}
  * )
  * @ORM\Entity(repositoryClass=ClinicalCaseOmnipratiqueRepository::class)
  */
