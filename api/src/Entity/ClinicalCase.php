@@ -72,7 +72,8 @@ class ClinicalCase
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime"
+)
      * @Groups({"clinicalcase_read"})
      */
     private $updatedAt;
