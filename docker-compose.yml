@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.9'
 
 services:
     php:
@@ -12,7 +12,7 @@ services:
             - './api:/var/www/html:cached'
 
     nginx:
-        image: 'nginx:1.13.6'
+        image: 'nginx:1.21.6'
         container_name: dentiio-nginx
         ports:
             - '80:80'
@@ -24,7 +24,7 @@ services:
             - './config/nginx:/etc/nginx/conf.d:cached'
 
     database:
-        image: 'mariadb:10.5'
+        image: 'mariadb:10.7.3'
         container_name: dentiio-database
         restart: 'on-failure'
         ports:

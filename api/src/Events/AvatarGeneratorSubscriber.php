@@ -29,7 +29,8 @@ class AvatarGeneratorSubscriber implements EventSubscriberInterface {
         return $array[$random_keys[0]];
     }
 
-    public static function getSubscribedEvents(){
+    public static function getSubscribedEvents() : array
+    {
         return [
           KernelEvents::VIEW =>['generateAvatar', EventPriorities::POST_WRITE]
         ];
@@ -56,8 +57,6 @@ class AvatarGeneratorSubscriber implements EventSubscriberInterface {
 
             $this->em->persist($avatar);
             $this->em->flush();
-
         }
     }
-
 }

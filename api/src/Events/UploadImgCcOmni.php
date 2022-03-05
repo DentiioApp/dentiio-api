@@ -22,7 +22,8 @@ class UploadImgCcOmni implements EventSubscriberInterface {
         $this->params = $params;
     }
 
-    public static function getSubscribedEvents(){
+    public static function getSubscribedEvents(): array
+    {
         return [
             KernelEvents::VIEW =>['convertImage', EventPriorities::POST_WRITE]
         ];
@@ -34,14 +35,13 @@ class UploadImgCcOmni implements EventSubscriberInterface {
             $imageBase64 = $imageClinicalCase->getImage64();
             $clinicalCase = $imageClinicalCase->getClinicalsCaseOmnipratique();
             $path = $this->base64ToImage($imageBase64,$clinicalCase);
-            if ($path != 'ErrorFormat'){
-                $imageClinicalCase->setPath($path)
-                ->setImage64(null);
-                $this->em->persist($imageClinicalCase);
-                $this->em->flush();
-            }else{
+            if ($path === 'ErrorFormat'){
                 throw new \Exception("Format incorrect, veuillez inserez une image au format 'jpg', 'jpeg' ou 'png'");
             }
+            $imageClinicalCase->setPath($path)
+            ->setImage64(null);
+            $this->em->persist($imageClinicalCase);
+            $this->em->flush();
         }
     }
 
@@ -61,15 +61,17 @@ class UploadImgCcOmni implements EventSubscriberInterface {
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
 
-        if(in_array($image_type,$formatAuthorized) ){
-            $image_base64 = base64_decode($image_parts[1]);
-            $imageName = uniqid().'.'.$image_type;
-            $file = $pathFolder . $imageName;
-            file_put_contents($file, $image_base64);
-            $path = "clinicalCasesOmnipratique/".$idClinicalCase."/".$imageName;
-            return $path;
+        if(!in_array($image_type,$formatAuthorized) ){
+            return "ErrorFormat";
         }
-        return "ErrorFormat";
+
+        $image_base64 = base64_decode($image_parts[1]);
+        $imageName = uniqid().'.'.$image_type;
+        $file = $pathFolder . $imageName;
+        file_put_contents($file, $image_base64);
+        $path = "clinicalCasesOmnipratique/".$idClinicalCase."/".$imageName;
+        
+        return $path;
     }
 
     public function getApplicationRootDir(){
