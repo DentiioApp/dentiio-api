@@ -620,6 +620,8 @@ class ClinicalCase
             $this->imageClinicalCases[] = $imageClinicalCase;
             $imageClinicalCase->setClinicalCase($this);
         }
+        
+        return $this;
     }
 
     /**
@@ -648,6 +650,7 @@ class ClinicalCase
                 $imageClinicalCase->setClinicalCase(null);
             }
         }
+        return $this;
     }
 
     public function removeKeyword(Keyword $keyword): self

@@ -3,11 +3,9 @@ namespace App\Events;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\ClinicalCase;
-use App\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
 class LinkUserConnectedClinicalCase implements EventSubscriberInterface {
@@ -19,9 +17,10 @@ class LinkUserConnectedClinicalCase implements EventSubscriberInterface {
         $this->security = $security;
     }
 
-    public static function getSubscribedEvents(){
+    public static function getSubscribedEvents(): array
+    {
         return [
-            KernelEvents::VIEW =>['linkUserConnectedClinicalCase', EventPriorities::PRE_WRITE]
+            KernelEvents::VIEW =>['linkUserConnectedClinicalCase', EventPriorities::PRE_WRITE],
         ];
     }
 
@@ -34,5 +33,4 @@ class LinkUserConnectedClinicalCase implements EventSubscriberInterface {
             $clinicalCase->setCreatedAt(new \DateTime('NOW'));
         }
     }
-
 }

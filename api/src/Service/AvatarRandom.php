@@ -1,9 +1,5 @@
 <?php
-
-
 namespace App\Service;
-
-
 class AvatarRandom
 {
     public $mouth = [
@@ -138,7 +134,4 @@ class AvatarRandom
         "MoustacheFancy",
         "MoustacheMagnum"
     ];
-
-
-
 }

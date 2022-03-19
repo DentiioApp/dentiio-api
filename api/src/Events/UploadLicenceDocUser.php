@@ -23,7 +23,8 @@ class UploadLicenceDocUser implements EventSubscriberInterface {
         $this->params = $params;
     }
 
-    public static function getSubscribedEvents(){
+    public static function getSubscribedEvents() : array
+    {
         return [
             KernelEvents::VIEW =>['convertImage', EventPriorities::POST_WRITE]
         ];
@@ -47,13 +48,14 @@ class UploadLicenceDocUser implements EventSubscriberInterface {
         }
     }
 
-    //TODO D'ONT WORK WITH PDF
+    /*TODO D'ONT WORK WITH PDF*/
     public function base64ToImage($base64,$user){
         $formatAuthorized = [
             'jpg',
             'jpeg',
             "png",
-            "pdf"
+            //symfony tell me , so i do
+            // "pdf"
         ];
         $idUser = $user->getId();
         $webPath = $this->getApplicationRootDir() . '/public/images/users/';
@@ -65,15 +67,16 @@ class UploadLicenceDocUser implements EventSubscriberInterface {
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
 
-        if(in_array($image_type,$formatAuthorized) ){
-            $image_base64 = base64_decode($image_parts[1]);
-            $imageName = uniqid().'.'.$image_type;
-            $file = $pathFolder . $imageName;
-            file_put_contents($file, $image_base64);
-            $path = "users/".$idUser."/".$imageName;
-            return $path;
+        if(!in_array($image_type,$formatAuthorized) ){
+            return "ErrorFormat";
         }
-        return "ErrorFormat";
+
+        $image_base64 = base64_decode($image_parts[1]);
+        $imageName = uniqid().'.'.$image_type;
+        $file = $pathFolder . $imageName;
+        file_put_contents($file, $image_base64);
+        $path = "users/".$idUser."/".$imageName;
+        return $path;
     }
 
     public function getApplicationRootDir(){

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\DataFixtures;
 
 use App\Entity\Avatar;
@@ -25,9 +26,11 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
 use Faker\Factory;
+
 class AppFixtures extends Fixture
 {
-    public function load(ObjectManager $manager){
+    public function load(ObjectManager $manager)
+    {
         $faker = Factory::create('fr_FR');
 
         // Traumatoloqgie
@@ -451,7 +454,7 @@ class AppFixtures extends Fixture
             ->setIsEnabled(true)
             ->setJob($job2)
             ->setCreatedAt(new \DateTime('NOW'))
-            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie]))
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
         $manager->persist($user);
@@ -480,7 +483,7 @@ class AppFixtures extends Fixture
             ->setIsEnabled(true)
             ->setJob($job1)
             ->setCreatedAt(new \DateTime('NOW'))
-            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie]))
             ->setRoles(["ROLE_ADMIN"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
@@ -509,7 +512,7 @@ class AppFixtures extends Fixture
             ->setIsEnabled(true)
             ->setJob($job3)
             ->setCreatedAt(new \DateTime('NOW'))
-            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie  ]))
+            ->addSpeciality($faker->randomElement([$omnipratique, $orthopédie, $chirurgieBuccale, $esthétique, $parodontie, $parodontie, $pedodontie, $implantologie, $orthodontie, $chirurgieMaxillofaciale, $stomatologie, $radiologie, $atm, $muqueuseOrale, $gérodontologie]))
             ->setRoles(["ROLE_MODERATOR"])
             ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$36aRrz+SmeQb08j79kmbLw$ktAwWQX8cjHj8ZcpzCWWkwPxHwN3QxAABDYMO/MROT0');
 
@@ -548,7 +551,7 @@ class AppFixtures extends Fixture
         $userBasic = new User();
         $userBasic->setPrenom($faker->firstName)
             ->setNom($faker->lastName)
-            ->setPseudo("$faker->lastName"."$faker->firstName")
+            ->setPseudo("$faker->lastName" . "$faker->firstName")
             ->setEmail($faker->email)
             ->setIsEnabled(true)
             ->setJob($faker->randomElement([$job1, $job2, $job3]))
@@ -566,8 +569,7 @@ class AppFixtures extends Fixture
             ->setProblemHealth('Aucun')
             ->setAllergie("Codéine")
             ->setIsDrinker($faker->boolean)
-            ->setReasonConsult("Accident de voiture")
-        ;
+            ->setReasonConsult("Accident de voiture");
         $manager->persist($patient);
 
         $clinicalCaseOmni = new ClinicalCaseOmnipratique();
@@ -578,8 +580,7 @@ class AppFixtures extends Fixture
             ->setExamDescription("Description des examen")
             ->setIsEnable(true)
             ->setPathologie("Fracture")
-            ->setTreatmentDescription("Description des étapes de traitements")
-            ;
+            ->setTreatmentDescription("Description des étapes de traitements");
 
 
         $manager->persist($clinicalCaseOmni);
@@ -592,7 +593,7 @@ class AppFixtures extends Fixture
         $manager->persist($imagePrincipal);
 
         //Image Clinical case
-        for ($n=0; $n < rand(5, 9); $n++){
+        for ($n = 0; $n < rand(5, 9); $n++) {
             $image = new ImgClinicalCaseOmnipratique();
             $image->setClinicalsCaseOmnipratique($clinicalCaseOmni)
                 ->setType($faker->randomElement(["treatment", "examen"]))
@@ -605,8 +606,7 @@ class AppFixtures extends Fixture
             ->setGender($faker->randomElement(["Masculin", "Féminin"]))
             ->setIsASmoker($faker->boolean)
             ->setInTreatment('Aucun')
-            ->setProblemHealth('Aucun')
-        ;
+            ->setProblemHealth('Aucun');
         $manager->persist($patient1);
 
         /**$clinicalCase1 = new ClinicalCase();
@@ -802,7 +802,7 @@ niveau du cou.")
 
         }
          **/
-        for ($co=0; $co < 5; $co++){
+        for ($co = 0; $co < 5; $co++) {
             $commentaire = new Commentaire();
             $commentaire->setCreatedAt(new \DateTime('NOW'))
                 ->setComment($faker->paragraph)
@@ -810,7 +810,6 @@ niveau du cou.")
                 ->setClinicalCaseOmnipratique($clinicalCaseOmni);
 
             $manager->persist($commentaire);
-
         }
 
         $manager->flush();

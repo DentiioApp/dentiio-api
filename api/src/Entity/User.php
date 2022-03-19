@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -21,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity("email", message="{{ value }} est déjà utilisé, veuillez en choisir un autre")
  * @UniqueEntity("pseudo", message="{{ value }} est déjà utilisé, veuillez en choisir un autre")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id()
@@ -247,6 +248,16 @@ class User implements UserInterface
     }
 
     /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
      * @see UserInterface
      */
     public function getRoles(): array
@@ -283,8 +294,9 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public function getSalt(): string | null
     {
+        return null;
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
@@ -450,6 +462,7 @@ class User implements UserInterface
             $this->favorites[] = $favorite;
             $favorite->setUserId($this);
         }
+        return $this;
     }
 
     public function removeFavorite(Favorite $favorite): self
@@ -461,6 +474,7 @@ class User implements UserInterface
                 $favorite->setUserId(null);
             }
         }
+        return $this;
     }
 
     /**
