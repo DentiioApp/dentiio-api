@@ -28,7 +28,7 @@ security:
         registration:
             pattern: ^/api/users
             stateless: true
-            methods: ["POST"]
+            methods: ["GET", "PUT", "POST", "DELETE"]
             jwt: ~
        
         main:
@@ -50,7 +50,7 @@ security:
         - { path: ^/api/patients, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/commentaires, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/notations, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods: ["GET", "PUT", "DELETE"] }
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods: ["GET", "PUT", "POST", "DELETE"] }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
